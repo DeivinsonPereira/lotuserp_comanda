@@ -23,7 +23,6 @@ class Endpoints {
     return '${ipSiagenet}licenca_situacao?pchave=${_configController.licenca}&pcnpj=${_configController.cnpj}';
   }
 
-  // Obtem o cliente id e os dados da empresa
   String endpointSearchClientId() {
     return '${ipServer}partner_clientes_cnpj?cpf_cnpj=${_configController.cnpj}';
   }
@@ -44,9 +43,13 @@ class Endpoints {
     return '${ipServer}produtos_grupos?id_partner_cliente=$clientId';
   }
 
+  String endpointUsuarios() {
+    return '${ipServer}users_listar?id_partner_cliente=$clientId';
+  }
+
   String endpointSearchImageLogo(String file) {
     return '${ipServer}getimagem?id_partner_cliente=1&categoria=DIV&file=$file&retorno=URL';
-  }                    
+  }
 
   String endpointSearchImageGrupos(String file) {
     return '${ipServer}getimagem?id_partner_cliente=1&categoria=GRU&file=$file&retorno=URL';
@@ -54,9 +57,5 @@ class Endpoints {
 
   String endpointSearchImageProducts(String file) {
     return '${ipServer}getimagem?id_partner_cliente=1&categoria=PRO&file=$file&retorno=URL';
-  }
-
-  String endpointPostNfce() {
-    return '${ipServer}nfce_emitir';
   }
 }

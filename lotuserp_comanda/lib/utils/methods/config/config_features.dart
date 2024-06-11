@@ -1,11 +1,13 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:lotuserp_comanda/model/collection/empresa.dart';
 import 'package:lotuserp_comanda/model/collection/empresa_valida.dart';
 import 'package:lotuserp_comanda/model/collection/initial_config.dart';
 import 'package:lotuserp_comanda/model/collection/password_config.dart';
+import 'package:lotuserp_comanda/model/collection/usuario.dart';
 import 'package:lotuserp_comanda/model/color_select.dart';
 import 'package:lotuserp_comanda/page/config/logic/list_params_dropdown.dart';
 import 'package:lotuserp_comanda/shared/components/endpoints.dart';
@@ -163,6 +165,11 @@ class ConfigFeatures {
   //Faz a atualização da variavel de configuração
   void updateConfig(initial_config config) {
     _configController.initialConfig = config;
+    _configController.update();
+  }
+
+  void updateUser(List<usuario> usuario){
+    _configController.usuarioSelected.assignAll(usuario);
     _configController.update();
   }
 

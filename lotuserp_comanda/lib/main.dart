@@ -10,7 +10,9 @@ import 'package:lotuserp_comanda/model/collection/initial_config.dart';
 import 'package:lotuserp_comanda/model/collection/password_config.dart';
 import 'package:lotuserp_comanda/model/collection/produto.dart';
 import 'package:lotuserp_comanda/model/collection/produto_grupo.dart';
-import 'package:lotuserp_comanda/model/collection/tipo_recebimento.dart';
+import 'package:lotuserp_comanda/model/collection/usuario.dart';
+import 'package:lotuserp_comanda/utils/dependencies.dart';
+import 'package:lotuserp_comanda/utils/methods/config/config_features.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
@@ -26,7 +28,7 @@ Future<void> main() async {
       Initial_configSchema,
       Empresa_validaSchema,
       EmpresaSchema,
-      Tipo_recebimentoSchema,
+      UsuarioSchema,
       ProdutoSchema,
       Produto_grupoSchema,
       Image_path_groupSchema,
@@ -37,7 +39,16 @@ Future<void> main() async {
     inspector: true,
   );
   
-  runApp(const AppWidget());
+  Dependencies.configController();
+  final configFeatures = ConfigFeatures.instance;
+  await configFeatures.loadConfigOnInit();
+  await configFeatures.updateImagesLogo();
+
+  Future.delayed(const Duration(milliseconds: 100), () async {
+    runApp(
+      const AppWidget(),
+    );
+  });
 }
 
 

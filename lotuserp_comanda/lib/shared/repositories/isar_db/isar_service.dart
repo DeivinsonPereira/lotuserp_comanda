@@ -8,6 +8,7 @@ import 'package:lotuserp_comanda/model/collection/initial_config.dart';
 import 'package:lotuserp_comanda/model/collection/produto.dart';
 import 'package:lotuserp_comanda/model/collection/produto_grupo.dart';
 import 'package:lotuserp_comanda/model/collection/tipo_recebimento.dart';
+import 'package:lotuserp_comanda/model/collection/usuario.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../../model/collection/password_config.dart';
@@ -15,14 +16,13 @@ import '../../../model/collection/password_config.dart';
 class IsarService {
   late Future<Isar> db;
 
-  IsarService._privateConstructor(){
-  db = openDB();
+  IsarService._privateConstructor() {
+    db = openDB();
   }
 
   static final IsarService _instance = IsarService._privateConstructor();
 
   static IsarService get instance => _instance;
-
 
   Future<Isar> openDB() async {
     final dir = await getApplicationSupportDirectory();
@@ -33,7 +33,7 @@ class IsarService {
           Initial_configSchema,
           Empresa_validaSchema,
           EmpresaSchema,
-          Tipo_recebimentoSchema,
+          UsuarioSchema,
           ProdutoSchema,
           Produto_grupoSchema,
           Image_path_groupSchema,

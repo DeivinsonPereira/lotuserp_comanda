@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/controller/config_controller.dart';
 import 'package:lotuserp_comanda/page/common/custom_elevated_button.dart';
 import 'package:lotuserp_comanda/page/common/custom_image.dart';
 import 'package:lotuserp_comanda/page/common/custom_text_field.dart';
+import 'package:lotuserp_comanda/service/open_empresa_valida.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/config/config_features.dart';
-import 'package:lotuserp_comanda/utils/methods/config/config_get.dart';
+
+import '../config/popups/logic/logic_buttons_password.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _configGet = ConfigGet.instance;
     final _configFeatures = ConfigFeatures.instance;
     final _configController = Dependencies.configController();
     final double widthButtons = Get.size.width * 0.25;
     final double heightButtons = Get.size.height * 0.085;
+    final _logicButtonsPassword = LogicButtonsPassword.instance;
+    
+    OpenEmpresaValida().openDialog(context);
 
     Widget _buildTextTitle() {
       return Text(
@@ -117,7 +122,7 @@ class HomePage extends StatelessWidget {
         ),
         child: IconButton(
           onPressed: () {
-            //TODO : implementar a lógica para colocar a senha
+            _logicButtonsPassword.openCreatePasswordDialog(context);
           },
           icon: const Icon(
             Icons.settings,
@@ -191,9 +196,11 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      backgroundColor: _configGet.getColorSelected(),
-      body: SingleChildScrollView(child: _buildBody()),
+    return GetBuilder<ConfigController>(
+      builder: (_) => Scaffold(
+        backgroundColor: _.selectedColor.value.color,
+        body: SingleChildScrollView(child: _buildBody()),
+      ),
     );
   }
 }

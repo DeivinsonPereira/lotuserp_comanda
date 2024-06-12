@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, no_leading_underscores_for_local_identifiers
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/page/order/components/resume_order.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/information_buttons_widget.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/payment_total_widget.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/product_widget.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 
 import '../../controller/pdv_controller.dart';
-import 'service/logic/logic_back_button.dart';
 import 'widgets/line_group_widget.dart';
 import 'widgets/search_camp_widget.dart';
 
@@ -14,6 +17,7 @@ class PdvPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Dependencies.configController();
+    final _pdvController = Dependencies.pdvController();
 
     // linha de pesquisa e voltar
     Widget lineSearchAndBackButton(PdvController controller) {
@@ -21,9 +25,7 @@ class PdvPage extends StatelessWidget {
         children: [
           // Icone de voltar
           IconButton(
-            onPressed: () async {
-              await LogicBackButton().back(context: context);
-            },
+            onPressed: () => Get.back(),
             icon: const Icon(
               Icons.arrow_back,
               color: Color.fromARGB(255, 70, 70, 70),
@@ -67,13 +69,13 @@ class PdvPage extends StatelessWidget {
                   //Constrói o resumo dos pedidos
                   Flexible(
                     flex: 6,
-                    child: LogicGetResumeType().getResume(controller),
+                    child: ResumeOrder(pdvController: _pdvController),
                   ),
                   const SizedBox(height: 10),
                   // Constrói o botão pagamento e o total
-                  Flexible(
+                  const Flexible(
                     flex: 1,
-                    child: PaymentTotalWidget(controller: controller),
+                    child: PaymentTotalWidget(),
                   ),
                 ],
               ),
@@ -99,16 +101,7 @@ class PdvPage extends StatelessWidget {
       init: PdvController(),
       builder: (controller) {
         return Scaffold(
-          body: RawKeyboardListener(
-            focusNode: _focusNode,
-            onKey: checkoutController.handleKey,
-            child: GestureDetector(
-              onTap: () {
-                _focusNode.requestFocus();
-              },
-              child: conteudo(controller),
-            ),
-          ),
+          body: conteudo(controller),
         );
       },
     );

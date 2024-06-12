@@ -1,0 +1,116 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:lotuserp_comanda/model/collection/produto.dart';
+import 'package:lotuserp_comanda/page/common/custom_elevated_button.dart';
+import 'package:lotuserp_comanda/page/common/custom_header_popup.dart';
+import 'package:lotuserp_comanda/page/common/custom_text_field_five_lines.dart';
+import 'package:lotuserp_comanda/utils/custom_colors.dart';
+import 'package:lotuserp_comanda/utils/custom_text_style.dart';
+import 'package:lotuserp_comanda/utils/dependencies.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import '../../../../controller/pdv_controller.dart';
+import '../../../../model/collection/complemento.dart';
+import 'components/build_card_complemento.dart';
+
+class ComplementoDialog extends StatelessWidget {
+  final produto produtoSelected;
+  const ComplementoDialog({
+    Key? key,
+    required this.produtoSelected,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _pdvController = Dependencies.pdvController();
+    final _pdvFeatures = PdvFeatures.instance;
+
+    Widget _buildBackButton() {
+      return CustomElevatedButton(
+        function: () {
+          Get.back();
+          _pdvFeatures.clearAllComplementSelected();
+        },
+        style: CustomTextStyle.whiteBoldText(20),
+        text: 'Voltar',
+        colorButton: CustomColors.informationBox,
+      );
+    }
+
+    Widget _buildConfirmButton() {
+      return CustomElevatedButton(
+          colorButton: CustomColors.confirmButtonColor,
+          text: 'Confirmar',
+          style: CustomTextStyle.blackBoldText(20),
+          function: () {
+            _pdvFeatures
+                .addProductWithComplementToCartShopping(produtoSelected);
+            Get.back();
+          });
+    }
+
+    Widget _buildBackAndConfirmButton() {
+      return Row(children: [
+        Expanded(
+          child: _buildBackButton(),
+        ),
+        Expanded(
+          child: _buildConfirmButton(),
+        )
+      ]);
+    }
+
+    Widget _buildComplementos() {
+      return GetBuilder<PdvController>(
+        builder: (_) {
+          return ListView.builder(
+              itemCount: _.filteredComplementos.length,
+              itemBuilder: (context, index) {
+                complemento complementoSelecionado =
+                    _.filteredComplementos[index];
+                return BuildCardComplemento(
+                  complementoSelecionado: complementoSelecionado,
+                  index: index,
+                );
+              });
+        },
+      );
+    }
+
+    Widget _buildHeader() {
+      return CustomHeaderPopup(text: 'Complemento', isPopupClosable: true);
+    }
+
+    Widget _buildTextField() {
+      return CustomTextFieldFiveLines(
+        controller: _pdvController.complementoController,
+        maxLines: 3,
+        textHint: 'Digite o complemento',
+      );
+    }
+
+    Widget _buildBody() {
+      return SizedBox(
+        height: Get.size.height * 0.9,
+        width: Get.size.width * 0.5,
+        child: Column(children: [
+          _buildHeader(),
+          Expanded(
+            child: _buildComplementos(),
+          ),
+          _buildTextField(),
+          _buildBackAndConfirmButton(),
+        ]),
+      );
+    }
+
+    return Dialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(0),
+      ),
+      child: _buildBody(),
+    );
+  }
+}

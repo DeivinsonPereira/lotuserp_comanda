@@ -19,7 +19,6 @@ import 'package:lotuserp_comanda/utils/methods/config/config_features.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
-
   // só deixa inicializar o run depois dos comandos async abaixo estiverem rodando.
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -44,7 +43,7 @@ Future<void> main() async {
     directory: dir.path,
     inspector: true,
   );
-  
+
   Dependencies.configController();
   final configFeatures = ConfigFeatures.instance;
   await configFeatures.loadConfigOnInit();
@@ -56,6 +55,3 @@ Future<void> main() async {
     );
   });
 }
-
-
-

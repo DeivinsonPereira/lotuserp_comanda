@@ -44,7 +44,7 @@ class LogicButtonsHomePage {
   Future<void> confirmButton() async {
     usuario? user = _configGet.getUser();
 
-    if (await _isDataCharged()) {
+    if (!await _isDataCharged()) {
       _handleError('Faça a carga geral nas configurações');
       return;
     }

@@ -63,7 +63,6 @@ class Endpoints {
     return '${ipServer}getimagem?id_partner_cliente=1&categoria=PRO&file=$file&retorno=URL';
   }
 
-
   String endpointListarMesas() {
     return '${ipServer}comandas_listar?id_partner_cliente=$clientId';
   }

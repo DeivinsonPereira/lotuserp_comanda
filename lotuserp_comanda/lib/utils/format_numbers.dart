@@ -2,7 +2,18 @@ import 'package:intl/intl.dart';
 
 class FormatNumbers {
   static String formatNumbertoString(double? number) {
-    return NumberFormat('###,###,###,##0.00', 'pt_BR').format(number);
+    String strNumber = number.toString();
+    int decimalPointIndex = strNumber.indexOf('.');
+    if (decimalPointIndex == -1) return strNumber;
+
+    String decimalPart = strNumber.substring(decimalPointIndex + 1);
+
+    if (decimalPart.length <= 2) {
+      return NumberFormat('###,###,###,##0.00', 'pt_BR').format(number);
+    }
+
+    double truncatedNumber = (number! * 100).floor() / 100;
+    return NumberFormat('###,###,###,##0.00', 'pt_BR').format(truncatedNumber);
   }
 
   static double formatStringToDouble(String number) {

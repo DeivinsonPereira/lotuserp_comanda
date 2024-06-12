@@ -125,3 +125,29 @@ class CpfTxt extends TextInputFormatter {
     );
   }
 }
+
+class DecimalInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String newText = newValue.text;
+
+    newText = newText.replaceAll(RegExp(r'[^0-9]'), '');
+
+    while (newText.length < 4) {
+      newText = '0$newText';
+    }
+
+    if (newText.startsWith('0') && newText.length > 4) {
+      newText = newText.substring(1);
+    }
+
+    newText =
+        '${newText.substring(0, newText.length - 3)}.${newText.substring(newText.length - 3)}';
+
+    return TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
+  }
+}

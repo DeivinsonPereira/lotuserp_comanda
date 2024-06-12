@@ -13,6 +13,9 @@ import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/pdv_get.dart';
 
+import '../../../model/complement_cart_shopping.dart';
+import '../../../model/complemento_model.dart';
+
 class PdvFeatures {
   final _pdvController = Dependencies.pdvController();
   final _pdvGet = PdvGet.instance;
@@ -35,17 +38,17 @@ class PdvFeatures {
     _pdvController.update();
   }
 
-  void updateProductByGroup(int index, produto_grupo grupo) {
+  void updateFilteredProdutos(int index, produto_grupo grupo) {
     updateIdGroupSelected(index);
     List<produto> filteredProducts = _pdvGet.filterProductByGroup(grupo);
-    _pdvController.productsByGroup.assignAll(filteredProducts);
+    _pdvController.filteredProducts.assignAll(filteredProducts);
     _pdvController.update();
   }
 
   void updateProductByGroupInit(int index) {
     List<produto> filteredProducts =
         _pdvGet.filterProductByGroup(_pdvController.allGroups[index]);
-    _pdvController.productsByGroup.assignAll(filteredProducts);
+    _pdvController.filteredProducts.assignAll(filteredProducts);
     _pdvController.update();
   }
 
@@ -57,6 +60,7 @@ class PdvFeatures {
   Future<void> loadVariablesPdv() async {
     await loadProdutos();
     await loadGrupo();
+    updateFilteredProdutos(0, _pdvController.allGroups[0]);
     await loadComplementos();
     await updateImagePathGroup();
     await updateImagePathProduto();
@@ -81,18 +85,37 @@ class PdvFeatures {
 
   Future<void> loadComplementos() async {
     final isar = await _isarService.db;
-    List<complemento> list = await _genericRepositoryMultiple.getAll(isar.complementos);
+    List<complemento> list =
+        await _genericRepositoryMultiple.getAll(isar.complementos);
 
     _pdvController.allComplementos.assignAll(list);
   }
 
   // Adiciona produtos no carrinho de compras
-  void addCartShopping(produto produtoSelected) {
+  void addCartShoppingProduct(produto produtoSelected, {double weight = 0}) {
+    if (produtoSelected.produto_pesagem == 1) {
+      _pdvController.cartShopping.add(
+        ItemCartShopping(
+            produtoSelected: produtoSelected,
+            quantidade: weight,
+            complementoSelected: [],
+            informationComplement: ''),
+      );
+
+      _pdvController.update();
+      _pdvController.cartShopping.refresh();
+      return;
+    }
+
     ItemCartShopping? produtoExists = _hasEqualsProduct(produtoSelected);
 
     if (produtoExists == null) {
       _pdvController.cartShopping.add(
-        ItemCartShopping(produtoSelected: produtoSelected, quantidade: 1),
+        ItemCartShopping(
+            produtoSelected: produtoSelected,
+            quantidade: 1,
+            complementoSelected: [],
+            informationComplement: ''),
       );
 
       _pdvController.update();
@@ -106,20 +129,20 @@ class PdvFeatures {
   }
 
   image_path_group createModelGroup(
-      String file_imagem, String nome, String path_image) {
+      String fileImagem, String nome, String pathImage) {
     return image_path_group(
-      file_imagem: file_imagem,
+      file_imagem: fileImagem,
       nome: nome,
-      path_image: path_image,
+      path_image: pathImage,
     );
   }
 
   image_path_product createModelProduct(
-      String file_imagem, String nome, String path_image) {
+      String fileImagem, String nome, String pathImage) {
     return image_path_product(
-      file_imagem: file_imagem,
+      file_imagem: fileImagem,
       nome: nome,
-      path_image: path_image,
+      path_image: pathImage,
     );
   }
 
@@ -165,6 +188,45 @@ class PdvFeatures {
         (item) => item.descricao!);
   }
 
+  void setComplementosFiltered(produto produtoSelected) {
+    List<complemento> complementos = [];
+    for (var item in _pdvController.allComplementos) {
+      if (item.id_produto == produtoSelected.id_produto) {
+        complementos.add(item);
+      }
+    }
+
+    _pdvController.filteredComplementos.assignAll(complementos);
+  }
+
+  void addComplementToListSelected(complemento complemento) {
+    ComplementCartShopping? complement =
+        _pdvGet.hasEqualsComplement(complemento);
+
+    if (complement == null) {
+      ComplementCartShopping complementoModel = ComplementCartShopping(
+          complementos: ComplementoModel.fromMap(complemento.toMap()),
+          quantity: 1);
+
+      _pdvController.listComplementSelected.add(complementoModel);
+    }
+
+    complement!.quantity++;
+  }
+
+  void addProductWithComplementToCartShopping(produto produtoSelected) {
+    ItemCartShopping itemCartShopping = ItemCartShopping(
+      produtoSelected: produtoSelected,
+      quantidade: 1,
+      complementoSelected: _pdvController.listComplementSelected,
+      informationComplement: _pdvController.complementoController.text,
+    );
+
+    _pdvController.cartShopping.add(itemCartShopping);
+
+    _pdvController.update();
+  }
+
   void setComplements(List<complemento> complementos) async {
     _pdvController.allComplementos.assignAll(complementos);
     _pdvController.update();
@@ -172,6 +234,33 @@ class PdvFeatures {
 
   void setGroupSelected(int number) {
     _pdvController.groupSelected.value = number;
+    _pdvController.update();
+  }
+
+  void updateFilteredProductsByDesc() {
+    _pdvController.filteredProducts.assignAll(_pdvGet.filterProductByDesc());
+    _pdvController.update();
+  }
+
+  void removeComplementSelected(complemento complementoSelected) {
+    ComplementCartShopping? complement = _pdvController.listComplementSelected
+        .where((element) =>
+            element.complementos.id_complemento ==
+            complementoSelected.id_complemento)
+        .firstOrNull;
+
+    if (complement == null) return;
+
+    if (complement.quantity > 1) {
+      complement.quantity--;
+      return;
+    }
+
+    _pdvController.listComplementSelected.remove(complement);
+  }
+
+  void clearAllComplementSelected() {
+    _pdvController.listComplementSelected.value = [];
     _pdvController.update();
   }
 
@@ -191,7 +280,11 @@ class PdvFeatures {
   }
 
   // Deleta um produto do carrinho de compras
-  void deleteItemCartShopping(ItemCartShopping itemCartShopping) {
+  void deleteItemCartShopping(produto produtoSelected) {
+    ItemCartShopping? itemCartShopping = _hasEqualsProduct(produtoSelected);
+
+    if (itemCartShopping == null) return;
+
     _pdvController.cartShopping.remove(itemCartShopping);
     _pdvController.update();
   }

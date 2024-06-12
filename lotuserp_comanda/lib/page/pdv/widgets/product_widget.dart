@@ -2,29 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lotuserp_pdv/collections/produto.dart';
-import 'package:lotuserp_pdv/core/custom_colors.dart';
-import 'package:lotuserp_pdv/pages/pdv/custom/get_images.dart';
-import 'package:lotuserp_pdv/services/dependencies.dart';
-import 'package:lotuserp_pdv/services/format_numbers.dart';
-
-import '../../../controllers/pdv_controller/pdv.controller.dart';
-import '../../../controllers/pdv_controller/service/model/add_product_args.dart';
-import '../../../controllers/search_product_pdv_controller.dart';
-import '../../../shared/isar_db/isar_service.dart';
+import 'package:lotuserp_comanda/controller/pdv_controller.dart';
+import 'package:lotuserp_comanda/model/collection/produto.dart';
+import 'package:lotuserp_comanda/page/common/custom_image.dart';
+import 'package:lotuserp_comanda/page/pdv/service/logic/logic_add_product.dart';
+import 'package:lotuserp_comanda/utils/custom_colors.dart';
+import 'package:lotuserp_comanda/utils/custom_text_style.dart';
+import 'package:lotuserp_comanda/utils/format_numbers.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/pdv_get.dart';
 import '../custom/pdv_colors.dart';
-import '../service/logic/add_product/logic_add_product.dart';
-import 'search_products_presentation.dart';
 
 class ProductWidget extends StatelessWidget {
   const ProductWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var pdvController = Dependencies.pdvController();
-    Dependencies.searchProductPdvController();
-    IsarService service = IsarService();
-    final ScrollController scrollController = ScrollController();
+    final _pdvGet = PdvGet.instance;
 
     // Constrói o nome do produto
     Widget _buildNameProduct(String nome) {
@@ -35,7 +28,7 @@ class ProductWidget extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: const TextStyle(
             fontWeight: FontWeight.w500,
-            fontSize: 16,
+            fontSize: 14,
             color: TextColors.titleColor),
       );
     }
@@ -64,19 +57,24 @@ class ProductWidget extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: CustomColors.customSwatchColor,
+          color: CustomColors.primaryColor,
         ),
-        child: Obx(
-          () => Text(
-            productSelected.produto_pesagem == 1
-                ? pdvController.findWeightByName(productSelected.id_produto)
-                : '${pdvController.getQuantidade(productSelected.id_produto)}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+        child: Text(_pdvGet.getQuantidadeItens(productSelected).toString(),
+            style: CustomTextStyle.whiteBoldText(12)),
+      );
+    }
+
+    Widget _buildImageProduct(produto productSelected) {
+      return Stack(
+        children: [
+          CustomImage().getImageProduct(productSelected, width: 70, height: 70),
+          Positioned(
+              top: 0,
+              right: 0,
+              child: _pdvGet.getQuantidadeItens(productSelected) > 0
+                  ? _buildContainerQuantity(productSelected)
+                  : const SizedBox()),
+        ],
       );
     }
 
@@ -84,26 +82,14 @@ class ProductWidget extends StatelessWidget {
     Widget _buildCardProduct(produto productSelected, int index) {
       return GestureDetector(
         onTap: () async {
-          LogicAddProduct()
-              .addProducts(AddProductArgs(produtoSelected: productSelected));
+          LogicAddProduct.instance.addProduct(productSelected);
         },
         child: Column(children: [
-          if (index < pdvController.imagesProducts.length) ...{
-            Stack(children: [
-              getImage(pdvController.imagesProducts[index]),
-              if (pdvController.getQuantidade(productSelected.id_produto) >
-                  0.0) ...{
-                Positioned(
-                    top: 5,
-                    right: 5,
-                    child: _buildContainerQuantity(productSelected))
-              }
-            ]),
-            _buildNameProduct(productSelected.descricao!),
-            _buildUnitProduct(productSelected.unidade!),
-            _buildPriceProduct(FormatNumbers.formatNumbertoString(
-                productSelected.preco_venda ?? 0.00)),
-          }
+          _buildImageProduct(productSelected),
+          _buildNameProduct(productSelected.descricao ?? ''),
+          _buildUnitProduct(productSelected.unidade ?? ''),
+          _buildPriceProduct(
+              FormatNumbers.formatNumbertoString(productSelected.preco_venda)),
         ]),
       );
     }
@@ -118,9 +104,9 @@ class ProductWidget extends StatelessWidget {
               crossAxisSpacing: 5,
               mainAxisSpacing: 30,
             ),
-            itemCount: _.productFiltered.length,
+            itemCount: _.filteredProducts.length,
             itemBuilder: (context, index) {
-              produto productSelected = _.productFiltered[index];
+              produto productSelected = _.filteredProducts[index];
               return _buildCardProduct(productSelected, index);
             },
           );
@@ -132,34 +118,14 @@ class ProductWidget extends StatelessWidget {
     return Expanded(
       flex: 4,
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-        ),
-        child: GetBuilder<SearchProductPdvController>(builder: (_) {
-          return Padding(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+          ),
+          child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: _.isSearch
-                ? (!_.isBarCode
-                    ? SearchProductPresentation(
-                        ip: pdvController.ip.value,
-                        service: service,
-                        controller: _,
-                        pdvController: pdvController,
-                        scrollController: scrollController,
-                      )
-                    : SearchProductPresentation(
-                        ip: pdvController.ip.value,
-                        service: service,
-                        controller: _,
-                        pdvController: pdvController,
-                        isBarCode: true,
-                        scrollController: scrollController,
-                      ))
-                : _buildGrid(),
-          );
-        }),
-      ),
+            child: _buildGrid(),
+          )),
     );
   }
 }

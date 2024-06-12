@@ -2,13 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:lotuserp_pdv/controllers/pdv_controller/pdv.controller.dart';
-
-import '../../../collections/produto.dart';
-import '../../checkout/components/custom_card_pesagem.dart';
-import '../../checkout/components/custom_card_product.dart';
-import '../../../services/logic/logic_resume_condition.dart';
+import 'package:lotuserp_comanda/controller/pdv_controller.dart';
+import 'package:lotuserp_comanda/model/collection/produto.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/custom_card_pesagem.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/custom_card_product.dart';
 
 class ResumeListPedidosWidget extends StatelessWidget {
   final PdvController pdvController;
@@ -36,7 +33,7 @@ class ResumeListPedidosWidget extends StatelessWidget {
               ),
             ),
             Text(
-              '${pdvController.pedidosPdv.length} itens',
+              '${pdvController.cartShopping.length} itens',
               style: const TextStyle(fontSize: 20),
             ),
           ],
@@ -49,10 +46,10 @@ class ResumeListPedidosWidget extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(15.0),
         child: Obx(() => ListView.builder(
-              itemCount: pdvController.pedidosPdv.length,
+              itemCount: pdvController.cartShopping.length,
               itemBuilder: (context, index) {
-                produto produtos = pdvController.pedidosPdv[index].produtoSelected;
-                if (LogicResumeCondition.isWheight(produtos)) {
+                produto produtos = pdvController.cartShopping[index].produtoSelected;
+                if (produtos.produto_pesagem == 0) {
                   return CustomCardProduct(
                     index: index,
                     produtoSelected: produtos,

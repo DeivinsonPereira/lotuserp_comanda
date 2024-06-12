@@ -15,12 +15,12 @@ class LineGroup extends StatelessWidget {
     final _pdvController = Dependencies.pdvController();
     final _pdvFeatures = PdvFeatures.instance;
 
-    Dependencies.searchProductPdvController();
     // Contrói a imagem do grupo
     Widget _buildImageGroup(int index) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(100),
-        child: getImageGroup(_pdvController.imagePathGroup[index].path_image ?? ''),
+        child: getImageGroup(
+            _pdvController.imagePathGroup[index].path_image ?? ''),
       );
     }
 
@@ -39,6 +39,7 @@ class LineGroup extends StatelessWidget {
               child: Text(
                 _pdvController.allGroups[index].grupo_descricao ?? '',
                 style: TextStyle(
+                  fontSize: 12,
                   color: _pdvController.groupSelected.value == index
                       ? Colors.white
                       : Colors.black,
@@ -54,7 +55,7 @@ class LineGroup extends StatelessWidget {
       return GestureDetector(
         onTap: () async {
           _pdvFeatures.updateIdGroupSelected(index);
-          _pdvFeatures.updateProductByGroup(index, selectedGroup);
+          _pdvFeatures.updateFilteredProdutos(index, selectedGroup);
         },
         child: SizedBox(
           width: 100,

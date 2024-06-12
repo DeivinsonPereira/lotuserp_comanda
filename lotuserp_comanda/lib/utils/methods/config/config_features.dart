@@ -8,10 +8,12 @@ import 'package:lotuserp_comanda/model/collection/empresa_valida.dart';
 import 'package:lotuserp_comanda/model/collection/initial_config.dart';
 import 'package:lotuserp_comanda/model/collection/password_config.dart';
 import 'package:lotuserp_comanda/model/collection/usuario.dart';
+import 'package:lotuserp_comanda/model/collection/usuario_logado.dart';
 import 'package:lotuserp_comanda/model/color_select.dart';
 import 'package:lotuserp_comanda/page/config/logic/list_params_dropdown.dart';
 import 'package:lotuserp_comanda/shared/components/endpoints.dart';
 import 'package:lotuserp_comanda/shared/repositories/http/download/donwload_images.dart';
+import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_multiple.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_single.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_save_image.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
@@ -22,6 +24,7 @@ import 'config_get.dart';
 class ConfigFeatures {
   final _isarService = IsarService.instance;
   final _genericRepositorySingle = GenericRepositorySingle.instance;
+  final _genericRepositoryMultiple = GenericRepositoryMultiple.instance;
   final _configController = Dependencies.configController();
   final _configGet = ConfigGet.instance;
   final _logger = Logger();
@@ -37,6 +40,8 @@ class ConfigFeatures {
     await updateVariableEmpresaValida();
     await updatePasswordConfigOnInit();
     await updateVariableEmpresa();
+    await updateVariableUsuario();
+    await updateLoginUserController();
     await downloadLogo();
     await updateImagesLogo();
   }
@@ -57,8 +62,7 @@ class ConfigFeatures {
     _configController.configPassword = password;
   }
 
-  image_path_logo createModel(
-      String fileImage, String nome, String pathImage) {
+  image_path_logo createModel(String fileImage, String nome, String pathImage) {
     return image_path_logo(
       file_imagem: fileImage,
       nome: nome,
@@ -138,6 +142,15 @@ class ConfigFeatures {
     _configController.empresaValida = empresaValida;
   }
 
+  Future<void> updateVariableUsuario() async {
+    final isar = await _isarService.db;
+
+    List<usuario> usuarios =
+        await _genericRepositoryMultiple.getAll(isar.usuarios);
+
+    _configController.usuarioSelected.assignAll(usuarios);
+  }
+
   // Faz a atualização da variavel empresa
   Future<void> updateVariableEmpresa() async {
     final isar = await _isarService.db;
@@ -168,7 +181,7 @@ class ConfigFeatures {
     _configController.update();
   }
 
-  void updateUser(List<usuario> usuario){
+  void updateUser(List<usuario> usuario) {
     _configController.usuarioSelected.assignAll(usuario);
     _configController.update();
   }
@@ -210,22 +223,50 @@ class ConfigFeatures {
     _configController.update();
   }
 
+  void updateUsuarioLogado(usuario user) {
+    _configController.usuarioLogado = usuario_logado.fromMap(user.toMap());
+    _configController.update();
+  }
+
+  Future<void> updateLoginUserController() async {
+    final isar = await _isarService.db;
+
+    usuario_logado? user =
+        await _genericRepositorySingle.get(isar.usuario_logados);
+
+    if (user == null) return;
+
+    _configController.loginUser.text = user.login!;
+    _configController.isRemember.value = true;
+  }
+
   // troca entre true e false;
   void toggleIsRemember() {
-    _configController.isRemember.value =
-        !_configController.isRemember.value;
+    _configController.isRemember.value = !_configController.isRemember.value;
     _configController.update();
   }
 
   void toggleIsObscure() {
-    _configController.isObscure.value =
-        !_configController.isObscure.value;
+    _configController.isObscure.value = !_configController.isObscure.value;
     _configController.update();
+  }
+
+  void clearPasswordUserController() {
+    _configController.passwordUser.text = '';
   }
 
   // limpa o password controller
   void clearPasswordController() {
-    _configController.passwordConfigController.clear();
+    _configController.passwordConfigController.text = '';
+  }
+
+  void clearLoginUser() {
+    _configController.loginUser.text = '';
+  }
+
+  void clearCredentialsUser() {
+    clearPasswordController();
+    clearLoginUser();
   }
 
   // limpa o password controller e o password config

@@ -11,6 +11,7 @@ import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/config/config_features.dart';
 
 import '../config/popups/logic/logic_buttons_password.dart';
+import 'logic/logic_buttons_home_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -22,7 +23,8 @@ class HomePage extends StatelessWidget {
     final double widthButtons = Get.size.width * 0.25;
     final double heightButtons = Get.size.height * 0.085;
     final _logicButtonsPassword = LogicButtonsPassword.instance;
-    
+    final _logicButtonsHomePage = LogicButtonsHomePage.instance;
+
     OpenEmpresaValida().openDialog(context);
 
     Widget _buildTextTitle() {
@@ -56,9 +58,8 @@ class HomePage extends StatelessWidget {
             colorButton: CustomColors.primaryColor,
             text: 'Entrar',
             style: CustomTextStyle.whiteBoldText(24),
-            function: () {
-              //TODO : implementar a lógica para entrar
-            }),
+            function: () async => await _logicButtonsHomePage.confirmButton()
+            ),
       );
     }
 
@@ -86,9 +87,8 @@ class HomePage extends StatelessWidget {
             colorButton: Colors.red,
             text: 'Sair',
             style: CustomTextStyle.whiteBoldText(24),
-            function: () {
-              // TODO : implementar a lógica para sair do programa
-            }),
+            function: () => _logicButtonsHomePage.exitButtonLogic()
+            ),
       );
     }
 
@@ -122,6 +122,7 @@ class HomePage extends StatelessWidget {
         ),
         child: IconButton(
           onPressed: () {
+            _configFeatures.clearPasswordUserController();
             _logicButtonsPassword.openCreatePasswordDialog(context);
           },
           icon: const Icon(

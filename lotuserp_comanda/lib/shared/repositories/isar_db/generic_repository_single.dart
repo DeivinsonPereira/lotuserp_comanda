@@ -89,5 +89,16 @@ class GenericRepositorySingle implements ITransactionsSingleIsarDb {
     }
   }
   
-  
+  Future<void> delete<T>(int item, IsarCollection<T> collection) async {
+    final isar = await _isarService.db;
+
+    try {
+      await isar.writeTxn(() async {
+        await collection.delete(item);
+      });
+    } catch (e) {
+      _logger.e('Erro ao deletar item: $e');
+    }
+  }
+
 }

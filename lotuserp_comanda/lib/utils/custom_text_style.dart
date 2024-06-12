@@ -20,4 +20,12 @@ class CustomTextStyle {
   static TextStyle whiteText(double fontSize) {
     return TextStyle(color: Colors.white, fontSize: fontSize);
   }
+
+  static TextStyle greyTextStyle(double fontSize) {
+    return TextStyle(
+      fontSize: fontSize,
+      fontWeight: FontWeight.bold,
+      color: const Color.fromARGB(255, 99, 99, 99),
+    );
+  }
 }

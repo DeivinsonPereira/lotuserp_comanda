@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/controller/load_data_controller.dart';
+import 'package:lotuserp_comanda/controller/order_controller.dart';
 import 'package:lotuserp_comanda/controller/pdv_controller.dart';
+import 'package:lotuserp_comanda/controller/search_product_pdv_controller.dart';
 import 'package:lotuserp_comanda/controller/splash_controller.dart';
 
 import '../controller/config_controller.dart';
@@ -32,5 +34,20 @@ class Dependencies {
       return Get.find<LoadDataController>();
     }
     return Get.put(LoadDataController(), permanent: true);
+  }
+
+  static OrderController orderController() {
+    if (Get.isRegistered<OrderController>()) {
+      return Get.find<OrderController>();
+    }
+    return Get.put(OrderController(), permanent: true);
+  }
+  
+  static SearchProductPdvController searchProductPdvController() {
+    if (Get.isRegistered<SearchProductPdvController>()) {
+      return Get.find<SearchProductPdvController>();
+    } else {
+      return Get.put(SearchProductPdvController());
+    }
   }
 }

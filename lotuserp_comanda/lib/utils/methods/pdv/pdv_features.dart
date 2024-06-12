@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/model/collection/complemento.dart';
 import 'package:lotuserp_comanda/model/collection/image_path_group.dart';
 import 'package:lotuserp_comanda/model/collection/image_path_product.dart';
 import 'package:lotuserp_comanda/model/collection/produto.dart';
@@ -56,6 +57,7 @@ class PdvFeatures {
   Future<void> loadVariablesPdv() async {
     await loadProdutos();
     await loadGrupo();
+    await loadComplementos();
     await updateImagePathGroup();
     await updateImagePathProduto();
   }
@@ -75,6 +77,13 @@ class PdvFeatures {
         await _genericRepositoryMultiple.getAll(isar.produto_grupos);
 
     _pdvController.allGroups.assignAll(list);
+  }
+
+  Future<void> loadComplementos() async {
+    final isar = await _isarService.db;
+    List<complemento> list = await _genericRepositoryMultiple.getAll(isar.complementos);
+
+    _pdvController.allComplementos.assignAll(list);
   }
 
   // Adiciona produtos no carrinho de compras
@@ -154,6 +163,16 @@ class PdvFeatures {
         createModelProduct,
         ((item) => item.file_imagem!),
         (item) => item.descricao!);
+  }
+
+  void setComplements(List<complemento> complementos) async {
+    _pdvController.allComplementos.assignAll(complementos);
+    _pdvController.update();
+  }
+
+  void setGroupSelected(int number) {
+    _pdvController.groupSelected.value = number;
+    _pdvController.update();
   }
 
   // Remove produtos do carrinho de compras

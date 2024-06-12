@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lotuserp_comanda/model/collection/image_path_logo.dart';
 import 'package:lotuserp_comanda/model/collection/initial_config.dart';
+import 'package:lotuserp_comanda/model/collection/usuario.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_multiple.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_single.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
@@ -32,5 +33,13 @@ class ConfigGet {
 
   Color getColorSelected() {
     return _configController.selectedColor.value.color;
+  }
+
+  usuario? getUser() {
+    usuario? user = _configController.usuarioSelected
+        .where((element) => element.login == _configController.loginUser.text)
+        .firstOrNull;
+
+    return user;
   }
 }

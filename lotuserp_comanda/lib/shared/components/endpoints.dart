@@ -43,6 +43,10 @@ class Endpoints {
     return '${ipServer}produtos_grupos?id_partner_cliente=$clientId';
   }
 
+  String endpointSearchComplementos() {
+    return '${ipServer}complementos_produtos_listar?id_partner_cliente=$clientId&id_produto=0';
+  }
+
   String endpointUsuarios() {
     return '${ipServer}users_listar?id_partner_cliente=$clientId';
   }
@@ -57,5 +61,10 @@ class Endpoints {
 
   String endpointSearchImageProducts(String file) {
     return '${ipServer}getimagem?id_partner_cliente=1&categoria=PRO&file=$file&retorno=URL';
+  }
+
+
+  String endpointListarMesas() {
+    return '${ipServer}comandas_listar?id_partner_cliente=$clientId';
   }
 }

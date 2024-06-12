@@ -6,6 +6,7 @@ import 'package:lotuserp_comanda/model/collection/empresa_valida.dart';
 import 'package:lotuserp_comanda/model/collection/image_path_logo.dart';
 import 'package:lotuserp_comanda/model/collection/initial_config.dart';
 import 'package:lotuserp_comanda/model/collection/usuario.dart';
+import 'package:lotuserp_comanda/model/collection/usuario_logado.dart';
 
 import '../model/color_select.dart';
 
@@ -54,6 +55,7 @@ class ConfigController extends GetxController {
   empresa_valida empresaValida = empresa_valida();
   empresa empresaSelected = empresa();
   List<usuario> usuarioSelected = [];
+  usuario_logado usuarioLogado = usuario_logado();
 
   image_path_logo imagePathLogoPadrao = image_path_logo();
   image_path_logo imagePathLogoBranca = image_path_logo();

@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 import 'package:lotuserp_comanda/model/charge_data.dart';
+import 'package:lotuserp_comanda/model/collection/complemento.dart';
 import 'package:lotuserp_comanda/model/collection/empresa.dart';
+import 'package:lotuserp_comanda/model/collection/mesa_listada.dart';
 import 'package:lotuserp_comanda/model/collection/produto.dart';
 import 'package:lotuserp_comanda/model/collection/produto_grupo.dart';
 import 'package:lotuserp_comanda/model/collection/usuario.dart';
@@ -149,6 +151,15 @@ class LoadDataFeatures {
             _pdvFeatures.updateGrupos, element, isar.produto_grupos),
         (element) => _handleError(context, 'Erro ao buscar os grupos'),
         (element) => produto_grupo.fromMap(element));
+    await _genericRepositoryMultiple.search<complemento>(
+      Endpoints().endpointSearchComplementos(),
+      (value) => _handleSuccessMultiple<complemento>(
+          _pdvFeatures.setComplements, value, isar.complementos),
+      (value) => _handleError(context, 'Erro ao buscar os complementos!'),
+      (value) => complemento.fromMap(value),
+    );
+
+    await _genericRepositoryMultiple.getAll(isar.mesa_listadas);
   }
 
   // Faz a carga dos dados do checkbox 4

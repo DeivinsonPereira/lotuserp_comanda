@@ -85,4 +85,15 @@ class GenericRepositoryMultiple implements ITransactionsMultipleIsarDb {
       handleError('$e');
     }
   }
+
+  Future<void> deleteAll<T>(IsarCollection<T> collection) async {
+    final isar = await _isarService.db;
+    try {
+      await isar.writeTxn(() async {
+        await collection.clear();
+      });
+    } catch (e) {
+      _logger.e('Erro ao deletar item: $e');
+    }
+  }
 }

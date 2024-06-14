@@ -182,7 +182,7 @@ class PdvGet {
                 .truncate() /
             100)
         .toString();
-
+      
     return double.parse(newValue);
   }
 

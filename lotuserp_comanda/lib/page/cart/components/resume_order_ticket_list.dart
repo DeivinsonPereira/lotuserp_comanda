@@ -24,10 +24,10 @@ class ResumeOrderTicketList extends StatelessWidget {
                 'Comanda ${comandaSelecionada.comandaSelecionada.id_comanda}',
                 style: CustomTextStyle.blackText(20),
               ),
-              Obx(() => Text(
-                    'R\$ ${_pdvGet.getTotalValuePerTable(comandaSelecionada)}',
-                    style: CustomTextStyle.blackBoldText(20),
-                  )),
+              Text(
+                'R\$ ${_pdvGet.getTotalValuePerTable(comandaSelecionada)}',
+                style: CustomTextStyle.blackBoldText(20),
+              ),
             ]),
           ],
         ),
@@ -35,13 +35,13 @@ class ResumeOrderTicketList extends StatelessWidget {
     }
 
     Widget _buildResumeOrderList() {
-      return ListView.builder(
+      return Obx(() => ListView.builder(
           itemCount: _pdvController.orderTicketsList.length,
           itemBuilder: (context, index) {
             ComandaSelecionada comandaSelecionada =
                 _pdvController.orderTicketsList[index];
             return _buildTotalOrder(comandaSelecionada, index);
-          });
+          }));
     }
 
     return Padding(

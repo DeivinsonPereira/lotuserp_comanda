@@ -131,6 +131,15 @@ class PdvFeatures {
     _pdvController.cartShopping.refresh();
   }
 
+  // Adiciona produtos no orderTicketList
+  void addCartShoppingProductFromOrderTicket(ItemCartShopping cartShopping) {
+    cartShopping.quantidade++;
+
+    _pdvController.update();
+    _pdvController.orderTicketsList.refresh();
+    return;
+  }
+
   image_path_group createModelGroup(
       String fileImagem, String nome, String pathImage) {
     return image_path_group(
@@ -322,12 +331,11 @@ class PdvFeatures {
 
   // Remove produtos do orderTicketList
   void removeCartShoppingFromOrderTicketList(
-      int index, ItemCartShopping orderSelected) {
+      int indexOrderTicket, ItemCartShopping orderSelected) {
     if (orderSelected.quantidade > 1) {
       orderSelected.quantidade--;
     } else {
-      orderSelected.quantidade = 0;
-      _pdvController.orderTicketsList[index].listItemsCartShopping
+      _pdvController.orderTicketsList[indexOrderTicket].listItemsCartShopping
           .remove(orderSelected);
     }
     _pdvController.update();

@@ -4,6 +4,7 @@ import 'package:lotuserp_comanda/model/collection/complemento.dart';
 import 'package:lotuserp_comanda/model/collection/image_path_product.dart';
 import 'package:lotuserp_comanda/model/collection/produto.dart';
 import 'package:lotuserp_comanda/model/collection/produto_grupo.dart';
+import 'package:lotuserp_comanda/model/comanda_selecionada.dart';
 import 'package:lotuserp_comanda/model/complement_cart_shopping.dart';
 import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
 
@@ -19,6 +20,7 @@ class PdvController extends GetxController {
   RxList<complemento> allComplementos = <complemento>[].obs;
   RxList<ItemCartShopping> cartShopping = <ItemCartShopping>[].obs;
   RxList<ComplementCartShopping> listComplementSelected = <ComplementCartShopping>[].obs;
+  RxList<ComandaSelecionada> orderTicketsList = <ComandaSelecionada>[].obs;
 
   RxInt groupSelected = 0.obs;
 

@@ -18,7 +18,7 @@ class LogicAddProduct {
 
   static LogicAddProduct get instance => _instance;
 
-  void addProduct(produto productSelected) {
+  void addProductToCartShopping(produto productSelected) {
     _pdvController.pesagemController.text = '0.000';
     if (productSelected.produto_pesagem == 1) {
       Get.dialog(
@@ -41,4 +41,5 @@ class LogicAddProduct {
 
     _pdvFetures.addCartShoppingProduct(productSelected);
   }
+
 }

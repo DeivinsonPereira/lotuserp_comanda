@@ -7,7 +7,7 @@ class ComplementoModel {
   String descricao;
   double valor;
   int obrigatorio;
-  int estoque;
+  double estoque;
   int status;
   
   ComplementoModel({
@@ -40,7 +40,7 @@ class ComplementoModel {
       descricao: map['descricao'] as String,
       valor: map['valor'] as double,
       obrigatorio: map['obrigatorio'] as int,
-      estoque: map['estoque'] as int,
+      estoque: map['estoque'] is int? (map['estoque'] as int).toDouble() : map['estoque'] as double,
       status: map['status'] as int,
     );
   }

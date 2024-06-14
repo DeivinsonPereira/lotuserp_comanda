@@ -6,11 +6,13 @@ import 'package:get/get.dart';
 import 'package:lotuserp_comanda/page/common/custom_elevated_button.dart';
 import 'package:lotuserp_comanda/page/common/custom_text_field.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_get_tables_by_button.dart';
+import 'package:lotuserp_comanda/page/order/service/logic/logic_navigation_to_cart_shopping.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_update_tables.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/order/order_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/pdv_get.dart';
 import 'components/card_table_order.dart';
 import 'service/logic/logic_colors.dart';
 
@@ -21,6 +23,8 @@ class OrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _orderController = Dependencies.orderController();
     final _orderFeatures = OrderFeatures.instance;
+    final _pdvGet = PdvGet.instance;
+    const double position = 20.0;
 
     // Constrói o título
     Widget _buildTitle() {
@@ -116,10 +120,61 @@ class OrderPage extends StatelessWidget {
       );
     }
 
+    Widget _buildCartShoppingButton() {
+      return InkWell(
+        onTap: () => LogicNavigationToCartShopping.instance.navigation(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
+          child: Container(
+            width: Get.size.width * 0.15,
+            decoration: BoxDecoration(
+              color: CustomColors.primaryColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Center(
+              child: Stack(
+                children: [
+                  const SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: Icon(
+                      Icons.shopping_cart,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: position,
+                    left: position,
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Obx(() => Text(
+                              _pdvGet
+                                  .getQuantityOrdersInOrderTicketsList()
+                                  .toString(),
+                              style: CustomTextStyle.whiteBoldText(12),
+                            )),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
     // Constrói o botão de atualizar
     Widget _buildUpdateButton() {
       return SizedBox(
-        width: Get.size.width * 0.15,
+        width: Get.size.width * 0.10,
         child: Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: InkWell(
@@ -132,20 +187,10 @@ class OrderPage extends StatelessWidget {
                 color: CustomColors.secondaryColor,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Center(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Atualizar',
-                      style: CustomTextStyle.whiteBoldText(24),
-                    ),
-                    const Icon(
-                      Icons.refresh,
-                      color: Colors.white,
-                    ),
-                  ],
+              child: const Center(
+                child: Icon(
+                  Icons.refresh,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -163,35 +208,40 @@ class OrderPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(children: [
-              SizedBox(width: Get.size.width * 0.02),
-              _buildButtonBody(
-                  'Todas as Mesas',
-                  () =>
-                      LogicGetTablesByButton(_orderController).getTables(0, -1),
-                  0),
-              _buildButtonBody(
-                  'Livres',
-                  () =>
-                      LogicGetTablesByButton(_orderController).getTables(1, 0),
-                  1),
-              _buildButtonBody(
-                  'Ocupadas',
-                  () =>
-                      LogicGetTablesByButton(_orderController).getTables(2, 1),
-                  2),
-              _buildButtonBody(
-                  'Contas',
-                  () =>
-                      LogicGetTablesByButton(_orderController).getTables(3, 2),
-                  3),
-              _buildButtonBody(
-                  'Reservadas',
-                  () =>
-                      LogicGetTablesByButton(_orderController).getTables(4, 4),
-                  4),
-            ]),
-            _buildUpdateButton(),
+            Expanded(
+              child: Row(children: [
+                SizedBox(width: Get.size.width * 0.02),
+                _buildUpdateButton(),
+                SizedBox(width: Get.size.width * 0.02),
+                _buildButtonBody(
+                    'Todas as Mesas',
+                    () => LogicGetTablesByButton(_orderController)
+                        .getTables(0, -1),
+                    0),
+                _buildButtonBody(
+                    'Livres',
+                    () => LogicGetTablesByButton(_orderController)
+                        .getTables(1, 0),
+                    1),
+                _buildButtonBody(
+                    'Ocupadas',
+                    () => LogicGetTablesByButton(_orderController)
+                        .getTables(2, 1),
+                    2),
+                _buildButtonBody(
+                    'Contas',
+                    () => LogicGetTablesByButton(_orderController)
+                        .getTables(3, 2),
+                    3),
+                _buildButtonBody(
+                    'Reservadas',
+                    () => LogicGetTablesByButton(_orderController)
+                        .getTables(4, 4),
+                    4),
+              ]),
+            ),
+            _buildCartShoppingButton(),
+            SizedBox(width: Get.size.width * 0.02),
           ],
         ),
       );

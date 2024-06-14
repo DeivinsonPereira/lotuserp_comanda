@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/controller/pdv_controller.dart';
 import 'package:lotuserp_comanda/model/collection/produto.dart';
-import 'package:lotuserp_comanda/page/pdv/widgets/custom_card_pesagem.dart';
-import 'package:lotuserp_comanda/page/pdv/widgets/custom_card_product.dart';
+import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
+import 'package:lotuserp_comanda/page/pdv/service/logic/verification_type_resume.dart';
 
 class ResumeListPedidosWidget extends StatelessWidget {
   final PdvController pdvController;
@@ -16,6 +16,8 @@ class ResumeListPedidosWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _verificationTypeResume = VerificationTypeResume.instance;
+
     // Constrói o cabeçalho do widget
     Widget _buildHeader() {
       return Padding(
@@ -49,19 +51,10 @@ class ResumeListPedidosWidget extends StatelessWidget {
               itemCount: pdvController.cartShopping.length,
               itemBuilder: (context, index) {
                 produto produtos = pdvController.cartShopping[index].produtoSelected;
-                if (produtos.produto_pesagem == 0) {
-                  return CustomCardProduct(
-                    index: index,
-                    produtoSelected: produtos,
-                    pdvController: pdvController,
-                  );
-                } else {
-                  return CustomCardPesagem(
-                    index: index,
-                    produtoSelected: produtos,
-                    pdvController: pdvController,
-                  );
-                }
+
+                ItemCartShopping itemCartShopping = pdvController.cartShopping[index];
+
+                return _verificationTypeResume.buildResume(produtos, itemCartShopping, index, pdvController);
               },
             )),
       );

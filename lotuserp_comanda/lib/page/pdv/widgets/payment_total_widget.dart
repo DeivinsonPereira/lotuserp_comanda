@@ -2,6 +2,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/page/pdv/service/logic/logic_button_add.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
@@ -28,7 +29,8 @@ class PaymentTotalWidget extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerRight,
             child: Obx(() => AutoSizeText(
-                  FormatNumbers.formatNumbertoString(_pdvGet.getTotalCart()),
+                  FormatNumbers.formatNumbertoString(
+                      _pdvGet.getTotalValueCartShopping()),
                   style: const TextStyle(
                       fontSize: 30,
                       color: Colors.white,
@@ -78,7 +80,9 @@ class PaymentTotalWidget extends StatelessWidget {
 
     // retorna o botão de pagamento
     return InkWell(
-      onTap: () async {},
+      onTap: () async {
+        LogicButtonAdd.instance.addOrderAndBack();
+      },
       child: Padding(
         padding: const EdgeInsets.only(left: 24.0, top: 5, bottom: 5),
         child: _buildBody(),

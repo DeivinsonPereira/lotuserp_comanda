@@ -2,8 +2,10 @@ import 'package:get/get.dart';
 import 'package:lotuserp_comanda/model/collection/complemento.dart';
 import 'package:lotuserp_comanda/model/collection/image_path_group.dart';
 import 'package:lotuserp_comanda/model/collection/image_path_product.dart';
+import 'package:lotuserp_comanda/model/collection/mesa_listada.dart';
 import 'package:lotuserp_comanda/model/collection/produto.dart';
 import 'package:lotuserp_comanda/model/collection/produto_grupo.dart';
+import 'package:lotuserp_comanda/model/comanda_selecionada.dart';
 import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
 import 'package:lotuserp_comanda/shared/components/endpoints.dart';
 import 'package:lotuserp_comanda/shared/repositories/http/download/donwload_images.dart';
@@ -19,6 +21,7 @@ import '../../../model/complemento_model.dart';
 class PdvFeatures {
   final _pdvController = Dependencies.pdvController();
   final _pdvGet = PdvGet.instance;
+  final _orderController = Dependencies.orderController();
   final _genericRepositoryMultiple = GenericRepositoryMultiple.instance;
   final _isarService = IsarService.instance;
 
@@ -209,21 +212,58 @@ class PdvFeatures {
           quantity: 1);
 
       _pdvController.listComplementSelected.add(complementoModel);
+      _pdvController.update();
+      return;
     }
 
-    complement!.quantity++;
+    complement.quantity++;
+
+    _pdvController.update();
   }
 
   void addProductWithComplementToCartShopping(produto produtoSelected) {
+    List<ComplementCartShopping> clonedComplements =
+        _pdvController.listComplementSelected
+            .map((complement) => ComplementCartShopping(
+                  complementos:
+                      ComplementoModel.fromMap(complement.complementos.toMap()),
+                  quantity: complement.quantity,
+                ))
+            .toList();
+
+    String informationComplement = _pdvController.complementoController.text;
+
     ItemCartShopping itemCartShopping = ItemCartShopping(
       produtoSelected: produtoSelected,
       quantidade: 1,
-      complementoSelected: _pdvController.listComplementSelected,
-      informationComplement: _pdvController.complementoController.text,
+      complementoSelected: clonedComplements,
+      informationComplement: informationComplement,
     );
 
     _pdvController.cartShopping.add(itemCartShopping);
+    _pdvController.update();
+    clearAllComplementSelected();
+    clearComplementoController();
+  }
 
+  void addOrderToOrderTicketsList() {
+    ComandaSelecionada? orderTable = _orderTableExists();
+
+    // caso já exista o algum pedido para a mesa selecionada, deve ser apenas acrescentado o novo pedido
+    if (orderTable != null) {
+      _addNewOrderToExistingOrder(orderTable);
+      return;
+    }
+    _addNewOrderToOrderTicketsList();
+  }
+
+  void removeOrderToOrderTicketsList(int index) {
+    _pdvController.orderTicketsList.removeAt(index);
+    _pdvController.update();
+  }
+
+  void removeAllOrderToOrderTicketsList() {
+    _pdvController.orderTicketsList.clear();
     _pdvController.update();
   }
 
@@ -253,10 +293,12 @@ class PdvFeatures {
 
     if (complement.quantity > 1) {
       complement.quantity--;
+      _pdvController.update();
       return;
     }
 
     _pdvController.listComplementSelected.remove(complement);
+    _pdvController.update();
   }
 
   void clearAllComplementSelected() {
@@ -265,27 +307,36 @@ class PdvFeatures {
   }
 
   // Remove produtos do carrinho de compras
-  void removeCartShopping(produto produtoSelected) {
-    ItemCartShopping? produtoExists = _hasEqualsProduct(produtoSelected);
-    if (produtoExists == null) return;
+  void removeCartShopping(int index) {
+    ItemCartShopping produtoSelected = _pdvController.cartShopping[index];
 
-    if (produtoExists.quantidade > 1) {
-      produtoExists.quantidade--;
+    if (produtoSelected.quantidade > 1) {
+      produtoSelected.quantidade--;
     } else {
-      produtoExists.quantidade = 0;
-      _pdvController.cartShopping.remove(produtoExists);
+      produtoSelected.quantidade = 0;
+      _pdvController.cartShopping.remove(produtoSelected);
     }
     _pdvController.update();
     _pdvController.cartShopping.refresh();
   }
 
+  // Remove produtos do orderTicketList
+  void removeCartShoppingFromOrderTicketList(
+      int index, ItemCartShopping orderSelected) {
+    if (orderSelected.quantidade > 1) {
+      orderSelected.quantidade--;
+    } else {
+      orderSelected.quantidade = 0;
+      _pdvController.orderTicketsList[index].listItemsCartShopping
+          .remove(orderSelected);
+    }
+    _pdvController.update();
+    _pdvController.orderTicketsList.refresh();
+  }
+
   // Deleta um produto do carrinho de compras
-  void deleteItemCartShopping(produto produtoSelected) {
-    ItemCartShopping? itemCartShopping = _hasEqualsProduct(produtoSelected);
-
-    if (itemCartShopping == null) return;
-
-    _pdvController.cartShopping.remove(itemCartShopping);
+  void deleteItemCartShopping(int index) {
+    _pdvController.cartShopping.removeAt(index);
     _pdvController.update();
   }
 
@@ -295,11 +346,69 @@ class PdvFeatures {
     _pdvController.update();
   }
 
-  // Verifica se o item do carrinho de compras ja existe
-  ItemCartShopping? _hasEqualsProduct(produto produtoSelected) {
+  void clearComplementoController() {
+    _pdvController.complementoController.text = '';
+  }
+
+  void _addNewOrderToExistingOrder(ComandaSelecionada orderTable) {
+    List<ItemCartShopping> clonedList = _pdvController.cartShopping
+        .map((item) => ItemCartShopping(
+              produtoSelected: item
+                  .produtoSelected, // Supondo que produtoSelected seja imutável
+              quantidade: item.quantidade,
+              complementoSelected: item.complementoSelected
+                  .map((complement) => ComplementCartShopping(
+                        complementos: ComplementoModel.fromMap(
+                            complement.complementos.toMap()),
+                        quantity: complement.quantity,
+                      ))
+                  .toList(),
+              informationComplement: item.informationComplement,
+            ))
+        .toList();
+
+    orderTable.listItemsCartShopping.addAll(clonedList);
+  }
+
+  void _addNewOrderToOrderTicketsList() {
+    List<ItemCartShopping> clonedList = _pdvController.cartShopping
+        .map((item) => ItemCartShopping(
+              produtoSelected: item
+                  .produtoSelected, // Supondo que produtoSelected seja imutável
+              quantidade: item.quantidade,
+              complementoSelected: item.complementoSelected
+                  .map((complement) => ComplementCartShopping(
+                        complementos: ComplementoModel.fromMap(
+                            complement.complementos.toMap()),
+                        quantity: complement.quantity,
+                      ))
+                  .toList(),
+              informationComplement: item.informationComplement,
+            ))
+        .toList();
+    mesa_listada table = _orderController.tableSelected.value;
+
+    ComandaSelecionada comandaSelecionada = ComandaSelecionada(
+      comandaSelecionada: table,
+      listItemsCartShopping: clonedList,
+    );
+
+    _pdvController.orderTicketsList.add(comandaSelecionada);
+  }
+
+  // Verifica se o produto existe e retorna o index dele no carrinho
+  ItemCartShopping? _hasEqualsProduct(produto productSelected) {
     return _pdvController.cartShopping
         .where((element) =>
-            element.produtoSelected.id_produto == produtoSelected.id_produto)
+            element.produtoSelected.id_produto == productSelected.id_produto)
+        .firstOrNull;
+  }
+
+  ComandaSelecionada? _orderTableExists() {
+    return _pdvController.orderTicketsList
+        .where((element) =>
+            element.comandaSelecionada.id_comanda ==
+            _orderController.tableSelected.value.id_comanda)
         .firstOrNull;
   }
 }

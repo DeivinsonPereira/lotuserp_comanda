@@ -49,7 +49,7 @@ class CardResumeOrder extends StatelessWidget {
         ),
         child: IconButton(
           onPressed: () {
-            _pdvFeatures.removeCartShopping(produtoSelected);
+            _pdvFeatures.removeCartShopping(index);
           },
           icon: const Icon(
             FontAwesomeIcons.trash,

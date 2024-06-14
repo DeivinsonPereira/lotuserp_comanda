@@ -4,8 +4,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/controller/pdv_controller.dart';
+import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
+import 'package:lotuserp_comanda/page/pdv/service/logic/verification_type_resume.dart';
 import '../../../model/collection/produto.dart';
-import 'card_resume_order.dart';
 
 class ResumeOrder extends StatelessWidget {
   final PdvController pdvController;
@@ -51,11 +52,18 @@ class ResumeOrder extends StatelessWidget {
             itemBuilder: (context, index) {
               produto produtos =
                   pdvController.cartShopping[index].produtoSelected;
-              return CardResumeOrder(
+
+              ItemCartShopping itemCartShopping =
+                  pdvController.cartShopping[index];
+
+              return VerificationTypeResume.instance.buildResume(
+                  produtos, itemCartShopping, index, pdvController);
+
+              /*return CardResumeOrder(
                 index: index,
                 produtoSelected: produtos,
                 pdvController: pdvController,
-              );
+              );*/
             },
           ),
         ),

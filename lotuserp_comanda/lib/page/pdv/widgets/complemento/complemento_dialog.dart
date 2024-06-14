@@ -31,6 +31,7 @@ class ComplementoDialog extends StatelessWidget {
         function: () {
           Get.back();
           _pdvFeatures.clearAllComplementSelected();
+          _pdvFeatures.clearComplementoController();
         },
         style: CustomTextStyle.whiteBoldText(20),
         text: 'Voltar',
@@ -79,7 +80,7 @@ class ComplementoDialog extends StatelessWidget {
     }
 
     Widget _buildHeader() {
-      return CustomHeaderPopup(text: 'Complemento', isPopupClosable: true);
+      return CustomHeaderPopup(text: 'Complemento');
     }
 
     Widget _buildTextField() {

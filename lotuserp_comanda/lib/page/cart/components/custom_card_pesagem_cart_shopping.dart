@@ -7,31 +7,35 @@ import 'package:lotuserp_comanda/utils/format_numbers.dart';
 import 'package:lotuserp_comanda/utils/format_string.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
 
-class CustomCardPesagem extends StatelessWidget {
+class CustomCardPesagemCartShopping extends StatelessWidget {
   final int index;
+  final int indexOrderTicketList;
   final produto produtoSelected;
   final PdvController pdvController;
-  const CustomCardPesagem({
+  const CustomCardPesagemCartShopping({
     Key? key,
     required this.index,
     required this.produtoSelected,
     required this.pdvController,
+    required this.indexOrderTicketList,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _pdvFeatures = PdvFeatures.instance;
+    final cartShopping = pdvController
+        .orderTicketsList[indexOrderTicketList].listItemsCartShopping[index];
 
     // Constrói os dados do item
     Widget _buildProductsPesagemInformation(int index) {
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(
-          '${pdvController.cartShopping[index].produtoSelected.id_produto} - ${pdvController.cartShopping[index].produtoSelected.descricao}',
+          '${cartShopping.produtoSelected.id_produto} - ${cartShopping.produtoSelected.descricao}',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
         Text(
-          '${FormatString.formatarQuantity(pdvController.cartShopping[index].quantidade)} x R\$ ${FormatNumbers.formatNumbertoString(pdvController.cartShopping[index].produtoSelected.preco_venda)} ${pdvController.cartShopping[index].produtoSelected.unidade}  =  R\$ ${FormatNumbers.formatNumbertoString(pdvController.cartShopping[index].produtoSelected.preco_venda! * pdvController.cartShopping[index].quantidade)}',
+          '${FormatString.formatarQuantity(cartShopping.quantidade)} x R\$ ${FormatNumbers.formatNumbertoString(cartShopping.produtoSelected.preco_venda)} ${cartShopping.produtoSelected.unidade}  =  R\$ ${FormatNumbers.formatNumbertoString(cartShopping.produtoSelected.preco_venda! * cartShopping.quantidade)}',
         ),
       ]);
     }

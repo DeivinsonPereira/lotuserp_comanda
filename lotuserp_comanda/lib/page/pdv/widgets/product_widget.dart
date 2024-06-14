@@ -82,7 +82,7 @@ class ProductWidget extends StatelessWidget {
     Widget _buildCardProduct(produto productSelected, int index) {
       return GestureDetector(
         onTap: () async {
-          LogicAddProduct.instance.addProduct(productSelected);
+          LogicAddProduct.instance.addProductToCartShopping(productSelected);
         },
         child: Column(children: [
           _buildImageProduct(productSelected),

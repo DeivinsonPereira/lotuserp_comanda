@@ -15,55 +15,59 @@ class Endpoints {
 
   Endpoints({this.serialNumber});
 
-  Future<String> endpointEmpresaValida() async {
+  Future<String> empresaValida() async {
     return '${ipSiagenet}licenca_ativar?ptipo=0&pchave=${_configController.licencaController.text}&pnserie=${serialNumber!}&pcnpj=${_configController.cnpjController.text}';
   }
 
-  String endpointLicenceSituation() {
+  String licenceSituation() {
     return '${ipSiagenet}licenca_situacao?pchave=${_configController.licenca}&pcnpj=${_configController.cnpj}';
   }
 
-  String endpointSearchClientId() {
+  String searchClientId() {
     return '${ipServer}partner_clientes_cnpj?cpf_cnpj=${_configController.cnpj}';
   }
 
-  String endpointSearchUsuario() {
+  String searchUsuario() {
     return '${ipServer}users_listar?id_partner_cliente=$clientId';
   }
 
-  String endpointSearchTipoRecebimento() {
+  String searchTipoRecebimento() {
     return '${ipServer}tipos_recebe_listar?id_partner_cliente=$clientId';
   }
 
-  String endpointSearchProducts() {
+  String searchProducts() {
     return '${ipServer}produtos_listar?id_partner_cliente=$clientId';
   }
 
-  String endpointSearchGrupos() {
+  String searchGrupos() {
     return '${ipServer}produtos_grupos?id_partner_cliente=$clientId';
   }
 
-  String endpointSearchComplementos() {
+  String searchComplementos() {
     return '${ipServer}complementos_produtos_listar?id_partner_cliente=$clientId&id_produto=0';
   }
 
-  String endpointUsuarios() {
+  String usuarios() {
     return '${ipServer}users_listar?id_partner_cliente=$clientId';
   }
 
-  String endpointSearchImageLogo(String file) {
+  String searchImageLogo(String file) {
     return '${ipServer}getimagem?id_partner_cliente=1&categoria=DIV&file=$file&retorno=URL';
   }
 
-  String endpointSearchImageGrupos(String file) {
+  String searchImageGrupos(String file) {
     return '${ipServer}getimagem?id_partner_cliente=1&categoria=GRU&file=$file&retorno=URL';
   }
 
-  String endpointSearchImageProducts(String file) {
+  String searchImageProducts(String file) {
     return '${ipServer}getimagem?id_partner_cliente=1&categoria=PRO&file=$file&retorno=URL';
   }
 
-  String endpointListarMesas() {
+  String listarMesas() {
     return '${ipServer}comandas_listar?id_partner_cliente=$clientId';
+  }
+
+  String sendOrder() {
+    return '${ipServer}comandas_inserir_itens';
   }
 }

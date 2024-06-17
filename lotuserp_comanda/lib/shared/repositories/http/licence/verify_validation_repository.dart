@@ -17,7 +17,7 @@ class VerifyValidationRepository {
   static VerifyValidationRepository get instance => _instance;
 
   Future<bool> verifyValidation(BuildContext context) async {
-    Uri uri = Uri.parse(Endpoints().endpointLicenceSituation());
+    Uri uri = Uri.parse(Endpoints().licenceSituation());
     try {
       var response = await http.get(uri);
       if (response.statusCode == 200) {

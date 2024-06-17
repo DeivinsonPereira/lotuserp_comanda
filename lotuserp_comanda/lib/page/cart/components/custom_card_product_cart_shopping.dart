@@ -5,7 +5,8 @@ import 'package:lotuserp_comanda/model/collection/produto.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_add.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 
 class CustomCardProductCartShopping extends StatelessWidget {
   final int index;
@@ -22,7 +23,8 @@ class CustomCardProductCartShopping extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _pdvFeatures = PdvFeatures.instance;
+    final _pdvRemove = PdvRemove.instance;
+    final _pdvAdd = PdvAdd.instance;
     final cartShopping = pdvController
         .orderTicketsList[indexOrderTicketList].listItemsCartShopping[index];
 
@@ -30,7 +32,7 @@ class CustomCardProductCartShopping extends StatelessWidget {
     Widget _buildDeleteItem(int index) {
       return IconButton(
         onPressed: () {
-          _pdvFeatures.removeCartShoppingFromOrderTicketList(
+          _pdvRemove.removeCartShoppingFromOrderTicketList(
               indexOrderTicketList, cartShopping, index);
         },
         icon: const Icon(
@@ -74,7 +76,7 @@ class CustomCardProductCartShopping extends StatelessWidget {
     Widget _buildAddItem(int index, produto produtoSelected) {
       return IconButton(
         onPressed: () {
-          _pdvFeatures.addCartShoppingProductFromOrderTicket(cartShopping);
+          _pdvAdd.addCartShoppingProductFromOrderTicket(cartShopping);
         },
         icon: Icon(
           FontAwesomeIcons.circlePlus,

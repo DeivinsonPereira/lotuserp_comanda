@@ -5,7 +5,7 @@ import 'package:lotuserp_comanda/controller/pdv_controller.dart';
 import 'package:lotuserp_comanda/model/collection/produto.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
 import 'package:lotuserp_comanda/utils/format_string.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 
 class CustomCardPesagemCartShopping extends StatelessWidget {
   final int index;
@@ -22,7 +22,7 @@ class CustomCardPesagemCartShopping extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _pdvFeatures = PdvFeatures.instance;
+    final _pdvRemove = PdvRemove.instance;
     final cartShopping = pdvController
         .orderTicketsList[indexOrderTicketList].listItemsCartShopping[index];
 
@@ -51,7 +51,7 @@ class CustomCardPesagemCartShopping extends StatelessWidget {
         ),
         child: IconButton(
           onPressed: () {
-            _pdvFeatures.deleteItemFromOrderTicket(indexOrderTicketList, index);
+            _pdvRemove.deleteItemFromOrderTicket(indexOrderTicketList, index);
           },
           icon: const Icon(
             FontAwesomeIcons.trash,

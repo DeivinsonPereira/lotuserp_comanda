@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../utils/custom_colors.dart';
 import '../../../utils/dependencies.dart';
-import '../../../utils/methods/pdv/pdv_features.dart';
+import '../../../utils/methods/pdv/features/pdv_update.dart';
 import '../custom/get_images.dart';
 
 class LineGroup extends StatelessWidget {
@@ -13,7 +13,7 @@ class LineGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _pdvController = Dependencies.pdvController();
-    final _pdvFeatures = PdvFeatures.instance;
+    final _pdvFeatures = PdvUpdate.instance;
 
     // Contrói a imagem do grupo
     Widget _buildImageGroup(int index) {

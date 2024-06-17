@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/page/cart/logic/logic_send_order.dart';
+import 'package:lotuserp_comanda/service/send_order.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_get.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
 
 class CustomSendOrderButton extends StatelessWidget {
   const CustomSendOrderButton({super.key});
@@ -53,16 +55,19 @@ class CustomSendOrderButton extends StatelessWidget {
       );
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(children: [
-        Expanded(
-          child: _buildTextButton(),
-        ),
-        Expanded(
-          child: _buildTotalValueButton(),
-        )
-      ]),
+    return InkWell(
+      onTap: () async => LogicSendOrder().send(context) ,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(children: [
+          Expanded(
+            child: _buildTextButton(),
+          ),
+          Expanded(
+            child: _buildTotalValueButton(),
+          )
+        ]),
+      ),
     );
   }
 }

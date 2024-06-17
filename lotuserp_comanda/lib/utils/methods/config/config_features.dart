@@ -18,7 +18,7 @@ import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_
 import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_save_image.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_update.dart';
 import '../../../model/collection/image_path_logo.dart';
 import 'config_get.dart';
 
@@ -28,7 +28,7 @@ class ConfigFeatures {
   final _genericRepositoryMultiple = GenericRepositoryMultiple.instance;
   final _configController = Dependencies.configController();
   final _configGet = ConfigGet.instance;
-  final _pdvFeatures = PdvFeatures.instance;
+  final _pdvFeatures = PdvUpdate.instance;
   final _logger = Logger();
 
   ConfigFeatures._privateConstructor();
@@ -79,7 +79,7 @@ class ConfigFeatures {
 
     List<image_path_logo> listItens = _configController.listImagePathLogo;
     await DownloadImages().downloadGeneric(
-        Endpoints().endpointSearchImageLogo, listItens, '/assets/logos/');
+        Endpoints().searchImageLogo, listItens, '/assets/logos/');
 
     List<image_path_logo> listItens2 = _configController.listImagePathLogo;
 

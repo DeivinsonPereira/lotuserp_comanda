@@ -4,7 +4,8 @@ import 'package:lotuserp_comanda/model/comanda_selecionada.dart';
 import 'package:lotuserp_comanda/page/cart/logic/logic_build_details_order.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+
+import '../../../utils/methods/pdv/features/pdv_remove.dart';
 
 class DetailsCartShopping extends StatelessWidget {
   const DetailsCartShopping({super.key});
@@ -12,7 +13,7 @@ class DetailsCartShopping extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _pdvController = Dependencies.pdvController();
-    final _pdvFeatures = PdvFeatures.instance;
+    final _pdvRemove = PdvRemove.instance;
 
     Widget _buildDetailsOrder(
         ComandaSelecionada comandaSelecionada, int index) {
@@ -32,7 +33,7 @@ class DetailsCartShopping extends StatelessWidget {
     Widget _buildRemoveAllButton() {
       return InkWell(
         onTap: () {
-          _pdvFeatures.removeAllOrderToOrderTicketsList();
+          _pdvRemove.removeAllOrderToOrderTicketsList();
           Get.back();
         },
         child: Container(

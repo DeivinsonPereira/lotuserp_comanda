@@ -30,7 +30,7 @@ class ClientIdRepository {
   static ClientIdRepository get instance => _instance;
 
   Future<void> getClientId(BuildContext context) async {
-    Uri uri = Uri.parse(Endpoints().endpointSearchClientId());
+    Uri uri = Uri.parse(Endpoints().searchClientId());
 
     try {
       var response = await http
@@ -57,7 +57,7 @@ class ClientIdRepository {
     _configFeatures.updateEmpresa(data);
     _configFeatures.updateClientIdWithParam(data.id_cliente!);
 
-    await _genericRepositorySingle.insert(data , isar.empresas); 
+    await _genericRepositorySingle.insert(data, isar.empresas);
     QuantityBack.back(1);
     const CustomCherrySuccess(message: 'Licensa liberada com sucesso!')
         .show(context);

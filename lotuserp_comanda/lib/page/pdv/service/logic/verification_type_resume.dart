@@ -8,7 +8,7 @@ import 'package:lotuserp_comanda/page/cart/components/custom_card_product_cart_s
 import 'package:lotuserp_comanda/page/pdv/widgets/custom_card_complement.dart';
 import 'package:lotuserp_comanda/page/pdv/widgets/custom_card_pesagem.dart';
 import 'package:lotuserp_comanda/page/pdv/widgets/custom_card_product.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_get.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
 
 class VerificationTypeResume {
   final _pdvGet = PdvGet.instance;

@@ -6,7 +6,7 @@ import 'package:lotuserp_comanda/page/pdv/service/logic/logic_button_add.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_get.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
 
 class PaymentTotalWidget extends StatelessWidget {
   const PaymentTotalWidget({super.key});

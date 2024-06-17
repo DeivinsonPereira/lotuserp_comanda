@@ -4,7 +4,8 @@ import 'package:lotuserp_comanda/model/comanda_selecionada.dart';
 import 'package:lotuserp_comanda/page/cart/components/custom_send_order_button.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_get.dart';
+import 'package:lotuserp_comanda/utils/format_numbers.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
 
 class ResumeOrderTicketList extends StatelessWidget {
   const ResumeOrderTicketList({super.key});
@@ -26,7 +27,7 @@ class ResumeOrderTicketList extends StatelessWidget {
                   style: CustomTextStyle.blackText(20),
                 ),
                 Text(
-                  'R\$ ${_pdvGet.getTotalValuePerTable(comandaSelecionada)}',
+                  'R\$ ${FormatNumbers.formatNumbertoString(_pdvGet.getTotalValuePerTable(comandaSelecionada).value)}',
                   style: CustomTextStyle.blackBoldText(20),
                 ),
               ]),

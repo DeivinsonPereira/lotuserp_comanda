@@ -9,7 +9,8 @@ import 'package:lotuserp_comanda/page/common/custom_text_field_five_lines.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_add.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 import '../../../../controller/pdv_controller.dart';
 import '../../../../model/collection/complemento.dart';
 import 'components/build_card_complemento.dart';
@@ -24,14 +25,15 @@ class ComplementoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _pdvController = Dependencies.pdvController();
-    final _pdvFeatures = PdvFeatures.instance;
+    final _pdvAdd = PdvAdd.instance;
+    final _pdvRemove = PdvRemove.instance;
 
     Widget _buildBackButton() {
       return CustomElevatedButton(
         function: () {
           Get.back();
-          _pdvFeatures.clearAllComplementSelected();
-          _pdvFeatures.clearComplementoController();
+          _pdvRemove.clearAllComplementSelected();
+          _pdvRemove.clearComplementoController();
         },
         style: CustomTextStyle.whiteBoldText(20),
         text: 'Voltar',
@@ -45,7 +47,7 @@ class ComplementoDialog extends StatelessWidget {
           text: 'Confirmar',
           style: CustomTextStyle.blackBoldText(20),
           function: () {
-            _pdvFeatures
+            _pdvAdd
                 .addProductWithComplementToCartShopping(produtoSelected);
             Get.back();
           });

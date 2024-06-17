@@ -9,7 +9,7 @@ import 'package:lotuserp_comanda/page/common/custom_image.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 import '../custom/buttons_widget.dart';
 
 class InformationButtonsWidget extends StatelessWidget {
@@ -23,7 +23,7 @@ class InformationButtonsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final _configController = Dependencies.configController();
     final _orderController = Dependencies.orderController();
-    final _pdvFeatures = PdvFeatures.instance;
+    final _pdvRemove = PdvRemove.instance;
     Color _selectedColor = _configController.selectedColor.value.color;
 
     double _sizeText = 13;
@@ -79,10 +79,9 @@ class InformationButtonsWidget extends StatelessWidget {
       return ButtonsPdv().iconsOptions(
         FontAwesomeIcons.solidTrashCan,
         'Cancelar',
-        () => _pdvFeatures.removeAllCartShopping(),
+        () => _pdvRemove.removeAllCartShopping(),
       );
     }
-
 
     Widget _buildButtonExtract() {
       return ButtonsPdv().iconsOptions(Icons.receipt, 'Extrato', () {
@@ -117,8 +116,6 @@ class InformationButtonsWidget extends StatelessWidget {
         ),
       );
     }
-
-    
 
     // retorna a linha das informações o botões (parte inferior esquerda da tela pdv)
     return Padding(

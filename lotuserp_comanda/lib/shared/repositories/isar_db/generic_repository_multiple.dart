@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:isar/isar.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
+import 'package:lotuserp_comanda/model/collection/produto_grupo.dart';
 import 'package:lotuserp_comanda/shared/components/header.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/interface/i_transactions_multiple_isar_db.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
@@ -30,16 +31,26 @@ class GenericRepositoryMultiple implements ITransactionsMultipleIsarDb {
   }
 
   @override
-  Future<void> insert<T>(List<T> item, IsarCollection<T> collection, {bool notDelete = false}) async {
+  Future<void> insert<T>(List<T> item, IsarCollection<T> collection,
+      {bool notDelete = false}) async {
     final isar = await _isarService.db;
     try {
-      if(notDelete == false) {
-      int count = await collection.count();
-      if (count > 0) {
-        await isar.writeTxn(() async {
-          await collection.clear();
-        });
-      }
+      isar.produto_grupos.where().findAll();
+
+      isar.produto_grupos
+          .filter()
+          .id_grupoEqualTo(1)
+          .and()
+          .grupo_descricaoStartsWith('imagem')
+          .findAll();
+
+      if (notDelete == false) {
+        int count = await collection.count();
+        if (count > 0) {
+          await isar.writeTxn(() async {
+            await collection.clear();
+          });
+        }
       }
 
       await isar.writeTxn(() async {

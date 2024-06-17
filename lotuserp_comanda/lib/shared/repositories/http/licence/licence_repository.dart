@@ -30,16 +30,16 @@ class LicenceRepository {
 
   Future<String?> getLicence(BuildContext context) async {
     String serialNumber = '';
-    try{
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo? androidInfo = await deviceInfo.androidInfo;
+    try {
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      AndroidDeviceInfo? androidInfo = await deviceInfo.androidInfo;
       serialNumber = androidInfo.serialNumber;
-    }catch(e){
+    } catch (e) {
       _logger.i('Erro ao obter o serial: $e');
     }
 
-    var uri = Uri.parse(await Endpoints(serialNumber: serialNumber)
-        .endpointEmpresaValida());
+    var uri =
+        Uri.parse(await Endpoints(serialNumber: serialNumber).empresaValida());
 
     try {
       var response = await http.get(uri).timeout(const Duration(seconds: 15));

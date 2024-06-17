@@ -24,7 +24,7 @@ class LogicUpdateTables implements IUpdateTables {
 
     Get.dialog(const LoadingScreen());
     await _genericRepositoryMultiple.search(
-      Endpoints().endpointListarMesas(),
+      Endpoints().listarMesas(),
       (value) async => await _handleSuccess(value, isar),
       (value) => _handleError(value),
       (value) => mesa_listada.fromMap(value),

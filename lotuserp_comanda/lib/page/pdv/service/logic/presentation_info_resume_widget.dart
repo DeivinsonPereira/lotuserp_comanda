@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_get.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/podv_bool.dart';
 
 class PresentationInfoResumeWidget {
   final _pdvController = Dependencies.pdvController();
   final _pdvGet = PdvGet.instance;
+  final _pdvBool = PdvBool.instance;
 
   PresentationInfoResumeWidget._privateConstructor();
 
@@ -35,11 +37,11 @@ class PresentationInfoResumeWidget {
 
   List<Widget> _buildWidget(int index) {
     List<Widget> complements = [];
-    if (!_pdvGet.isComplementEmpty(index)) {
+    if (!_pdvBool.isComplementEmpty(index)) {
       complements.addAll(_buildComplements(index));
     }
 
-    if (!_pdvGet.isComplementDescriptionEmpty(index)) {
+    if (!_pdvBool.isComplementDescriptionEmpty(index)) {
       complements.add(_buildComplementsDescription(index));
     }
 

@@ -17,11 +17,11 @@ import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/config/config_features.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_update.dart';
 
 class LoadDataFeatures {
   static final _loadDataController = Dependencies.loadDataController();
-  final _pdvFeatures = PdvFeatures.instance;
+  final _pdvFeatures = PdvUpdate.instance;
   final _configFeatures = ConfigFeatures.instance;
   final _genericRepositoryMultiple = GenericRepositoryMultiple.instance;
   final _genericRepositorySingle = GenericRepositorySingle.instance;
@@ -118,7 +118,7 @@ class LoadDataFeatures {
     final isar = await _isarService.db;
 
     await _genericRepositorySingle.search(
-        Endpoints().endpointSearchClientId(),
+        Endpoints().searchClientId(),
         (element) => _handleSuccessSingle(
             _configFeatures.updateEmpresa, element, isar.empresas),
         (element) =>
@@ -140,19 +140,19 @@ class LoadDataFeatures {
     final isar = await _isarService.db;
 
     await _genericRepositoryMultiple.search<produto>(
-        Endpoints().endpointSearchProducts(),
+        Endpoints().searchProducts(),
         (element) => _handleSuccessMultiple<produto>(
             _pdvFeatures.updateProdutos, element, isar.produtos),
         (element) => _handleError(context, 'Erro ao buscar os produtos!'),
         (element) => produto.fromMap(element));
     await _genericRepositoryMultiple.search<produto_grupo>(
-        Endpoints().endpointSearchGrupos(),
+        Endpoints().searchGrupos(),
         (element) => _handleSuccessMultiple<produto_grupo>(
             _pdvFeatures.updateGrupos, element, isar.produto_grupos),
         (element) => _handleError(context, 'Erro ao buscar os grupos'),
         (element) => produto_grupo.fromMap(element));
     await _genericRepositoryMultiple.search<complemento>(
-      Endpoints().endpointSearchComplementos(),
+      Endpoints().searchComplementos(),
       (value) => _handleSuccessMultiple<complemento>(
           _pdvFeatures.setComplements, value, isar.complementos),
       (value) => _handleError(context, 'Erro ao buscar os complementos!'),
@@ -167,7 +167,7 @@ class LoadDataFeatures {
     final isar = await _isarService.db;
 
     await _genericRepositoryMultiple.search<usuario>(
-        Endpoints().endpointSearchUsuario(),
+        Endpoints().searchUsuario(),
         (element) => _handleSuccessMultiple<usuario>(
             _configFeatures.updateUser, element, isar.usuarios),
         (element) => _handleError(context, 'Erro ao buscar os usuarios!'),

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lotuserp_comanda/model/collection/complemento.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_get.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_add.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
 
 import '../../../../../utils/format_numbers.dart';
 
@@ -19,7 +20,8 @@ class BuildCardComplemento extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _pdvFeatures = PdvFeatures.instance;
+    final _pdvAdd = PdvAdd.instance;
+    final _pdvRemove = PdvRemove.instance;
     final _pdvGet = PdvGet.instance;
     double sizeIcons = 45;
 
@@ -27,7 +29,7 @@ class BuildCardComplemento extends StatelessWidget {
     Widget _buildIconPlus() {
       return IconButton(
         onPressed: () {
-          _pdvFeatures.addComplementToListSelected(complementoSelecionado);
+          _pdvAdd.addComplementToListSelected(complementoSelecionado);
         },
         icon: Icon(
           Icons.add_circle,
@@ -56,8 +58,7 @@ class BuildCardComplemento extends StatelessWidget {
     Widget _buildIconRemove() {
       return IconButton(
         onPressed: () {
-          _pdvFeatures.removeComplementSelected(complementoSelecionado);
-        
+          _pdvRemove.removeComplementSelected(complementoSelecionado);
         },
         icon: Icon(
           Icons.remove_circle,

@@ -9,12 +9,15 @@ import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_multiple.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
+import 'package:lotuserp_comanda/utils/format_numbers.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/podv_bool.dart';
 
-import '../../../model/collection/complemento.dart';
+import '../../../../model/collection/complemento.dart';
 
 class PdvGet {
   final _genericRepositoryMultiple = GenericRepositoryMultiple.instance;
   final _pdvController = Dependencies.pdvController();
+  final _pdvBool = PdvBool.instance;
   final _isarService = IsarService.instance;
 
   PdvGet._privateConstructor();
@@ -140,50 +143,34 @@ class PdvGet {
 
   // Busca o valor total dos produtos que estão no carrinho
   double getTotalValueProductCartShopping() {
-    String newValue = ((_pdvController.cartShopping.fold(
-                        0.0,
-                        (previousValue, element) =>
-                            previousValue +
-                            (element.produtoSelected.preco_venda! *
-                                element.quantidade)) *
-                    100)
-                .truncate() /
-            100)
-        .toString();
+    double newValue = ((_pdvController.cartShopping.fold(
+        0.0,
+        (previousValue, element) =>
+            previousValue +
+            (element.produtoSelected.preco_venda! * element.quantidade))));
 
-    return double.parse(newValue);
+    return FormatNumbers.truncateToDouble(newValue);
   }
 
   // Busca o valor total de todos os complementos que estão no carrinho
   double getTotalValueAllComplementsCartShopping() {
-    String newValue = ((_pdvController.cartShopping.fold(
-                        0.0,
-                        (previousValue, element) =>
-                            previousValue +
-                            element.complementoSelected.fold(
-                                0.0,
-                                (previousValue, element) =>
-                                    previousValue +
-                                    element.complementos.valor *
-                                        element.quantity)) *
-                    100)
-                .truncate() /
-            100)
-        .toString();
+    double value = ((_pdvController.cartShopping.fold(
+        0.0,
+        (previousValue, element) =>
+            previousValue +
+            element.complementoSelected.fold(
+                0.0,
+                (previousValue, element) =>
+                    previousValue +
+                    element.complementos.valor * element.quantity))));
 
-    return double.parse(newValue);
+    return FormatNumbers.truncateToDouble(value);
   }
 
   // Busca o valor total do carrinho
   double getTotalValueCartShopping() {
-    String newValue = (((getTotalValueProductCartShopping() +
-                        getTotalValueAllComplementsCartShopping()) *
-                    100)
-                .truncate() /
-            100)
-        .toString();
-      
-    return double.parse(newValue);
+    return FormatNumbers.truncateToDouble(getTotalValueProductCartShopping() +
+        getTotalValueAllComplementsCartShopping());
   }
 
   String getInformationDescriptionComplementCartShopping(int index) {
@@ -214,9 +201,7 @@ class PdvGet {
           itemCartShopping.quantidade;
     }
 
-    String newValue = ((totalValue * 100).truncate() / 100).toString();
-
-    return double.parse(newValue).obs;
+    return FormatNumbers.truncateToDouble(totalValue.value).obs;
   }
 
   RxDouble getTotalValueOrder() {
@@ -242,34 +227,65 @@ class PdvGet {
       }
     }
 
-    String newValue = ((totalValue * 100).truncate() / 100).toString();
-
-    return double.parse(newValue).obs;
+    return FormatNumbers.truncateToDouble(totalValue.value).obs;
   }
 
-  // Verifica se existe ou não algum complemento
-  bool isComplementEmpty(int index) {
-    return _pdvController.cartShopping[index].complementoSelected.isEmpty;
+  int getIdProductFromOrderTicketsList(
+      int indexOrderTickets, int indexListItemsCartShopping) {
+    return _pdvController
+        .orderTicketsList[indexOrderTickets]
+        .listItemsCartShopping[indexListItemsCartShopping]
+        .produtoSelected
+        .id_produto;
   }
 
-  // Verifica se existe ou não alguma descrição nos complementos
-  bool isComplementDescriptionEmpty(int index) {
-    return _pdvController.cartShopping[index].informationComplement.isEmpty ||
-        _pdvController.cartShopping[index].informationComplement == '';
+  String getAllComplementsDescription(
+      int indexOrderTickets, int indexItensCartShopping) {
+    String complements = '';
+    final orderTicket = _pdvController.orderTicketsList[indexOrderTickets]
+        .listItemsCartShopping[indexItensCartShopping];
+
+    if (!_pdvBool.isListItemCartShoppingEmpty(orderTicket)) {
+      for (int i = 0; i < orderTicket.complementoSelected.length; i++) {
+        complements +=
+            orderTicket.complementoSelected[i].quantity.toString();
+        complements +=
+            ' - ${orderTicket.complementoSelected[i].complementos.descricao}\n';
+      }
+    }
+
+    if (orderTicket.informationComplement.isNotEmpty &&
+        orderTicket.informationComplement != '') {
+      complements += orderTicket.informationComplement;
+    }
+
+    return complements;
   }
 
-  bool isCartShoppingEmpty() {
-    return _pdvController.cartShopping.isEmpty;
+  double getValueSold(int indexOrderTickets, int index) {
+    double vlr_vendido = 0.0;
+    final orderTicket = _pdvController.orderTicketsList[indexOrderTickets];
+
+    ItemCartShopping itemCartShopping =
+        orderTicket.listItemsCartShopping[index];
+
+    if (itemCartShopping.complementoSelected.isNotEmpty) {
+      for (var j = 0; j < itemCartShopping.complementoSelected.length; j++) {
+        vlr_vendido +=
+            itemCartShopping.complementoSelected[j].complementos.valor *
+                itemCartShopping.complementoSelected[j].quantity;
+      }
+    }
+
+    vlr_vendido += itemCartShopping.produtoSelected.preco_venda! *
+        itemCartShopping.quantidade;
+
+    return FormatNumbers.truncateToDouble(vlr_vendido);
   }
 
-  bool isProductWithComplement(produto produtoSelected) {
-    complemento? complement = _pdvController.allComplementos
-        .where((element) => element.id_produto == produtoSelected.id_produto)
-        .firstOrNull;
-    return complement != null;
-  }
+  double getQuantityItemFromOrderTicket(int indexOrderTickets, int index) {
+    final orderTicket = _pdvController.orderTicketsList[indexOrderTickets];
 
-  bool isOrderTicketsListEmpty() {
-    return _pdvController.orderTicketsList.isEmpty;
+    return orderTicket.listItemsCartShopping[index].quantidade;
   }
 }

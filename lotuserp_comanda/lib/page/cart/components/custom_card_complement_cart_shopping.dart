@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lotuserp_comanda/controller/pdv_controller.dart';
 import 'package:lotuserp_comanda/model/collection/produto.dart';
 import 'package:lotuserp_comanda/page/cart/components/presentation_info_resume_cart_shopping.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 
 class CustomCardComplementCartShopping extends StatelessWidget {
   final int index;
@@ -22,7 +22,7 @@ class CustomCardComplementCartShopping extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _pdvFeatures = PdvFeatures.instance;
+    final _pdvRemove = PdvRemove.instance;
 
     // Constrói os dados do item
     Widget _buildProductsInformation(int index) {
@@ -36,7 +36,7 @@ class CustomCardComplementCartShopping extends StatelessWidget {
         width: 60,
         child: IconButton(
           onPressed: () {
-            _pdvFeatures.deleteItemFromOrderTicket(indexOrderTicketList, index);
+            _pdvRemove.deleteItemFromOrderTicket(indexOrderTicketList, index);
           },
           icon: const Icon(
             FontAwesomeIcons.trash,

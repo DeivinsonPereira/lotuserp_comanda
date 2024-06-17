@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/page/cart/cart_shopping_page.dart';
 import 'package:lotuserp_comanda/page/common/custom_cherry.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_get.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/podv_bool.dart';
 
 class LogicNavigationToCartShopping {
-  final _pdvGet = PdvGet.instance;
+  final _pdvBool = PdvBool.instance;
 
   LogicNavigationToCartShopping._privateConstructor();
 
@@ -14,7 +14,7 @@ class LogicNavigationToCartShopping {
   static LogicNavigationToCartShopping get instance => _instance;
 
   void navigation() {
-    if (_pdvGet.isOrderTicketsListEmpty()) {
+    if (_pdvBool.isOrderTicketsListEmpty()) {
       _handleError();
       return;
     }

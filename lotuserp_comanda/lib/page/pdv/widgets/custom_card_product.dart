@@ -6,7 +6,8 @@ import 'package:lotuserp_comanda/model/collection/produto.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_add.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 
 import '../../../controller/pdv_controller.dart';
 
@@ -23,12 +24,13 @@ class CustomCardProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _pdvFeatures = PdvFeatures.instance;
+    final _pdvadd = PdvAdd.instance;
+    final _pdvRemove = PdvRemove.instance;
     // Constrói o botão para remover item
     Widget _buildDeleteItem(int index) {
       return IconButton(
         onPressed: () {
-          _pdvFeatures.removeCartShopping(index);
+          _pdvRemove.removeCartShopping(index);
         },
         icon: const Icon(
           FontAwesomeIcons.circleMinus,
@@ -71,7 +73,7 @@ class CustomCardProduct extends StatelessWidget {
     Widget _buildAddItem(int index, produto produtoSelected) {
       return IconButton(
         onPressed: () {
-          _pdvFeatures.addCartShoppingProduct(produtoSelected);
+          _pdvadd.addCartShoppingProduct(produtoSelected);
         },
         icon: Icon(
           FontAwesomeIcons.circlePlus,

@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lotuserp_comanda/controller/pdv_controller.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/format_txt.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_update.dart';
 
 class SearchCamp extends StatelessWidget {
   final PdvController pdvController;
@@ -15,7 +15,7 @@ class SearchCamp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _pdvFeatures = PdvFeatures.instance;
+    final _pdvFeatures = PdvUpdate.instance;
     final _pdvController = Dependencies.pdvController();
 
     return Container(

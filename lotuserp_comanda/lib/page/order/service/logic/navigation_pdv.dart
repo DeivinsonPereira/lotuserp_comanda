@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/page/order/service/interface/i_navigation_pdv.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_update.dart';
 
 import '../../../pdv/pdv_page.dart';
 
 class NavigationPdv implements INavigationPdv {
-  final _pdvFeatures = PdvFeatures.instance;
+  final _pdvFeatures = PdvUpdate.instance;
 
   @override
   Future<void> navigation({BuildContext? context}) async {

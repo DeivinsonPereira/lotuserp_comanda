@@ -16,6 +16,12 @@ class FormatNumbers {
     return NumberFormat('###,###,###,##0.00', 'pt_BR').format(truncatedNumber);
   }
 
+  static double truncateToDouble(double number) {
+    String newValue = ((number * 100).truncate() / 100).toString();
+
+    return double.parse(newValue);
+  }
+
   static double formatStringToDouble(String number) {
     return double.parse(number.replaceAll('.', '').replaceAll(',', '.'));
   }

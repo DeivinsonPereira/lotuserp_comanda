@@ -5,7 +5,7 @@ import 'package:lotuserp_comanda/controller/pdv_controller.dart';
 import 'package:lotuserp_comanda/model/collection/produto.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
 import 'package:lotuserp_comanda/utils/format_string.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 
 class CustomCardPesagem extends StatelessWidget {
   final int index;
@@ -20,7 +20,7 @@ class CustomCardPesagem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _pdvFeatures = PdvFeatures.instance;
+    final _pdvRemove = PdvRemove.instance;
 
     // Constrói os dados do item
     Widget _buildProductsPesagemInformation(int index) {
@@ -47,7 +47,7 @@ class CustomCardPesagem extends StatelessWidget {
         ),
         child: IconButton(
           onPressed: () {
-            _pdvFeatures.deleteItemCartShopping(index);
+            _pdvRemove.deleteItemCartShopping(index);
           },
           icon: const Icon(
             FontAwesomeIcons.trash,

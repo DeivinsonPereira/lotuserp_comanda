@@ -9,7 +9,7 @@ import 'package:lotuserp_comanda/page/pdv/service/logic/logic_add_product.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/pdv_get.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
 import '../custom/pdv_colors.dart';
 
 class ProductWidget extends StatelessWidget {

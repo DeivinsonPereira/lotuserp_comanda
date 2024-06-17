@@ -12,6 +12,7 @@ import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
 import 'package:lotuserp_comanda/utils/methods/order/order_features.dart';
 
+import '../../../utils/methods/pdv/features/pdv_update.dart';
 import '../service/logic/navigation_pdv.dart';
 
 class CardTableOrder extends StatelessWidget {
@@ -21,6 +22,8 @@ class CardTableOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     final _orderController = Dependencies.orderController();
     final _orderFeatures = OrderFeatures.instance;
+    final _pdvFeatures = PdvUpdate.instance;
+    final _pdvController = Dependencies.pdvController();
 
     // Constrói o título
     Widget _buildTitle() {
@@ -77,6 +80,7 @@ class CardTableOrder extends StatelessWidget {
       return GestureDetector(
         onTap: () async {
           _orderFeatures.setTableSelected(data);
+          _pdvFeatures.updateFilteredProdutos(0, _pdvController.allGroups[0]);
           INavigationPdv navigationPdv = NavigationPdv();
           await navigationPdv.navigation(context: context);
         },

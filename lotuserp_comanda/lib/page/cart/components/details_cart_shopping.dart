@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/model/comanda_selecionada.dart';
 import 'package:lotuserp_comanda/page/cart/logic/logic_build_details_order.dart';
+import 'package:lotuserp_comanda/page/order/service/logic/logic_update_tables.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 
@@ -34,6 +35,7 @@ class DetailsCartShopping extends StatelessWidget {
       return InkWell(
         onTap: () {
           _pdvRemove.removeAllOrderToOrderTicketsList();
+          LogicUpdateTables().updateTables(context: context);
           Get.back();
         },
         child: Container(
@@ -96,7 +98,10 @@ class DetailsCartShopping extends StatelessWidget {
         child: Align(
           alignment: Alignment.topLeft,
           child: IconButton(
-              onPressed: () => Get.back(),
+              onPressed: () => {
+                    LogicUpdateTables().updateTables(context: context),
+                    Get.back()
+                  },
               icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black)),
         ),
       );

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:lotuserp_comanda/model/collection/complemento.dart';
 import 'package:lotuserp_comanda/model/complement_cart_shopping.dart';
 import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
+import 'package:lotuserp_comanda/page/order/service/logic/logic_update_tables.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_common_methods.dart';
 
@@ -94,7 +95,10 @@ class PdvRemove {
 
     removeOrderToOrderTicketsList(indexOrderTicket);
 
-    if (_pdvController.orderTicketsList.isEmpty) Get.back();
+    if (_pdvController.orderTicketsList.isEmpty) {
+      Get.back();
+      LogicUpdateTables().updateTables(context: Get.context);
+    }
   }
 
   // Remove todos os produtos do carrinho de compras

@@ -8,6 +8,7 @@ import 'package:lotuserp_comanda/page/order/service/interface/i_update_tables.da
 import 'package:lotuserp_comanda/shared/components/endpoints.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_multiple.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
+import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/order/order_features.dart';
 import '../../../common/loading_screen.dart';
 
@@ -15,6 +16,7 @@ class LogicUpdateTables implements IUpdateTables {
   final _genericRepositoryMultiple = GenericRepositoryMultiple.instance;
   final _isarService = IsarService.instance;
   final _logger = Logger();
+  final _pdvController = Dependencies.pdvController();
   final String messageError = 'Erro ao Atualizar as mesas';
 
   @override
@@ -33,9 +35,11 @@ class LogicUpdateTables implements IUpdateTables {
     List<mesa_listada> tables =
         await _genericRepositoryMultiple.getAll(isar.mesa_listadas);
 
-    _orderFeatures.setListTables(tables);
-
-    Get.back();
+    Future.delayed(const Duration(seconds: 1), () {
+      _orderFeatures.setListTables(tables);
+      _pdvController.update();
+      Get.back();
+    });
   }
 
   Future<void> _handleSuccess(List<mesa_listada> listTables, Isar isar) async {

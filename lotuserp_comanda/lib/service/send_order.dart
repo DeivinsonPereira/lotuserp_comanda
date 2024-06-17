@@ -8,6 +8,7 @@ import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
 import 'package:lotuserp_comanda/model/order.dart';
 import 'package:lotuserp_comanda/model/order_item.dart';
 import 'package:lotuserp_comanda/page/common/custom_cherry.dart';
+import 'package:lotuserp_comanda/page/order/service/logic/logic_update_tables.dart';
 import 'package:lotuserp_comanda/shared/components/endpoints.dart';
 import 'package:lotuserp_comanda/shared/components/header.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
@@ -101,6 +102,7 @@ class SendOrder {
     if (_pdvController.orderTicketsList.isEmpty) {
       const CustomCherrySuccess(message: 'Pedido enviado com sucesso')
           .show(context);
+      LogicUpdateTables().updateTables(context: context);
       QuantityBack.back(2);
     }
   }

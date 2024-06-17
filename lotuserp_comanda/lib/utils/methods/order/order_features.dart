@@ -27,6 +27,7 @@ class OrderFeatures {
   void setListTables(List<mesa_listada> tables) {
     _orderController.listTables.assignAll(tables);
     _orderController.filteredListTables.assignAll(tables);
+    _orderController.filteredListTables.refresh();
     _orderController.update();
   }
 

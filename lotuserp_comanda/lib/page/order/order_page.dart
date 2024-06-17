@@ -13,7 +13,9 @@ import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/order/order_features.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
+import 'package:lotuserp_comanda/utils/quantity_back.dart';
 import 'components/card_table_order.dart';
 import 'service/logic/logic_colors.dart';
 
@@ -25,6 +27,7 @@ class OrderPage extends StatelessWidget {
     final _orderController = Dependencies.orderController();
     final _orderFeatures = OrderFeatures.instance;
     final _pdvGet = PdvGet.instance;
+    final _pdvRemove = PdvRemove.instance;
     const double position = 20.0;
 
     // Constrói o título
@@ -41,7 +44,10 @@ class OrderPage extends StatelessWidget {
                         barrierDismissible: false,
                         LogoutPage(
                           text: 'Deseja sair do aplicativo?',
-                          function: () => SystemNavigator.pop(),
+                          function: () {
+                            QuantityBack.back(2);
+                            _pdvRemove.removeAllOrderToOrderTicketsList();
+                          },
                         ));
                   },
                   icon: const Icon(

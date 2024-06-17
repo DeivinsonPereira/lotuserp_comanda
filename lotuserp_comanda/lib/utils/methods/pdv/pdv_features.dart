@@ -135,8 +135,7 @@ class PdvFeatures {
   void addCartShoppingProductFromOrderTicket(ItemCartShopping cartShopping) {
     cartShopping.quantidade++;
 
-    _pdvController.update();
-    _pdvController.orderTicketsList.refresh();
+    _updateOrderTiketList();
     return;
   }
 
@@ -269,6 +268,7 @@ class PdvFeatures {
   void removeOrderToOrderTicketsList(int index) {
     _pdvController.orderTicketsList.removeAt(index);
     _pdvController.update();
+    _pdvController.orderTicketsList.refresh();
   }
 
   void removeAllOrderToOrderTicketsList() {
@@ -331,21 +331,35 @@ class PdvFeatures {
 
   // Remove produtos do orderTicketList
   void removeCartShoppingFromOrderTicketList(
-      int indexOrderTicket, ItemCartShopping orderSelected) {
+      int indexOrderTicket, ItemCartShopping orderSelected, index) {
     if (orderSelected.quantidade > 1) {
       orderSelected.quantidade--;
-    } else {
-      _pdvController.orderTicketsList[indexOrderTicket].listItemsCartShopping
-          .remove(orderSelected);
+      _updateOrderTiketList();
+      return;
     }
-    _pdvController.update();
-    _pdvController.orderTicketsList.refresh();
+
+    deleteItemFromOrderTicket(indexOrderTicket, index);
   }
 
   // Deleta um produto do carrinho de compras
   void deleteItemCartShopping(int index) {
     _pdvController.cartShopping.removeAt(index);
     _pdvController.update();
+  }
+
+  void deleteItemFromOrderTicket(int indexOrderTicket, int index) {
+    if (_pdvController
+            .orderTicketsList[indexOrderTicket].listItemsCartShopping.length >
+        1) {
+      _pdvController.orderTicketsList[indexOrderTicket].listItemsCartShopping
+          .removeAt(index);
+      _updateOrderTiketList();
+      return;
+    }
+
+    removeOrderToOrderTicketsList(indexOrderTicket);
+
+    if (_pdvController.orderTicketsList.isEmpty) Get.back();
   }
 
   // Remove todos os produtos do carrinho de compras
@@ -418,5 +432,10 @@ class PdvFeatures {
             element.comandaSelecionada.id_comanda ==
             _orderController.tableSelected.value.id_comanda)
         .firstOrNull;
+  }
+
+  void _updateOrderTiketList() {
+    _pdvController.update();
+    _pdvController.orderTicketsList.refresh();
   }
 }

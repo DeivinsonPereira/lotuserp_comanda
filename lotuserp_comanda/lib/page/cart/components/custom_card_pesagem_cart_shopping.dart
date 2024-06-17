@@ -51,7 +51,7 @@ class CustomCardPesagemCartShopping extends StatelessWidget {
         ),
         child: IconButton(
           onPressed: () {
-            _pdvFeatures.deleteItemCartShopping(index);
+            _pdvFeatures.deleteItemFromOrderTicket(indexOrderTicketList, index);
           },
           icon: const Icon(
             FontAwesomeIcons.trash,

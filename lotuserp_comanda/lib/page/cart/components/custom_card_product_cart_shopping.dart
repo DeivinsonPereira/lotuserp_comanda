@@ -31,7 +31,7 @@ class CustomCardProductCartShopping extends StatelessWidget {
       return IconButton(
         onPressed: () {
           _pdvFeatures.removeCartShoppingFromOrderTicketList(
-              indexOrderTicketList, cartShopping);
+              indexOrderTicketList, cartShopping, index);
         },
         icon: const Icon(
           FontAwesomeIcons.circleMinus,

@@ -19,16 +19,18 @@ class ResumeOrderTicketList extends StatelessWidget {
         height: 40,
         child: Column(
           children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(
-                'Comanda ${comandaSelecionada.comandaSelecionada.id_comanda}',
-                style: CustomTextStyle.blackText(20),
-              ),
-              Text(
-                'R\$ ${_pdvGet.getTotalValuePerTable(comandaSelecionada)}',
-                style: CustomTextStyle.blackBoldText(20),
-              ),
-            ]),
+            if (comandaSelecionada.listItemsCartShopping.isNotEmpty) ...{
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text(
+                  'Comanda ${comandaSelecionada.comandaSelecionada.id_comanda}',
+                  style: CustomTextStyle.blackText(20),
+                ),
+                Text(
+                  'R\$ ${_pdvGet.getTotalValuePerTable(comandaSelecionada)}',
+                  style: CustomTextStyle.blackBoldText(20),
+                ),
+              ]),
+            }
           ],
         ),
       );

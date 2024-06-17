@@ -17,17 +17,19 @@ class LogicBuildDetailsOrder {
 
     return Column(
       children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Comanda ${comandaSelected.id_comanda}',
-              style: CustomTextStyle.blackBoldText(25),
+        if (comandaSelecionada.listItemsCartShopping.isNotEmpty) ...{
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Comanda ${comandaSelected.id_comanda}',
+                style: CustomTextStyle.blackBoldText(25),
+              ),
             ),
           ),
-        ),
-        ..._buildProductsList(itemCartShopping, index),
+          ..._buildProductsList(itemCartShopping, index),
+        }
       ],
     );
   }

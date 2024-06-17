@@ -6,6 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/controller/pdv_controller.dart';
 import 'package:lotuserp_comanda/page/common/custom_image.dart';
+import 'package:lotuserp_comanda/page/pdv/service/logic/logic_open_name_dialog.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/extrato/logic/open_dialog_extrato.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
@@ -66,12 +68,8 @@ class InformationButtonsWidget extends StatelessWidget {
 
     // Constrói o botão CPF/CNPJ
     Widget _buildButtonCpfCnpj() {
-      return ButtonsPdv().iconsOptions(
-          FontAwesomeIcons.addressCard,
-          'CPF/CNPJ',
-          () => {
-                //TODO fazer dialog de cpf/cnpj
-              });
+      return ButtonsPdv().iconsOptions(FontAwesomeIcons.addressCard, 'Nome/CPF',
+          () => LogicOpenNameDialog().open());
     }
 
     // Constrói o botão Cancelar
@@ -84,9 +82,8 @@ class InformationButtonsWidget extends StatelessWidget {
     }
 
     Widget _buildButtonExtract() {
-      return ButtonsPdv().iconsOptions(Icons.receipt, 'Extrato', () {
-        //TODO trazer o extrato da mesa
-      });
+      return ButtonsPdv().iconsOptions(
+          Icons.receipt, 'Extrato', () => OpenDialogExtrato().open());
     }
 
     // Constrói o container de informações

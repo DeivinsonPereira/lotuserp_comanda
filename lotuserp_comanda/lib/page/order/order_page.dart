@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/page/common/custom_elevated_button.dart';
 import 'package:lotuserp_comanda/page/common/custom_text_field.dart';
+import 'package:lotuserp_comanda/page/logout/logout_page.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_get_tables_by_button.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_navigation_to_cart_shopping.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_update_tables.dart';
@@ -12,7 +13,6 @@ import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/order/order_features.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
 import 'components/card_table_order.dart';
 import 'service/logic/logic_colors.dart';
@@ -25,7 +25,6 @@ class OrderPage extends StatelessWidget {
     final _orderController = Dependencies.orderController();
     final _orderFeatures = OrderFeatures.instance;
     final _pdvGet = PdvGet.instance;
-    final _pdvRemove = PdvRemove.instance;
     const double position = 20.0;
 
     // Constrói o título
@@ -38,8 +37,12 @@ class OrderPage extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {
-                    Get.back();
-                    _pdvRemove.removeAllOrderToOrderTicketsList();
+                    Get.dialog(
+                        barrierDismissible: false,
+                        LogoutPage(
+                          text: 'Deseja sair do aplicativo?',
+                          function: () => SystemNavigator.pop(),
+                        ));
                   },
                   icon: const Icon(
                     Icons.arrow_back_ios,

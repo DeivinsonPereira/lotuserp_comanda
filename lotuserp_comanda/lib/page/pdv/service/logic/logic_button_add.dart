@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/page/common/custom_cherry.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
+import 'package:lotuserp_comanda/utils/methods/order/order_features.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_add.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 
@@ -8,6 +9,7 @@ class LogicButtonAdd {
   final _pdvController = Dependencies.pdvController();
   final _pdvRemove = PdvRemove.instance;
   final _pdvAdd = PdvAdd.instance;
+  final _orderFeatures = OrderFeatures.instance;
   LogicButtonAdd._privateConstructor();
 
   static final LogicButtonAdd _instance = LogicButtonAdd._privateConstructor();
@@ -24,9 +26,8 @@ class LogicButtonAdd {
     _pdvRemove.clearAllComplementSelected();
     _pdvRemove.clearComplementoController();
     _pdvRemove.removeAllCartShopping();
+    _orderFeatures.clearName();
     Get.back();
-
-    print('OrderTicketList: ${_pdvController.orderTicketsList.length}');
   }
 
   bool _isCartShoppingEmpty() {

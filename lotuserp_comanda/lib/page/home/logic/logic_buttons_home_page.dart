@@ -81,8 +81,8 @@ class LogicButtonsHomePage {
       _configFeatures.clearCredentialsUser();
     }
     _configFeatures.clearPasswordUserController();
-    await LogicUpdateTables().updateTables();
     Get.to(() => const OrderPage());
+    await LogicUpdateTables().updateTables();
   }
 
   Future<bool> _isDataCharged() async {
@@ -99,6 +99,7 @@ class LogicButtonsHomePage {
   // Faz o Toast de erro
   void _handleError(String message) {
     CustomCherryError(message: message).show(Get.context!);
+    Get.back();
   }
 
   // Verifica se a senha esta correta

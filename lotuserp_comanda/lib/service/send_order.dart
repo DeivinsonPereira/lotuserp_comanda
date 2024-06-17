@@ -8,7 +8,6 @@ import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
 import 'package:lotuserp_comanda/model/order.dart';
 import 'package:lotuserp_comanda/model/order_item.dart';
 import 'package:lotuserp_comanda/page/common/custom_cherry.dart';
-import 'package:lotuserp_comanda/page/order/service/logic/logic_update_tables.dart';
 import 'package:lotuserp_comanda/shared/components/endpoints.dart';
 import 'package:lotuserp_comanda/shared/components/header.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
@@ -16,6 +15,8 @@ import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
 import 'package:http/http.dart' as http;
 import 'package:lotuserp_comanda/utils/quantity_back.dart';
+
+import '../page/order/service/logic/logic_update_tables.dart';
 
 class SendOrder {
   final _pdvGet = PdvGet.instance;
@@ -70,7 +71,9 @@ class SendOrder {
         id_usuario: _configController.usuarioLogado.id,
         id_comanda: _pdvController
             .orderTicketsList[indexOrderTicket].comandaSelecionada.id_comanda,
-        identificador: '', // TODO colocar o nome do cliente no identificador
+        identificador: _pdvController.orderTicketsList[indexOrderTicket]
+                .comandaSelecionada.identificador ??
+            '',
         itens: itens);
   }
 
@@ -102,8 +105,9 @@ class SendOrder {
     if (_pdvController.orderTicketsList.isEmpty) {
       const CustomCherrySuccess(message: 'Pedido enviado com sucesso')
           .show(context);
-      LogicUpdateTables().updateTables(context: context);
+
       QuantityBack.back(2);
+      await LogicUpdateTables().updateTables(context: context);
     }
   }
 

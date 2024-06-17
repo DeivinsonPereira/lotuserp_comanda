@@ -6,6 +6,7 @@ import 'package:lotuserp_comanda/page/pdv/widgets/information_buttons_widget.dar
 import 'package:lotuserp_comanda/page/pdv/widgets/payment_total_widget.dart';
 import 'package:lotuserp_comanda/page/pdv/widgets/product_widget.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 
 import '../../controller/pdv_controller.dart';
 import 'widgets/line_group_widget.dart';
@@ -18,6 +19,7 @@ class PdvPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Dependencies.configController();
     final _pdvController = Dependencies.pdvController();
+    final _pdvRemove = PdvRemove.instance;
 
     // linha de pesquisa e voltar
     Widget lineSearchAndBackButton(PdvController controller) {
@@ -25,7 +27,11 @@ class PdvPage extends StatelessWidget {
         children: [
           // Icone de voltar
           IconButton(
-            onPressed: () => Get.back(),
+            onPressed: () {
+              Get.back();
+              _pdvRemove.clearAllComplementSelected();
+              _pdvRemove.removeAllCartShopping();
+            },
             icon: const Icon(
               Icons.arrow_back,
               color: Color.fromARGB(255, 70, 70, 70),

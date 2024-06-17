@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/model/collection/mesa_listada.dart';
+import 'package:lotuserp_comanda/model/mesa_extrato.dart';
 
 class OrderController extends GetxController {
   TextEditingController searchTableController = TextEditingController();
+  TextEditingController clientNameController = TextEditingController();
 
-  var buttonSelected = 0.obs;
-  var listTables = <mesa_listada>[].obs;
-  var filteredListTables = <mesa_listada>[].obs;
-  var tableSelected = mesa_listada(id_comanda: 0).obs;
+  RxInt buttonSelected = 0.obs;
+  RxList<mesa_listada> listTables = <mesa_listada>[].obs;
+  RxList<mesa_listada> filteredListTables = <mesa_listada>[].obs;
+  Rx<mesa_listada> tableSelected = mesa_listada(id_comanda: 0).obs;
+
+  RxList<MesaExtrato> mesaExtrato = <MesaExtrato>[].obs;
+
+  String clientName = '';
 }

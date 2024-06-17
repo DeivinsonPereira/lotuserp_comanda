@@ -70,4 +70,8 @@ class Endpoints {
   String sendOrder() {
     return '${ipServer}comandas_inserir_itens';
   }
+
+  String searchComandasExtrato(int tableId) {
+    return '${ipServer}comandas_extrato?id_partner_cliente=$clientId&id_comanda=$tableId';
+  }
 }

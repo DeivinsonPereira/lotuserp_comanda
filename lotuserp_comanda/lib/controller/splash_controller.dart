@@ -1,4 +1,6 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/core/size_screen.dart';
 import 'package:lotuserp_comanda/page/home/home_page.dart';
 
 class SplashController extends GetxController {
@@ -11,12 +13,18 @@ class SplashController extends GetxController {
   void onInit() {
     super.onInit();
 
+    if (SizeScreen.isMobile) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    } else {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+    }
+
     Future.delayed(const Duration(milliseconds: 100), () {
       animationOpacityLogo.value = 1.0;
       scale.value = 2;
     });
     Future.delayed(const Duration(seconds: 3), () async {
-      Get.off(() => const HomePage());
+      HomePage().selectHomePage();
     });
   }
 }

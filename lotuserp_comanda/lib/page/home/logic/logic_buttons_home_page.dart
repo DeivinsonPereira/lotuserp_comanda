@@ -81,7 +81,7 @@ class LogicButtonsHomePage {
       _configFeatures.clearCredentialsUser();
     }
     _configFeatures.clearPasswordUserController();
-    Get.to(() => const OrderPage());
+    OrderPage.selectOrderPage();
     await LogicUpdateTables().updateTables();
   }
 

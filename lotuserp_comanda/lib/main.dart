@@ -44,6 +44,8 @@ Future<void> main() async {
     inspector: true,
   );
 
+  
+
   Dependencies.configController();
   final configFeatures = ConfigFeatures.instance;
   await configFeatures.loadConfigOnInit();

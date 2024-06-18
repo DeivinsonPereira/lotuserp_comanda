@@ -13,7 +13,7 @@ class LicenseApprovalFlow implements IGetLicense {
   final _clientIdRepository = ClientIdRepository.instance;
   final _verifyValidationRepository = VerifyValidationRepository.instance;
   final _configController = Dependencies.configController();
-
+  String? licence = '';
   LicenseApprovalFlow._privateConstructor();
 
   static final LicenseApprovalFlow _instance =
@@ -29,7 +29,9 @@ class LicenseApprovalFlow implements IGetLicense {
       return;
     }
 
-    if (!_isValidIp()) await getLicence(context);
+    if (!_isValidIp() || licence == '') licence = await getLicence(context);
+
+    if (licence == null) return;
 
     await getClientId(context);
   }

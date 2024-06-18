@@ -56,7 +56,9 @@ class PdvUpdate {
   Future<void> loadVariablesPdv() async {
     await loadProdutos();
     await loadGrupo();
-    updateFilteredProdutos(0, _pdvController.allGroups[0]);
+    if (_pdvController.allGroups.isNotEmpty) {
+      updateFilteredProdutos(0, _pdvController.allGroups[0]);
+    }
     await loadComplementos();
     await updateImagePathGroup();
     await updateImagePathProduto();

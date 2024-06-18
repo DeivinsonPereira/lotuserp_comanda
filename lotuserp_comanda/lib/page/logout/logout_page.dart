@@ -30,7 +30,9 @@ class LogoutPage extends StatelessWidget {
               child: Center(
                   child: Text(
                 text,
-                style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               )),
             ),
             Row(

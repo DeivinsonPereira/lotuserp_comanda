@@ -19,12 +19,12 @@ class GenericRepositorySingle implements ITransactionsSingleIsarDb {
   static GenericRepositorySingle get instance => _instance;
 
   @override
-  Future<void> insert<T>(T item, IsarCollection<T> collection, {bool notDelete = false}) async {
+  Future<void> insert<T>(T item, IsarCollection<T> collection,
+      {bool notDelete = false}) async {
     final isar = await _isarService.db;
 
     try {
-
-      if(notDelete == false){
+      if (notDelete == false) {
         int count = await collection.count();
         if (count > 0) {
           await isar.writeTxn(() async {
@@ -88,7 +88,7 @@ class GenericRepositorySingle implements ITransactionsSingleIsarDb {
       handleError('$e');
     }
   }
-  
+
   Future<void> delete<T>(int item, IsarCollection<T> collection) async {
     final isar = await _isarService.db;
 
@@ -100,5 +100,4 @@ class GenericRepositorySingle implements ITransactionsSingleIsarDb {
       _logger.e('Erro ao deletar item: $e');
     }
   }
-
 }

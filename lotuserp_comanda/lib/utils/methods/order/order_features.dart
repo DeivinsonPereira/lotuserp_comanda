@@ -18,6 +18,19 @@ class OrderFeatures {
     _orderController.update();
   }
 
+  bool setTableSelectedById(String idComanda) {
+    mesa_listada? table = _orderController.listTables
+        .where((element) =>
+            element.id_comanda.toString() == idComanda.replaceFirst(RegExp(r'^0+'), ''))
+        .firstOrNull;
+
+    if (table == null) return false;
+
+    _orderController.tableSelected.value = table;
+    _orderController.update();
+    return true;
+  }
+
   // seta a mesa filtrada
   void setFilteredListTables(List<mesa_listada> tables) {
     _orderController.filteredListTables.assignAll(tables);

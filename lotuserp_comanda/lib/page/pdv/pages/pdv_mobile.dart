@@ -1,24 +1,20 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, no_leading_underscores_for_local_identifiers
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lotuserp_comanda/page/order/components/resume_order.dart';
-import 'package:lotuserp_comanda/page/pdv/widgets/information_buttons_widget.dart';
 import 'package:lotuserp_comanda/page/pdv/widgets/payment_total_widget.dart';
 import 'package:lotuserp_comanda/page/pdv/widgets/product_widget.dart';
-import 'package:lotuserp_comanda/utils/dependencies.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 
-import '../../controller/pdv_controller.dart';
-import 'widgets/line_group_widget.dart';
-import 'widgets/search_camp_widget.dart';
+import '../../../controller/pdv_controller.dart';
+import '../../../utils/dependencies.dart';
+import '../../../utils/methods/pdv/features/pdv_remove.dart';
+import '../widgets/line_group_widget.dart';
+import '../widgets/search_camp_widget.dart';
 
-class PdvPage extends StatelessWidget {
-  const PdvPage({super.key});
+class PdvMobile extends StatelessWidget {
+  const PdvMobile({super.key});
 
   @override
   Widget build(BuildContext context) {
     Dependencies.configController();
-    final _pdvController = Dependencies.pdvController();
     final _pdvRemove = PdvRemove.instance;
 
     // linha de pesquisa e voltar
@@ -62,29 +58,10 @@ class PdvPage extends StatelessWidget {
                 // Constrói os produtos
                 const ProductWidget(),
                 // Constrói a linha dos botões e informaçãoes
-                Expanded(
-                  child:
-                      InformationButtonsWidget(controllerReactive: controller),
+                const Expanded(
+                  child: PaymentTotalWidget(),
                 )
               ]),
-            ),
-            Expanded(
-              flex: 4,
-              child: Column(
-                children: [
-                  //Constrói o resumo dos pedidos
-                  Flexible(
-                    flex: 6,
-                    child: ResumeOrder(pdvController: _pdvController),
-                  ),
-                  const SizedBox(height: 10),
-                  // Constrói o botão pagamento e o total
-                  const Flexible(
-                    flex: 1,
-                    child: PaymentTotalWidget(),
-                  ),
-                ],
-              ),
             ),
           ],
         ),

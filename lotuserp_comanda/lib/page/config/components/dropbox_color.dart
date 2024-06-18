@@ -17,7 +17,7 @@ class DropboxColor extends StatelessWidget {
     ListParamsDropdown listParamsDropdown = ListParamsDropdown();
     listParamsDropdown.sortListColors();
     return Container(
-        width: Get.size.width * 0.3,
+        width: Get.size.width * 0.6,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),

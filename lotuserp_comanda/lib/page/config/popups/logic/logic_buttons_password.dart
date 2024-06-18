@@ -2,16 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/core/size_screen.dart';
 import 'package:lotuserp_comanda/model/collection/password_config.dart';
 import 'package:lotuserp_comanda/page/common/custom_cherry.dart';
 import 'package:lotuserp_comanda/page/config/config_page.dart';
-import 'package:lotuserp_comanda/page/config/popups/confirm_password.dialog.dart';
+import 'package:lotuserp_comanda/page/config/popups/mobile/confirm_password_dialog_mobile.dart';
+import 'package:lotuserp_comanda/page/config/popups/mobile/create_password_dialog_mobile.dart';
+import 'package:lotuserp_comanda/page/config/popups/monitor/confirm_password.dialog_monitor.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_single.dart';
 import 'package:lotuserp_comanda/utils/methods/config/config_features.dart';
 
 import '../../../../shared/repositories/isar_db/isar_service.dart';
 import '../../../../utils/dependencies.dart';
-import '../create_password_dialog.dart';
+import '../monitor/create_password_dialog_monitor.dart';
 import 'interface/i_logic_buttons_password.dart';
 
 class LogicButtonsPassword<T> implements ILogicButtonsPassword {
@@ -46,7 +49,7 @@ class LogicButtonsPassword<T> implements ILogicButtonsPassword {
   Future<void> advanceToNextPage() async {
     Get.back();
     _configFeatures.clearPasswordController();
-    Get.to(() => const ConfigPage());
+    ConfigPage.selectConfigPage();
   }
 
   @override
@@ -58,7 +61,11 @@ class LogicButtonsPassword<T> implements ILogicButtonsPassword {
       await updateVariablePassword();
       Get.back();
       Future.delayed(const Duration(seconds: 1), () async {
-        await Get.dialog(const ConfirmPasswordDialog());
+        if (SizeScreen.isMobile) {
+          Get.dialog(const ConfirmPasswordDialogMobile());
+          return;
+        }
+        await Get.dialog(const ConfirmPasswordDialogMonitor());
       });
     });
   }
@@ -72,8 +79,8 @@ class LogicButtonsPassword<T> implements ILogicButtonsPassword {
   @override
   Future<void> updateVariablePassword() async {
     final isar = await _isarService.db;
-    password_config? password =
-        await _genericRepositorySingle.get<password_config>(isar.password_configs);
+    password_config? password = await _genericRepositorySingle
+        .get<password_config>(isar.password_configs);
     if (password == null) return;
 
     _configController.passwordConfigController.text = '';
@@ -97,7 +104,12 @@ class LogicButtonsPassword<T> implements ILogicButtonsPassword {
       return;
     }
 
-    Get.dialog(const CreatePasswordDialog());
+    if (SizeScreen.isMobile) {
+      Get.dialog(const CreatePasswordDialogMobile());
+      return;
+    }
+
+    Get.dialog(const CreatePasswordDialogMonitor());
   }
 
   @override

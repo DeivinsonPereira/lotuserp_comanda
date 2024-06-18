@@ -2,17 +2,27 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/core/size_screen.dart';
 import 'package:lotuserp_comanda/page/order/service/interface/i_navigation_pdv.dart';
+import 'package:lotuserp_comanda/page/pdv/pages/pdv_mobile.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_update.dart';
 
-import '../../../pdv/pdv_page.dart';
+import '../../../pdv/pages/pdv_monitor.dart';
 
 class NavigationPdv implements INavigationPdv {
   final _pdvFeatures = PdvUpdate.instance;
 
   @override
   Future<void> navigation({BuildContext? context}) async {
+    if (SizeScreen.isMobile) {
+      _navigation(const PdvMobile());
+      return;
+    }
+    _navigation(const PdvMonitor());
+  }
+
+  _navigation(Widget page) {
     _pdvFeatures.setGroupSelected(0);
-    Get.to(() => const PdvPage());
+    Get.to(() => page, transition: Transition.rightToLeft);
   }
 }

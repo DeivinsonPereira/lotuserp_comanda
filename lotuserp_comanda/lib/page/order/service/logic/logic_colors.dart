@@ -32,9 +32,9 @@ class LogicColors implements ILogicColorsOrder {
   @override
   Color getColorsButton(int indexButton) {
     if (indexButton == _orderController.buttonSelected.value) {
-      return CustomColors.secondaryColor;
+      return Colors.white;
     }
-    return Colors.white;
+    return CustomColors.primaryColor;
   }
 
   @override
@@ -42,8 +42,8 @@ class LogicColors implements ILogicColorsOrder {
     double fontSize = 15;
 
     if (indexButton == _orderController.buttonSelected.value) {
-      return CustomTextStyle.whiteBoldText(fontSize);
+      return CustomTextStyle.blackBoldText(fontSize);
     }
-    return CustomTextStyle.blackBoldText(fontSize);
+    return CustomTextStyle.whiteBoldText(fontSize);
   }
 }

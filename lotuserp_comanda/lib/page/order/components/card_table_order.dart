@@ -1,7 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:lotuserp_comanda/controller/order_controller.dart';
 import 'package:lotuserp_comanda/model/collection/mesa_listada.dart';
 import 'package:lotuserp_comanda/page/order/enum/comandas.dart';
@@ -16,7 +18,13 @@ import '../../../utils/methods/pdv/features/pdv_update.dart';
 import '../service/logic/navigation_pdv.dart';
 
 class CardTableOrder extends StatelessWidget {
-  const CardTableOrder({super.key});
+  final int count;
+  final double sizeNumberCard;
+  const CardTableOrder({
+    Key? key,
+    required this.count,
+    required this.sizeNumberCard,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +51,7 @@ class CardTableOrder extends StatelessWidget {
     Widget _buildNumber(mesa_listada data) {
       return Text(
         FormatNumbers.intToString(data.id_comanda),
-        style: CustomTextStyle.blackBoldText(40),
+        style: CustomTextStyle.blackBoldText(sizeNumberCard),
       );
     }
 
@@ -115,8 +123,8 @@ class CardTableOrder extends StatelessWidget {
         builder: (_) {
           return GridView.builder(
             itemCount: _orderController.filteredListTables.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 9, mainAxisSpacing: 10, crossAxisSpacing: 10),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: count, mainAxisSpacing: 10, crossAxisSpacing: 10),
             itemBuilder: (context, index) {
               var data = _.filteredListTables[index];
               if (data.status == Comandas.LIVRE.index ||

@@ -8,8 +8,8 @@ import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:pinput/pinput.dart';
 
-class ConfirmPasswordDialog extends StatelessWidget {
-  const ConfirmPasswordDialog({super.key});
+class ConfirmPasswordDialogMonitor extends StatelessWidget {
+  const ConfirmPasswordDialogMonitor({super.key});
 
   @override
   Widget build(BuildContext context) {

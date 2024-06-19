@@ -3,21 +3,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/core/size_screen.dart';
+import 'package:lotuserp_comanda/page/common/custom_cherry.dart';
 import 'package:lotuserp_comanda/page/order/service/interface/i_navigation_pdv.dart';
-import 'package:lotuserp_comanda/page/pdv/pages/pdv_mobile.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/name/name_dialog.dart';
+import 'package:lotuserp_comanda/utils/methods/order/order_bool.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_update.dart';
 
+import '../../../pdv/pages/pdv_mobile.dart';
 import '../../../pdv/pages/pdv_monitor.dart';
 
 class NavigationPdv implements INavigationPdv {
   final _pdvFeatures = PdvUpdate.instance;
+  final _orderBool = OrderBool.instance;
 
   @override
   Future<void> navigation({BuildContext? context}) async {
+    if (_orderBool.isInvalidTable()) {
+      const CustomCherryError(message: 'Mesa Inválida.').show(Get.context!);
+      return;
+    }
+
+    if (SizeScreen.isMobile && _orderBool.isTableFree()) {
+      Get.dialog(barrierDismissible: false, const NameDialog());
+      return;
+    }
+
     if (SizeScreen.isMobile) {
       _navigation(const PdvMobile());
       return;
     }
+
     _navigation(const PdvMonitor());
   }
 

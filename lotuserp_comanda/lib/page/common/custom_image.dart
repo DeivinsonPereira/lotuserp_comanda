@@ -9,8 +9,8 @@ import 'package:lotuserp_comanda/model/collection/produto_grupo.dart';
 import '../../utils/dependencies.dart';
 
 class CustomImage {
-  var _configController = Dependencies.configController();
-  var _pdvController = Dependencies.pdvController();
+  final _configController = Dependencies.configController();
+  final _pdvController = Dependencies.pdvController();
 
   Widget getLogoPadrao({double? width, double? height}) {
     return _formatLogo(_configController.imagePathLogoPadrao.path_image,

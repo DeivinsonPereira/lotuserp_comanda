@@ -52,13 +52,12 @@ class VerificationTypeResume {
         pdvController: pdvController,
       );
     } else {
-      if(isCartShopping){
+      if (isCartShopping) {
         return CustomCardPesagemCartShopping(
-        index: index,
-        produtoSelected: produtoSelected,
-        pdvController: pdvController,
-        indexOrderTicketList: indexOrderTicketList!
-      );
+            index: index,
+            produtoSelected: produtoSelected,
+            pdvController: pdvController,
+            indexOrderTicketList: indexOrderTicketList!);
       }
       return CustomCardPesagem(
         index: index,

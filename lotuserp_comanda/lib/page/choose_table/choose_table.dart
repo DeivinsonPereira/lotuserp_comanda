@@ -66,7 +66,10 @@ class ChooseTable extends StatelessWidget {
         width: Get.size.width * 0.8,
         child: CustomElevatedButton(
           rounded: 10,
-          function: () async => LogicNavigationToPdv.instance.goToPdv(),
+          function: () async {
+            FocusScope.of(context).unfocus();
+            LogicNavigationToPdv.instance.goToPdv();
+          },
           colorButton: CustomColors.secondaryColor,
           text: 'Pesquisar',
           style: CustomTextStyle.whiteBoldText(18),
@@ -97,7 +100,10 @@ class ChooseTable extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _buildBody(),
+      body: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: _buildBody()),
     );
   }
 }

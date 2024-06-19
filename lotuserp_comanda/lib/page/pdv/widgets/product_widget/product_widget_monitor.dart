@@ -10,10 +10,10 @@ import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
-import '../custom/pdv_colors.dart';
+import '../../custom/pdv_colors.dart';
 
-class ProductWidget extends StatelessWidget {
-  const ProductWidget({super.key});
+class ProductWidgetMonitor extends StatelessWidget {
+  const ProductWidgetMonitor({super.key});
 
   @override
   Widget build(BuildContext context) {

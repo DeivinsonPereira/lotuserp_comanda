@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lotuserp_comanda/page/cart/components/details_cart_shopping.dart';
 import 'package:lotuserp_comanda/page/cart/components/resume_order_ticket_list.dart';
 
-class CartShoppingPage extends StatelessWidget {
-  const CartShoppingPage({super.key});
+class CartShoppingMonitor extends StatelessWidget {
+  const CartShoppingMonitor({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -8,17 +8,18 @@ import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
 
-class PaymentTotalWidget extends StatelessWidget {
-  const PaymentTotalWidget({super.key});
+class PaymentTotalWidgetMobile extends StatelessWidget {
+  const PaymentTotalWidgetMobile({super.key});
 
   @override
   Widget build(BuildContext context) {
     final _pdvGet = PdvGet.instance;
+    final double heightContainers = Get.size.height * 0.1;
 
     // Constrói o container que mostra o valor total do pagamento
     Widget _buildContainerValue() {
       return Container(
-        height: double.infinity,
+        height: heightContainers,
         decoration: BoxDecoration(
           color: CustomColors.primaryColor,
           borderRadius: const BorderRadius.only(
@@ -45,6 +46,7 @@ class PaymentTotalWidget extends StatelessWidget {
     // Constrói o container de pagamento
     Widget _buildPaymentContainer() {
       return Container(
+        height: heightContainers,
         decoration: const BoxDecoration(
           color: Colors.green,
           borderRadius: BorderRadius.only(
@@ -63,15 +65,11 @@ class PaymentTotalWidget extends StatelessWidget {
     // Constrói o corpo do botão de pagamento
     Widget _buildBody() {
       return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            flex: 1,
             child: _buildPaymentContainer(),
           ),
           Expanded(
-            flex: 1,
             child: _buildContainerValue(),
           ),
         ],
@@ -82,11 +80,9 @@ class PaymentTotalWidget extends StatelessWidget {
     return InkWell(
       onTap: () async {
         LogicButtonAdd.instance.addOrderAndBack();
+        FocusScope.of(context).unfocus();
       },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 24.0, top: 5, bottom: 5),
-        child: _buildBody(),
-      ),
+      child: _buildBody(),
     );
   }
 }

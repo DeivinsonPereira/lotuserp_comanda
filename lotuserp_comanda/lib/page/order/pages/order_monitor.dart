@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/page/common/custom_cart_icon.dart';
 import 'package:lotuserp_comanda/page/common/custom_elevated_button.dart';
 import 'package:lotuserp_comanda/page/common/custom_text_field.dart';
 import 'package:lotuserp_comanda/page/logout/logout_page.dart';
@@ -14,7 +15,6 @@ import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/order/order_features.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
 import 'package:lotuserp_comanda/utils/quantity_back.dart';
 import '../components/card_table_order.dart';
 import '../service/logic/logic_colors.dart';
@@ -26,9 +26,7 @@ class OrderMonitor extends StatelessWidget {
   Widget build(BuildContext context) {
     final _orderController = Dependencies.orderController();
     final _orderFeatures = OrderFeatures.instance;
-    final _pdvGet = PdvGet.instance;
     final _pdvRemove = PdvRemove.instance;
-    const double position = 20.0;
 
     // Constrói o título
     Widget _buildTitle() {
@@ -134,57 +132,6 @@ class OrderMonitor extends StatelessWidget {
       );
     }
 
-    Widget _buildCartShoppingButton() {
-      return InkWell(
-        onTap: () => LogicNavigationToCartShopping.instance.navigation(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0),
-          child: Container(
-            width: Get.size.width * 0.15,
-            decoration: BoxDecoration(
-              color: CustomColors.primaryColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Center(
-              child: Stack(
-                children: [
-                  const SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: Icon(
-                      Icons.shopping_cart,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: position,
-                    left: position,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Obx(() => Text(
-                              _pdvGet
-                                  .getQuantityOrdersInOrderTicketsList()
-                                  .toString(),
-                              style: CustomTextStyle.whiteBoldText(12),
-                            )),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
     // Constrói o botão de atualizar
     Widget _buildUpdateButton() {
       return SizedBox(
@@ -254,7 +201,7 @@ class OrderMonitor extends StatelessWidget {
                     4),
               ]),
             ),
-            _buildCartShoppingButton(),
+            CustomCartIcon(function: () => LogicNavigationToCartShopping.instance.navigation()),
             SizedBox(width: Get.size.width * 0.02),
           ],
         ),

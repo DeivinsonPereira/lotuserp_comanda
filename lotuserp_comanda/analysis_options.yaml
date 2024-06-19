@@ -10,6 +10,8 @@
 analyzer:
   errors:
     annotate_overrides: ignore
+    camel_case_extensions: ignore
+    camel_case_types: ignore
     constant_identifier_names: ignore
     must_be_immutable: ignore
     no_leading_underscores_for_local_identifiers: ignore

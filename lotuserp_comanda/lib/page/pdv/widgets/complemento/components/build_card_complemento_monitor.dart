@@ -9,10 +9,10 @@ import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
 
 import '../../../../../utils/format_numbers.dart';
 
-class BuildCardComplemento extends StatelessWidget {
+class BuildCardComplementoMonitor extends StatelessWidget {
   final complemento complementoSelecionado;
   final int index;
-  const BuildCardComplemento({
+  const BuildCardComplementoMonitor({
     Key? key,
     required this.complementoSelecionado,
     required this.index,

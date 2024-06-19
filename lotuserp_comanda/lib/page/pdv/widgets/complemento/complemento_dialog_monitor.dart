@@ -13,11 +13,11 @@ import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_add.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 import '../../../../controller/pdv_controller.dart';
 import '../../../../model/collection/complemento.dart';
-import 'components/build_card_complemento.dart';
+import 'components/build_card_complemento_monitor.dart';
 
-class ComplementoDialog extends StatelessWidget {
+class ComplementoDialogMonitor extends StatelessWidget {
   final produto produtoSelected;
-  const ComplementoDialog({
+  const ComplementoDialogMonitor({
     Key? key,
     required this.produtoSelected,
   }) : super(key: key);
@@ -47,8 +47,7 @@ class ComplementoDialog extends StatelessWidget {
           text: 'Confirmar',
           style: CustomTextStyle.blackBoldText(20),
           function: () {
-            _pdvAdd
-                .addProductWithComplementToCartShopping(produtoSelected);
+            _pdvAdd.addProductWithComplementToCartShopping(produtoSelected);
             Get.back();
           });
     }
@@ -72,7 +71,7 @@ class ComplementoDialog extends StatelessWidget {
               itemBuilder: (context, index) {
                 complemento complementoSelecionado =
                     _.filteredComplementos[index];
-                return BuildCardComplemento(
+                return BuildCardComplementoMonitor(
                   complementoSelecionado: complementoSelecionado,
                   index: index,
                 );

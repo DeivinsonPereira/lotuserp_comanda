@@ -10,7 +10,7 @@ import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/get/podv_bool.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_bool.dart';
 
 import '../../../../model/collection/complemento.dart';
 
@@ -181,6 +181,16 @@ class PdvGet {
     return _pdvController.orderTicketsList.length;
   }
 
+  RxInt getReactiveQuantityOrdersInOrderTicketsList() {
+    _pdvController.orderTicketsList.refresh();
+    _pdvController.update();
+    return _pdvController.orderTicketsList.length.obs;
+  }
+
+  int getQuantityCartShopping() {
+    return _pdvController.cartShopping.length;
+  }
+
   RxList<complemento> getAllComplements() {
     return _pdvController.allComplementos;
   }
@@ -247,8 +257,7 @@ class PdvGet {
 
     if (!_pdvBool.isListItemCartShoppingEmpty(orderTicket)) {
       for (int i = 0; i < orderTicket.complementoSelected.length; i++) {
-        complements +=
-            orderTicket.complementoSelected[i].quantity.toString();
+        complements += orderTicket.complementoSelected[i].quantity.toString();
         complements +=
             ' - ${orderTicket.complementoSelected[i].complementos.descricao}\n';
       }

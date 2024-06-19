@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, no_leading_underscores_for_local_identifiers
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lotuserp_comanda/page/order/components/resume_order.dart';
+import 'package:lotuserp_comanda/page/order/components/resume_order_monitor.dart';
 import 'package:lotuserp_comanda/page/pdv/widgets/information_buttons_widget.dart';
-import 'package:lotuserp_comanda/page/pdv/widgets/payment_total_widget.dart';
-import 'package:lotuserp_comanda/page/pdv/widgets/product_widget.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/payment_total_widget/payment_total_widget_monitor.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/product_widget/product_widget_monitor.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 
@@ -60,7 +60,7 @@ class PdvMonitor extends StatelessWidget {
                 // Constrói a linha do grupo
                 const LineGroup(),
                 // Constrói os produtos
-                const ProductWidget(),
+                const ProductWidgetMonitor(),
                 // Constrói a linha dos botões e informaçãoes
                 Expanded(
                   child:
@@ -75,13 +75,13 @@ class PdvMonitor extends StatelessWidget {
                   //Constrói o resumo dos pedidos
                   Flexible(
                     flex: 6,
-                    child: ResumeOrder(pdvController: _pdvController),
+                    child: ResumeOrderMonitor(pdvController: _pdvController),
                   ),
                   const SizedBox(height: 10),
                   // Constrói o botão pagamento e o total
                   const Flexible(
                     flex: 1,
-                    child: PaymentTotalWidget(),
+                    child: PaymentTotalWidgetMonitor(),
                   ),
                 ],
               ),

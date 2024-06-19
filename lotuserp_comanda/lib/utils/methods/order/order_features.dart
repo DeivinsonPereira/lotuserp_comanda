@@ -100,4 +100,9 @@ class OrderFeatures {
     _orderController.clientName = '';
     _orderController.update();
   }
+
+  void clearCommandNumberController() {
+    _orderController.commandNumberController.clear();
+    _orderController.update();
+  }
 }

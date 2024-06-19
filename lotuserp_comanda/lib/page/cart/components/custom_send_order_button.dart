@@ -55,7 +55,7 @@ class CustomSendOrderButton extends StatelessWidget {
     }
 
     return InkWell(
-      onTap: () async => LogicSendOrder().send(context) ,
+      onTap: () async => LogicSendOrder().send(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(children: [

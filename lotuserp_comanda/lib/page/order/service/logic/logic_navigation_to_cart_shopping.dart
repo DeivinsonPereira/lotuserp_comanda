@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:lotuserp_comanda/page/cart/cart_shopping_page.dart';
+import 'package:lotuserp_comanda/page/cart/pages/cart_shopping_monitor.dart';
 import 'package:lotuserp_comanda/page/common/custom_cherry.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/get/podv_bool.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_bool.dart';
 
 class LogicNavigationToCartShopping {
   final _pdvBool = PdvBool.instance;
@@ -19,7 +19,7 @@ class LogicNavigationToCartShopping {
       return;
     }
 
-    Get.to(() => const CartShoppingPage());
+    Get.to(() => const CartShoppingMonitor());
   }
 
   void _handleError() {

@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/controller/pdv_controller.dart';
 import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
+import 'package:lotuserp_comanda/page/common/custom_elevated_button.dart';
 import 'package:lotuserp_comanda/page/pdv/service/logic/verification_type_resume.dart';
+import 'package:lotuserp_comanda/utils/custom_colors.dart';
+import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import '../../../model/collection/produto.dart';
 
-class ResumeOrder extends StatelessWidget {
+class ResumeOrderMobile extends StatelessWidget {
   final PdvController pdvController;
-  const ResumeOrder({
+  const ResumeOrderMobile({
     Key? key,
     required this.pdvController,
   }) : super(key: key);
@@ -20,22 +23,17 @@ class ResumeOrder extends StatelessWidget {
     // Constrói o cabeçalho do widget
     Widget _buildHeader() {
       return Padding(
-        // Cabeçalho, Resumo
         padding: const EdgeInsets.only(top: 15.0, left: 20, right: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               'Resumo',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
+              style: CustomTextStyle.blackBoldText(30),
             ),
             Text(
               '${pdvController.cartShopping.length} itens',
-              style: const TextStyle(fontSize: 20),
+              style: CustomTextStyle.blackText(20),
             ),
           ],
         ),
@@ -70,24 +68,44 @@ class ResumeOrder extends StatelessWidget {
       );
     }
 
-    // Constrói o corpo do widget
-    Widget _buildBody() {
-      return Column(
+    Widget _buildBackButton() {
+      return Row(
         children: [
-          _buildHeader(),
-          // lista de pedidos
           Expanded(
-            child: _buildContent(),
+            child: SizedBox(
+              height: 60,
+              child: CustomElevatedButton(
+                  colorButton: CustomColors.informationBox,
+                  text: 'Voltar',
+                  style: CustomTextStyle.whiteBoldText(24),
+                  function: () => Get.back()),
+            ),
           ),
         ],
       );
     }
 
+    // Constrói o corpo do widget
+    Widget _buildBody() {
+      return Column(
+        children: [
+          _buildHeader(),
+          Expanded(child: _buildContent()),
+          _buildBackButton(),
+        ],
+      );
+    }
+
     // Retorna o widget de resumo dos itens no carrinho
-    return Padding(
-      padding: const EdgeInsets.only(left: 25.0),
+    return Dialog(
+      backgroundColor: Colors.white,
+      insetPadding: const EdgeInsets.all(0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Container(
-        height: 700,
+        height: Get.size.height * 0.7,
+        width: Get.size.width * 0.9,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,

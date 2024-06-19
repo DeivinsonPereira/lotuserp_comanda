@@ -27,6 +27,7 @@ class LogicButtonAdd {
     _pdvRemove.clearComplementoController();
     _pdvRemove.removeAllCartShopping();
     _orderFeatures.clearName();
+    _orderFeatures.clearCommandNumberController();
     Get.back();
   }
 

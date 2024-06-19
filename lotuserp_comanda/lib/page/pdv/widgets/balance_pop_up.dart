@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/core/size_screen.dart';
 import 'package:lotuserp_comanda/model/collection/produto.dart';
 import 'package:lotuserp_comanda/page/common/custom_header_popup.dart';
 import 'package:lotuserp_comanda/page/pdv/service/logic/logic_button_balance_popup.dart';
@@ -38,7 +39,7 @@ class BalancePopUp extends StatelessWidget {
           top: 50,
         ),
         child: SizedBox(
-          width: 300,
+          width: SizeScreen.isMobile ? Get.size.width * 0.5 : 300,
           child: TextField(
             inputFormatters: [DecimalInputFormatter()],
             controller: _pdvController.pesagemController,
@@ -116,7 +117,6 @@ class BalancePopUp extends StatelessWidget {
     }
 
     //inicio da página
-
     return SingleChildScrollView(
       child: Dialog(
         shape: RoundedRectangleBorder(

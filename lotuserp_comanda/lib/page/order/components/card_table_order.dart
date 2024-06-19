@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import 'package:lotuserp_comanda/controller/order_controller.dart';
 import 'package:lotuserp_comanda/model/collection/mesa_listada.dart';
-import 'package:lotuserp_comanda/page/order/enum/comandas.dart';
+import 'package:lotuserp_comanda/page/order/enum/status_comandas.dart';
 import 'package:lotuserp_comanda/page/order/service/interface/i_navigation_pdv.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
@@ -124,11 +124,13 @@ class CardTableOrder extends StatelessWidget {
           return GridView.builder(
             itemCount: _orderController.filteredListTables.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: count, mainAxisSpacing: 10, crossAxisSpacing: 10),
+                crossAxisCount: count,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10),
             itemBuilder: (context, index) {
               var data = _.filteredListTables[index];
-              if (data.status == Comandas.LIVRE.index ||
-                  data.status == Comandas.OCUPADA.index) {
+              if (data.status == StatusComandas.LIVRE.index ||
+                  data.status == StatusComandas.OCUPADA.index) {
                 return _buildContent(data);
               }
               return null;

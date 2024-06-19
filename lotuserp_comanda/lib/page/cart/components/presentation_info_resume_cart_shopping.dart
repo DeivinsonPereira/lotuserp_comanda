@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lotuserp_comanda/core/size_screen.dart';
 import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
+import 'package:lotuserp_comanda/utils/format_string.dart';
 
 class PresentationInfoResumeCartShopping {
   final _pdvController = Dependencies.pdvController();
@@ -21,11 +23,14 @@ class PresentationInfoResumeCartShopping {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '${cartShopping.produtoSelected.id_produto} - ${cartShopping.produtoSelected.descricao}}',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+          SizeScreen.isMobile
+              ? Text(
+                  '${cartShopping.produtoSelected.id_produto} - ${FormatString.limitarTexto(cartShopping.produtoSelected.descricao ?? '', 15)}')
+              : Text(
+                  '${cartShopping.produtoSelected.id_produto} - ${cartShopping.produtoSelected.descricao ?? ''}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
           Text(
             'R\$ ${FormatNumbers.formatNumbertoString(cartShopping.produtoSelected.preco_venda)}',
           ),
@@ -57,8 +62,11 @@ class PresentationInfoResumeCartShopping {
       complements.add(Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-              '+ ${cartShopping.complementoSelected[i].complementos.descricao}'),
+          SizeScreen.isMobile
+              ? Text(
+                  '+ ${FormatString.limitarTexto(cartShopping.complementoSelected[i].complementos.descricao, 15)}')
+              : Text(
+                  '+ ${cartShopping.complementoSelected[i].complementos.descricao}'),
           Text(
               ' ${cartShopping.complementoSelected[i].quantity} - R\$ ${FormatNumbers.formatNumbertoString(cartShopping.complementoSelected[i].complementos.valor)}'),
         ],

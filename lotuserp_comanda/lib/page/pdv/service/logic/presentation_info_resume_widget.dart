@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lotuserp_comanda/core/size_screen.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
+import 'package:lotuserp_comanda/utils/format_string.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_get.dart';
-import 'package:lotuserp_comanda/utils/methods/pdv/get/podv_bool.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_bool.dart';
 
 class PresentationInfoResumeWidget {
   final _pdvController = Dependencies.pdvController();
@@ -21,11 +23,14 @@ class PresentationInfoResumeWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '${_pdvGet.getIdProductCartShopping(index)} - ${_pdvGet.getDescriptionProductCartShopping(index)}',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+          SizeScreen.isMobile
+              ? Text(
+                  '${_pdvGet.getIdProductCartShopping(index)} - ${FormatString.limitarTexto(_pdvGet.getDescriptionProductCartShopping(index), 20)}')
+              : Text(
+                  '${_pdvGet.getIdProductCartShopping(index)} - ${_pdvGet.getDescriptionProductCartShopping(index)}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
           Text(
             'R\$ ${FormatNumbers.formatNumbertoString(_pdvGet.getSellPriceProductCartShopping(index))}',
           ),
@@ -56,7 +61,11 @@ class PresentationInfoResumeWidget {
       complements.add(Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('+ ${_pdvGet.getDescriptionComplementCartShopping(index, i)}'),
+          SizeScreen.isMobile
+              ? Text(
+                  '+ ${FormatString.limitarTexto(_pdvGet.getDescriptionComplementCartShopping(index, i), 15)}')
+              : Text(
+                  '+ ${_pdvGet.getDescriptionComplementCartShopping(index, i)}'),
           Text(
               ' ${_pdvGet.getQuantityComplementCartShopping(index, i)} - R\$ ${FormatNumbers.formatNumbertoString(_pdvGet.getPriceComplementCartShopping(index, i))}'),
         ],

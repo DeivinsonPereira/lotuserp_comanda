@@ -42,7 +42,11 @@ class CustomElevatedButton extends StatelessWidget {
 
   // Retorna o widget com o texto e o icone
   Widget _buildTextAndIcon() {
-    if (icon != null && isIconDown == true && isIconLeft == false) {
+    if (icon == null) {
+      return Text(text, style: style, textAlign: TextAlign.center);
+    }
+
+    if (_isIconDown()) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -52,17 +56,18 @@ class CustomElevatedButton extends StatelessWidget {
       );
     }
 
-    if (icon != null && isIconDown == false && isIconLeft == false) {
+    if (_isIconRight()) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(text, style: style, textAlign: TextAlign.center),
+          const SizedBox(width: 10),
           Icon(icon, color: Colors.white, size: 30),
         ],
       );
     }
 
-    if (icon != null && isIconLeft == true) {
+    if (_isIconLeft()) {
       return Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -74,5 +79,17 @@ class CustomElevatedButton extends StatelessWidget {
     }
 
     return Text(text, style: style, textAlign: TextAlign.center);
+  }
+
+  bool _isIconRight() {
+    return isIconDown == false && isIconLeft == false;
+  }
+
+  bool _isIconLeft() {
+    return isIconLeft == true;
+  }
+
+  bool _isIconDown() {
+    return isIconDown == true;
   }
 }

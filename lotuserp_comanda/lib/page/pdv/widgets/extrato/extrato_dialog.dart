@@ -25,7 +25,7 @@ class ExtratoDialog extends StatelessWidget {
 
     Widget _buildItensQuantity() {
       return Text(
-        'Quantidade de itens: $extratoLength',
+        'Qtde itens: $extratoLength',
         style: CustomTextStyle.blackBoldText(20),
       );
     }
@@ -66,7 +66,10 @@ class ExtratoDialog extends StatelessWidget {
                 height: 60,
                 child: CustomElevatedButton(
                     text: 'Voltar',
-                    function: () => Get.back(),
+                    function: () {
+                      Get.back();
+                      FocusScope.of(context).unfocus();
+                    },
                     colorButton: CustomColors.informationBox,
                     style: CustomTextStyle.whiteBoldText(20))),
           ),
@@ -89,12 +92,13 @@ class ExtratoDialog extends StatelessWidget {
 
     return Dialog(
       backgroundColor: Colors.white,
+      insetPadding: const EdgeInsets.all(0.0),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(0.0)),
       ),
       child: SizedBox(
         height: Get.size.height * 0.7,
-        width: Get.size.width * 0.4,
+        width: Get.size.width * 0.9,
         child: _buildBody(),
       ),
     );

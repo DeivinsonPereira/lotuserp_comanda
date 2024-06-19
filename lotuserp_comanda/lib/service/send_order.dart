@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
+import 'package:lotuserp_comanda/core/size_screen.dart';
 import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
 import 'package:lotuserp_comanda/model/order.dart';
 import 'package:lotuserp_comanda/model/order_item.dart';
@@ -17,12 +18,14 @@ import 'package:http/http.dart' as http;
 import 'package:lotuserp_comanda/utils/quantity_back.dart';
 
 import '../page/order/service/logic/logic_update_tables.dart';
+import '../utils/methods/navigation/navigation_features.dart';
 
 class SendOrder {
   final _pdvGet = PdvGet.instance;
   final _pdvRemove = PdvRemove.instance;
   final _pdvController = Dependencies.pdvController();
   final _configController = Dependencies.configController();
+  final _navigationFeatures = NavigationFeatures.instance;
 
   final _logger = Logger();
 
@@ -106,8 +109,16 @@ class SendOrder {
       const CustomCherrySuccess(message: 'Pedido enviado com sucesso')
           .show(context);
 
+      if (SizeScreen.isMobile) {
+        await LogicUpdateTables().updateTables(context: context);
+        _navigationFeatures.resetPage();
+        Get.back();
+        return;
+      }
       QuantityBack.back(2);
-      await LogicUpdateTables().updateTables(context: context);
+      Future<void>.delayed(const Duration(milliseconds: 100), () async {
+        await LogicUpdateTables().updateTables(context: context);
+      });
     }
   }
 

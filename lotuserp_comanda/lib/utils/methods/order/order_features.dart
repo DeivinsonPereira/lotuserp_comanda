@@ -21,7 +21,8 @@ class OrderFeatures {
   bool setTableSelectedById(String idComanda) {
     mesa_listada? table = _orderController.listTables
         .where((element) =>
-            element.id_comanda.toString() == idComanda.replaceFirst(RegExp(r'^0+'), ''))
+            element.id_comanda.toString() ==
+            idComanda.replaceFirst(RegExp(r'^0+'), ''))
         .firstOrNull;
 
     if (table == null) return false;
@@ -102,7 +103,7 @@ class OrderFeatures {
   }
 
   void clearCommandNumberController() {
-    _orderController.commandNumberController.clear();
+    _orderController.commandNumberController.text = '';
     _orderController.update();
   }
 }

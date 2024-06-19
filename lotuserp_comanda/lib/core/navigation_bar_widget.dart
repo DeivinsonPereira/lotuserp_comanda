@@ -53,6 +53,7 @@ class NavigationBarWidget extends StatelessWidget {
         builder: (_) {
           return Scaffold(
             body: PageView(
+              physics: const NeverScrollableScrollPhysics(),
               controller: _.pc.value,
               children: const [
                 ChooseTable(),

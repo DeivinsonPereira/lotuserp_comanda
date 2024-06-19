@@ -14,4 +14,5 @@ class PdvCommonMethods {
     _pdvController.update();
     _pdvController.orderTicketsList.refresh();
   }
+
 }

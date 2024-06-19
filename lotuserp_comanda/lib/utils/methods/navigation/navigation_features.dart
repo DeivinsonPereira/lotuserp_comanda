@@ -6,7 +6,7 @@ import 'package:lotuserp_comanda/utils/dependencies.dart';
 import '../../../core/enum/pages_index.dart';
 
 class NavigationFeatures {
-  final _navigationFeatures = Dependencies.navigationController();
+  final _navigationController = Dependencies.navigationController();
 
   NavigationFeatures._privateConstructor();
 
@@ -17,20 +17,23 @@ class NavigationFeatures {
 
   Future<void> changePage(int page) async {
     if (page == PagesIndex.ORDER.index) {
-      _navigationFeatures.pc.value.animateToPage(page,
+      _navigationController.pc.value.animateToPage(page,
           duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
-      _navigationFeatures.update();
+      _navigationController.update();
       await LogicUpdateTables().updateTables(context: Get.context);
     }
-    _navigationFeatures.pc.value.animateToPage(page,
+    _navigationController.pc.value.animateToPage(page,
         duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
-    _navigationFeatures.update();
+    _navigationController.update();
   }
 
   void setPaginaAtual(int page) {
-    _navigationFeatures.paginaAtual.value = page;
-    _navigationFeatures.update();
+    _navigationController.paginaAtual.value = page;
+    _navigationController.update();
   }
 
-  
+  void resetPage() {
+    setPaginaAtual(0);
+    changePage(0);
+  }
 }

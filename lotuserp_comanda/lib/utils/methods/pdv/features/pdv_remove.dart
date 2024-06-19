@@ -1,14 +1,17 @@
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/core/size_screen.dart';
 import 'package:lotuserp_comanda/model/collection/complemento.dart';
 import 'package:lotuserp_comanda/model/complement_cart_shopping.dart';
 import 'package:lotuserp_comanda/model/item_cart_shopping.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_update_tables.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
+import 'package:lotuserp_comanda/utils/methods/navigation/navigation_features.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_common_methods.dart';
 
 class PdvRemove {
   final _pdvController = Dependencies.pdvController();
   final _pdvCommonMethods = PdvCommonMethods.instance;
+  final _navigationFeatures = NavigationFeatures.instance;
 
   PdvRemove._privateConstructor();
 
@@ -96,6 +99,11 @@ class PdvRemove {
     removeOrderToOrderTicketsList(indexOrderTicket);
 
     if (_pdvController.orderTicketsList.isEmpty) {
+      if (SizeScreen.isMobile) {
+        _navigationFeatures.resetPage();
+        return;
+      }
+
       Get.back();
       LogicUpdateTables().updateTables(context: Get.context);
     }

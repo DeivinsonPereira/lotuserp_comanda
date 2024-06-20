@@ -3,6 +3,11 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 class DeleteImagesDb {
+  DeleteImagesDb._privateConstructor();
+
+  static final DeleteImagesDb instance =
+      DeleteImagesDb._privateConstructor();
+
   static Future<void> deleteAllFiles(String folderPath) async {
     final directory = Directory(folderPath);
     if (await directory.exists()) {

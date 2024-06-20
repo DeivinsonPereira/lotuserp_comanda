@@ -12,6 +12,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool? isNumeric;
   final List<TextInputFormatter>? inputFormatter;
+  Function(String)? functionSubmitted;
   bool? isSecret;
 
   CustomTextField(
@@ -22,7 +23,8 @@ class CustomTextField extends StatelessWidget {
       required this.controller,
       this.isNumeric = false,
       this.inputFormatter,
-      this.isSecret = false});
+      this.isSecret = false,
+      this.functionSubmitted});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       inputFormatters: [...?inputFormatter, UpperCaseTxt()],
       obscureText: isSecret == true ? _configController.isObscure.value : false,
+      onSubmitted: functionSubmitted,
       keyboardType:
           isNumeric == true ? TextInputType.number : TextInputType.text,
       controller: controller,

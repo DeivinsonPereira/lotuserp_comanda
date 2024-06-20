@@ -1,6 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/page/common/custom_elevated_button.dart';
@@ -11,6 +12,9 @@ import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/format_txt.dart';
 import '../../utils/dependencies.dart';
+import '../../utils/methods/pdv/features/pdv_remove.dart';
+import '../../utils/quantity_back.dart';
+import '../logout/logout_page.dart';
 
 class EmpresaValidaDialog extends StatelessWidget {
   const EmpresaValidaDialog({super.key});
@@ -18,6 +22,7 @@ class EmpresaValidaDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _configController = Dependencies.configController();
+    final _pdvRemove = PdvRemove.instance;
     double sizeTextButton = 20;
     double heightButton = 80;
 
@@ -64,7 +69,16 @@ class EmpresaValidaDialog extends StatelessWidget {
             colorButton: CustomColors.informationBox,
             text: 'Sair',
             style: CustomTextStyle.whiteBoldText(sizeTextButton),
-            function: () {}),
+            function: () {
+              Get.dialog(
+                  barrierDismissible: false,
+                  LogoutPage(
+                    text: 'Deseja sair do aplicativo?',
+                    function: () {
+                      SystemNavigator.pop();
+                    },
+                  ));
+            }),
       );
     }
 

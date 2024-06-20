@@ -107,6 +107,9 @@ class OrderMonitor extends StatelessWidget {
         child: SizedBox(
           width: Get.size.width * 0.2,
           child: CustomTextField(
+            functionSubmitted: (value) {
+              _orderFeatures.searchTableById();
+            },
             isNumeric: true,
             inputFormatter: [FilteringTextInputFormatter.digitsOnly],
             prefixIcon: Icons.search,

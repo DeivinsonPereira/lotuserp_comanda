@@ -12,6 +12,7 @@ import 'package:lotuserp_comanda/model/collection/usuario.dart';
 import 'package:lotuserp_comanda/page/common/custom_cherry.dart';
 import 'package:lotuserp_comanda/page/common/loading_screen.dart';
 import 'package:lotuserp_comanda/shared/components/endpoints.dart';
+import 'package:lotuserp_comanda/shared/repositories/http/download/delete_images_db.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_multiple.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/generic_repository_single.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
@@ -25,6 +26,8 @@ class LoadDataFeatures {
   final _configFeatures = ConfigFeatures.instance;
   final _genericRepositoryMultiple = GenericRepositoryMultiple.instance;
   final _genericRepositorySingle = GenericRepositorySingle.instance;
+  final _loadController = Dependencies.loadDataController();
+  final _pdvController = Dependencies.pdvController();
   bool success = true;
 
   LoadDataFeatures._privateConstructor();
@@ -51,9 +54,7 @@ class LoadDataFeatures {
   // Carrega os dados
   Future<void> loadData(BuildContext context) async {
     Get.dialog(const LoadingScreen());
-    success = true;
     try {
-      if (!success) return;
       if (listLoadData[0].isMarked == true) {
         try {
           await _loadFirstCheckbox(context);
@@ -63,7 +64,6 @@ class LoadDataFeatures {
         }
       }
       if (listLoadData[1].isMarked == true) {
-        if (!success) return;
         try {
           await _loadSecondCheckbox(context);
         } catch (e) {
@@ -73,7 +73,6 @@ class LoadDataFeatures {
       }
 
       if (listLoadData[2].isMarked == true) {
-        if (!success) return;
         try {
           await _loadThirdCheckbox(context);
         } catch (e) {
@@ -83,7 +82,6 @@ class LoadDataFeatures {
       }
 
       if (listLoadData[3].isMarked == true) {
-        if (!success) return;
         try {
           await _loadFourthCheckbox(context);
         } catch (e) {
@@ -92,7 +90,6 @@ class LoadDataFeatures {
         }
       }
       if (listLoadData[4].isMarked == true) {
-        if (!success) return;
         try {
           await _loadFifthCheckbox(context);
         } catch (e) {
@@ -101,15 +98,40 @@ class LoadDataFeatures {
         }
       }
 
-      if (success) {
+      if (listLoadData[5].isMarked == true) {
+        try {
+          for (var element in _pdvController.imagePathGroup) {
+            await DeleteImagesDb.deleteFile(element.path_image ?? '');
+          }
+          for (var element in _pdvController.imagePathProduct) {
+            await DeleteImagesDb.deleteFile(element.path_image ?? '');
+          }
+
+          clearAllCheckbox();
+
+          const CustomCherrySuccess(
+            message: 'Imagens apagadas com sucesso!',
+          ).show(context);
+          return;
+        } catch (e) {
+          return;
+        }
+      }
+
+      if (_loadController.isDownloadSuccess) {
         const CustomCherrySuccess(message: 'Dados carregados com sucesso!')
             .show(context);
+      }
+
+      if (!_loadController.isDownloadSuccess) {
+        _handleError(context, '');
       }
     } catch (e) {
       _handleError(context, '');
     } finally {
       Get.back();
       clearAllCheckbox();
+      _loadController.isDownloadSuccess = true;
     }
   }
 
@@ -121,8 +143,7 @@ class LoadDataFeatures {
         Endpoints().searchClientId(),
         (element) => _handleSuccessSingle(
             _configFeatures.updateEmpresa, element, isar.empresas),
-        (element) =>
-            _handleError(context, 'Erro ao buscar os dados da empresa!'),
+        (element) => _loadController.isDownloadSuccess = false,
         (element) => empresa.fromMap(element));
     empresa? empresaSelected =
         await _genericRepositorySingle.get(isar.empresas);
@@ -143,19 +164,19 @@ class LoadDataFeatures {
         Endpoints().searchProducts(),
         (element) => _handleSuccessMultiple<produto>(
             _pdvFeatures.updateProdutos, element, isar.produtos),
-        (element) => _handleError(context, 'Erro ao buscar os produtos!'),
+        (element) => _loadController.isDownloadSuccess = false,
         (element) => produto.fromMap(element));
     await _genericRepositoryMultiple.search<produto_grupo>(
         Endpoints().searchGrupos(),
         (element) => _handleSuccessMultiple<produto_grupo>(
             _pdvFeatures.updateGrupos, element, isar.produto_grupos),
-        (element) => _handleError(context, 'Erro ao buscar os grupos'),
+        (element) => _loadController.isDownloadSuccess = false,
         (element) => produto_grupo.fromMap(element));
     await _genericRepositoryMultiple.search<complemento>(
       Endpoints().searchComplementos(),
       (value) => _handleSuccessMultiple<complemento>(
           _pdvFeatures.setComplements, value, isar.complementos),
-      (value) => _handleError(context, 'Erro ao buscar os complementos!'),
+      (value) => _loadController.isDownloadSuccess = false,
       (value) => complemento.fromMap(value),
     );
 
@@ -170,7 +191,7 @@ class LoadDataFeatures {
         Endpoints().searchUsuario(),
         (element) => _handleSuccessMultiple<usuario>(
             _configFeatures.updateUser, element, isar.usuarios),
-        (element) => _handleError(context, 'Erro ao buscar os usuarios!'),
+        (element) => _loadController.isDownloadSuccess = false,
         (element) => usuario.fromMap(element));
   }
 
@@ -218,7 +239,6 @@ class LoadDataFeatures {
   void _handleError(BuildContext context, String message) {
     CustomCherryError(message: 'Erro ao carregar os dados $message!')
         .show(context);
-    success = false;
     return;
   }
 }

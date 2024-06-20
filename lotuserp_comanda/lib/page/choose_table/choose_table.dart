@@ -53,6 +53,10 @@ class ChooseTable extends StatelessWidget {
           child: SizedBox(
             width: Get.size.width * 0.8,
             child: CustomTextField(
+              functionSubmitted: (value) {
+                FocusScope.of(context).unfocus();
+                LogicNavigationToPdv.instance.goToPdv();
+              },
               isNumeric: true,
               inputFormatter: [FilteringTextInputFormatter.digitsOnly],
               prefixIcon: Icons.search,

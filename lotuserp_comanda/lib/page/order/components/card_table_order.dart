@@ -9,6 +9,7 @@ import 'package:lotuserp_comanda/model/collection/mesa_listada.dart';
 import 'package:lotuserp_comanda/page/order/enum/status_comandas.dart';
 import 'package:lotuserp_comanda/page/order/service/interface/i_navigation_pdv.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_colors.dart';
+import 'package:lotuserp_comanda/page/order/service/logic/logic_get_user_name.dart';
 import 'package:lotuserp_comanda/page/pdv/widgets/extrato/logic/open_dialog_extrato.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
@@ -33,6 +34,7 @@ class CardTableOrder extends StatelessWidget {
     final _orderFeatures = OrderFeatures.instance;
     final _pdvFeatures = PdvUpdate.instance;
     final _pdvController = Dependencies.pdvController();
+    final _logicGetUserName = LogicGetUserName.instance;
 
     // Constrói o título
     Widget _buildTitle() {
@@ -70,6 +72,10 @@ class CardTableOrder extends StatelessWidget {
           ),
         ),
       );
+    }
+
+    Widget _buildUserName(mesa_listada data) {
+      return _logicGetUserName.build(data);
     }
 
     Widget _buildDivider(mesa_listada data) {
@@ -114,6 +120,7 @@ class CardTableOrder extends StatelessWidget {
                 _buildTitle(),
                 Expanded(child: _buildNumber(data)),
                 _buildValue(data),
+                _buildUserName(data),
                 _buildDivider(data),
               ],
             ),
@@ -130,6 +137,7 @@ class CardTableOrder extends StatelessWidget {
             itemCount: _orderController.filteredListTables.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: count,
+                childAspectRatio: 0.8,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10),
             itemBuilder: (context, index) {

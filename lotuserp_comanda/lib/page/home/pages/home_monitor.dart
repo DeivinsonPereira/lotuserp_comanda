@@ -107,7 +107,7 @@ class HomeMonitor extends StatelessWidget {
     }
 
     Widget _buildVersionDate() {
-      return const Text('Version: 2.0.21\nBuilder: 1056\nDate: 11/06/2024');
+      return const Text('Version: 2.0.21\nBuilder: 1056\nDate: 19/06/2024');
     }
 
     Widget _buildConfigButton() {

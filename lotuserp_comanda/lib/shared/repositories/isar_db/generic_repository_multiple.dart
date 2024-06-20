@@ -5,10 +5,9 @@ import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:lotuserp_comanda/model/collection/produto_grupo.dart';
 import 'package:lotuserp_comanda/shared/components/header.dart';
-import 'package:lotuserp_comanda/shared/repositories/isar_db/interface/i_transactions_multiple_isar_db.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
 
-class GenericRepositoryMultiple implements ITransactionsMultipleIsarDb {
+class GenericRepositoryMultiple {
   final _isarService = IsarService.instance;
   final _logger = Logger();
 
@@ -19,7 +18,6 @@ class GenericRepositoryMultiple implements ITransactionsMultipleIsarDb {
 
   static GenericRepositoryMultiple get instance => _instance;
 
-  @override
   Future<List<R>> getAll<R>(IsarCollection<R> collection) async {
     try {
       List<R> data = await collection.where().findAll();
@@ -30,7 +28,6 @@ class GenericRepositoryMultiple implements ITransactionsMultipleIsarDb {
     }
   }
 
-  @override
   Future<void> insert<T>(List<T> item, IsarCollection<T> collection,
       {bool notDelete = false}) async {
     final isar = await _isarService.db;
@@ -61,7 +58,6 @@ class GenericRepositoryMultiple implements ITransactionsMultipleIsarDb {
     }
   }
 
-  @override
   Future<void> search<R>(
       String endpoint,
       Function(List<R>) handleSuccess,

@@ -12,7 +12,7 @@ class CustomSendOrderButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _pdvGet = PdvGet.instance;
-    final double height = Get.size.height;
+    final double height = Get.size.height * 0.1;
 
     Widget _buildTextButton() {
       return Container(
@@ -57,7 +57,7 @@ class CustomSendOrderButton extends StatelessWidget {
     return InkWell(
       onTap: () async => LogicSendOrder().send(context),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.only(top: 8.0),
         child: Row(children: [
           Expanded(
             child: _buildTextButton(),

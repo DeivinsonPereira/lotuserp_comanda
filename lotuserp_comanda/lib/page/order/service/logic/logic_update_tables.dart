@@ -32,10 +32,10 @@ class LogicUpdateTables implements IUpdateTables {
       (value) => mesa_listada.fromMap(value),
     );
 
-    List<mesa_listada> tables =
-        await _genericRepositoryMultiple.getAll(isar.mesa_listadas);
+    Future.delayed(const Duration(seconds: 1), () async {
+      List<mesa_listada> tables =
+          await _genericRepositoryMultiple.getAll(isar.mesa_listadas);
 
-    Future.delayed(const Duration(seconds: 1), () {
       _orderFeatures.setListTables(tables);
       _pdvController.update();
       Get.back();

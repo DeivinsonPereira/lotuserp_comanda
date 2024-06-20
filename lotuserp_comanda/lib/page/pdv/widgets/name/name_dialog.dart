@@ -19,6 +19,10 @@ class NameDialog extends StatelessWidget {
     final _orderController = Dependencies.orderController();
     final _orderFeatures = OrderFeatures.instance;
 
+    Widget _buildHeader() {
+      return CustomHeaderPopup(text: 'Identificador');
+    }
+
     Widget _buildButtonBack() {
       return SizedBox(
         height: 60,
@@ -74,7 +78,7 @@ class NameDialog extends StatelessWidget {
           keyboardType: TextInputType.text,
           inputFormatters: [UpperCaseTxt()],
           decoration: const InputDecoration(
-            labelText: 'NOME',
+            labelText: 'Identificador',
             prefixIcon: Icon(Icons.person),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(
@@ -108,7 +112,7 @@ class NameDialog extends StatelessWidget {
         height: 300,
         child: Column(
           children: [
-            CustomHeaderPopup(text: 'CPF/CNPJ'),
+            _buildHeader(),
             _buildContent(),
             _buildLineButtons(),
           ],

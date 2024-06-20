@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/core/size_screen.dart';
 import 'package:lotuserp_comanda/model/mesa_extrato.dart';
 import 'package:lotuserp_comanda/page/common/custom_elevated_button.dart';
 import 'package:lotuserp_comanda/page/common/custom_header_popup.dart';
@@ -98,7 +99,8 @@ class ExtratoDialog extends StatelessWidget {
       ),
       child: SizedBox(
         height: Get.size.height * 0.7,
-        width: Get.size.width * 0.9,
+        width:
+            SizeScreen.isMobile ? Get.size.width * 0.9 : Get.size.width * 0.5,
         child: _buildBody(),
       ),
     );

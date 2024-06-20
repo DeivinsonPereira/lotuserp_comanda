@@ -6,7 +6,7 @@ class ListFilterTables {
 
   static List<dynamic> listTables = [
     {
-      'mesas': 'Todos(as)',
+      'mesas': 'Todas',
       'logica': () => LogicGetTablesByButton(_orderController).getTables(0, -1),
       'index': 0
     },

@@ -68,8 +68,8 @@ class InformationButtonsWidget extends StatelessWidget {
 
     // Constrói o botão CPF/CNPJ
     Widget _buildButtonCpfCnpj() {
-      return ButtonsPdv().iconsOptions(FontAwesomeIcons.addressCard, 'Nome/CPF',
-          () => LogicOpenNameDialog().open());
+      return ButtonsPdv().iconsOptions(FontAwesomeIcons.addressCard,
+          'Identificador', () => LogicOpenNameDialog().open());
     }
 
     // Constrói o botão Cancelar

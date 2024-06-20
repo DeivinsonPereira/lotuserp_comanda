@@ -174,18 +174,18 @@ class LoadDataFeatures {
         (element) => usuario.fromMap(element));
   }
 
-  // Faz a carga dos dados do checkbox 5
   Future<void> _loadFourthCheckbox(BuildContext context) async {
-    await _pdvFeatures.downloadImageProdutos();
-    Future.delayed(const Duration(seconds: 2), () async {
-      await _pdvFeatures.updateImagePathProduto();
-    });
-  }
-
-  Future<void> _loadFifthCheckbox(BuildContext context) async {
     await _pdvFeatures.downloadImageGrupos();
     Future.delayed(const Duration(seconds: 2), () async {
       await _pdvFeatures.updateImagePathGroup();
+    });
+  }
+
+  // Faz a carga dos dados do checkbox 5
+  Future<void> _loadFifthCheckbox(BuildContext context) async {
+    await _pdvFeatures.downloadImageProdutos();
+    Future.delayed(const Duration(seconds: 2), () async {
+      await _pdvFeatures.updateImagePathProduto();
     });
   }
 

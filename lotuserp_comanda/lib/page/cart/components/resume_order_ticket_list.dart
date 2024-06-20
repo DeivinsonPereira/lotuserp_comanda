@@ -55,24 +55,26 @@ class ResumeOrderTicketList extends StatelessWidget {
             'Resumo',
             style: CustomTextStyle.blackBoldText(30),
           ),
-          Material(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            elevation: 5.0,
-            child: Container(
-              width: Get.size.width * 0.9,
-              height: Get.size.height * 0.8,
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Expanded(child: _buildResumeOrderList()),
-                ],
+          Expanded(
+            child: Material(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              elevation: 5.0,
+              child: Container(
+                width: Get.size.width * 0.9,
+                height: Get.size.height * 0.8,
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Expanded(child: _buildResumeOrderList()),
+                  ],
+                ),
               ),
             ),
           ),
-          const Expanded(child: CustomSendOrderButton())
+          const CustomSendOrderButton()
         ],
       ),
     );

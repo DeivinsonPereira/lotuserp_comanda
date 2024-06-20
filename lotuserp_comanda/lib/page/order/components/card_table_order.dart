@@ -9,6 +9,7 @@ import 'package:lotuserp_comanda/model/collection/mesa_listada.dart';
 import 'package:lotuserp_comanda/page/order/enum/status_comandas.dart';
 import 'package:lotuserp_comanda/page/order/service/interface/i_navigation_pdv.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_colors.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/extrato/logic/open_dialog_extrato.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/format_numbers.dart';
@@ -91,6 +92,10 @@ class CardTableOrder extends StatelessWidget {
           _pdvFeatures.updateFilteredProdutos(0, _pdvController.allGroups[0]);
           INavigationPdv navigationPdv = NavigationPdv();
           await navigationPdv.navigation(context: context);
+        },
+        onLongPress: () async {
+          _orderFeatures.setTableSelected(data);
+          OpenDialogExtrato().open();
         },
         child: Material(
           elevation: 7,

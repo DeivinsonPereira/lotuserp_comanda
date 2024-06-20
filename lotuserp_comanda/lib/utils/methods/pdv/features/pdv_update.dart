@@ -133,6 +133,7 @@ class PdvUpdate {
 
   Future<void> downloadImageProdutos() async {
     final isar = await _isarService.db;
+
     await DownloadImages().downloadGeneric(Endpoints().searchImageProducts,
         _pdvController.allProducts, '/assets/produtos/');
 

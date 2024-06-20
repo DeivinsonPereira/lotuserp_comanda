@@ -18,6 +18,7 @@ class PdvGet {
   final _genericRepositoryMultiple = GenericRepositoryMultiple.instance;
   final _pdvController = Dependencies.pdvController();
   final _pdvBool = PdvBool.instance;
+  final _orderController = Dependencies.orderController();
   final _isarService = IsarService.instance;
 
   PdvGet._privateConstructor();
@@ -296,5 +297,13 @@ class PdvGet {
     final orderTicket = _pdvController.orderTicketsList[indexOrderTickets];
 
     return orderTicket.listItemsCartShopping[index].quantidade;
+  }
+
+  ComandaSelecionada? getComandaSelecionada() {
+    return _pdvController.orderTicketsList
+        .where((element) =>
+            element.comandaSelecionada.id_comanda ==
+            _orderController.tableSelected.value.id_comanda)
+        .firstOrNull;
   }
 }

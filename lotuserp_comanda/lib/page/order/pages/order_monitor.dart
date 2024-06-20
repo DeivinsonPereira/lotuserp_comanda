@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lotuserp_comanda/page/common/custom_cart_icon.dart';
 import 'package:lotuserp_comanda/page/common/custom_elevated_button.dart';
@@ -10,6 +11,7 @@ import 'package:lotuserp_comanda/page/logout/logout_page.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_get_tables_by_button.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_navigation_to_cart_shopping.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_update_tables.dart';
+import 'package:lotuserp_comanda/service/code_sacanner_service.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
@@ -18,6 +20,7 @@ import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_remove.dart';
 import 'package:lotuserp_comanda/utils/quantity_back.dart';
 import '../components/card_table_order.dart';
 import '../service/logic/logic_colors.dart';
+import '../service/logic/logic_get_title_order_table.dart';
 
 class OrderMonitor extends StatelessWidget {
   const OrderMonitor({super.key});
@@ -27,6 +30,10 @@ class OrderMonitor extends StatelessWidget {
     final _orderController = Dependencies.orderController();
     final _orderFeatures = OrderFeatures.instance;
     final _pdvRemove = PdvRemove.instance;
+
+    Widget _buildSpace(double size) {
+      return SizedBox(width: Get.size.width * size);
+    }
 
     // Constrói o título
     Widget _buildTitle() {
@@ -52,13 +59,44 @@ class OrderMonitor extends StatelessWidget {
                     Icons.arrow_back_ios,
                     color: Colors.black,
                   )),
-              Text(
-                'Todas as Mesas',
-                style: CustomTextStyle.blackBoldText(30),
-              ),
+              LogicTitleOrderTable().build(),
             ],
           ),
         ),
+      );
+    }
+
+    Widget _buildButtons(IconData icon, Function() function) {
+      return InkWell(
+        onTap: function,
+        child: Container(
+            height: 58,
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: CustomColors.secondaryColor,
+            ),
+            child: Center(
+              child: Icon(
+                icon,
+                color: Colors.white,
+              ),
+            )),
+      );
+    }
+
+    Widget _buildReadQrCodeButton() {
+      return _buildButtons(
+        FontAwesomeIcons.qrcode,
+        () async =>
+            await CodeScannerService.instance.readBarCode(isQrCode: true),
+      );
+    }
+
+    Widget _buildReadBarCodeButton() {
+      return _buildButtons(
+        FontAwesomeIcons.barcode,
+        () async => await CodeScannerService.instance.readBarCode(),
       );
     }
 
@@ -92,6 +130,7 @@ class OrderMonitor extends StatelessWidget {
             colorButton: CustomColors.secondaryColor,
             text: 'Pesquisar',
             style: CustomTextStyle.whiteBoldText(18),
+            rounded: 10,
           ),
         ),
       );
@@ -111,6 +150,10 @@ class OrderMonitor extends StatelessWidget {
                 children: [
                   _buildSearchField(),
                   _buildButtonSearch(),
+                  _buildSpace(0.015),
+                  _buildReadBarCodeButton(),
+                  _buildSpace(0.015),
+                  _buildReadQrCodeButton(),
                 ],
               ),
             ),
@@ -175,7 +218,7 @@ class OrderMonitor extends StatelessWidget {
                 _buildUpdateButton(),
                 SizedBox(width: Get.size.width * 0.02),
                 _buildButtonBody(
-                    'Todas as Mesas',
+                    'Todas',
                     () => LogicGetTablesByButton(_orderController)
                         .getTables(0, -1),
                     0),
@@ -201,7 +244,9 @@ class OrderMonitor extends StatelessWidget {
                     4),
               ]),
             ),
-            CustomCartIcon(function: () => LogicNavigationToCartShopping.instance.navigation()),
+            CustomCartIcon(
+                function: () =>
+                    LogicNavigationToCartShopping.instance.navigation()),
             SizedBox(width: Get.size.width * 0.02),
           ],
         ),

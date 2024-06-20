@@ -43,23 +43,7 @@ class GenericSaveImage {
 
         if (await directory.exists()) {
           filesPath = directory.listSync();
-          List<String> priorityOrder = [
-            'logo_padrao.png'.toUpperCase(),
-            'logo_transparente.png'.toUpperCase()
-          ];
 
-          filesPath.sort((a, b) {
-            String aFileName = a.path.split('/').last;
-            String bFileName = b.path.split('/').last;
-
-            int aIndex = priorityOrder.indexOf(aFileName);
-            int bIndex = priorityOrder.indexOf(bFileName);
-
-            if (aIndex == -1) aIndex = priorityOrder.length;
-            if (bIndex == -1) bIndex = priorityOrder.length;
-
-            return aIndex.compareTo(bIndex);
-          });
           for (var i = 0; i < filesPath.length; i++) {
             files.add(filesPath[i].path.split('/').last);
           }
@@ -67,20 +51,20 @@ class GenericSaveImage {
 
         List<R> images = [];
 
-        List<T> gruposSelected = listItens
+        List<T> itemsSelected = listItens
             .where((element) => files.contains(getFileImagem(element)))
             .toList();
 
         List<String> saveFile = [];
 
-        for (var i = 0; i < gruposSelected.length; i++) {
-          saveFile.add(getFileImagem(gruposSelected[i]));
+        for (var i = 0; i < itemsSelected.length; i++) {
+          saveFile.add(getFileImagem(itemsSelected[i]));
         }
 
         for (var i = 0; i < saveFile.length; i++) {
           R image = factoryFunction(
-            getFileImagem(gruposSelected[i]),
-            getNome(gruposSelected[i]),
+            getFileImagem(itemsSelected[i]),
+            getNome(itemsSelected[i]),
             filesPath[i].path,
           );
 

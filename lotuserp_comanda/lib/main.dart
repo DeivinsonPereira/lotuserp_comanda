@@ -44,13 +44,11 @@ Future<void> main() async {
     inspector: true,
   );
 
-  
-
   Dependencies.configController();
   final configFeatures = ConfigFeatures.instance;
   await configFeatures.loadConfigOnInit();
   await configFeatures.updateImagesLogo();
-
+  
   Future.delayed(const Duration(milliseconds: 100), () async {
     runApp(
       const AppWidget(),

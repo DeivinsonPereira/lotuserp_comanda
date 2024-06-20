@@ -5,12 +5,10 @@ import 'package:lotuserp_comanda/model/collection/produto_grupo.dart';
 import 'package:lotuserp_comanda/shared/components/header.dart';
 import 'package:lotuserp_comanda/shared/repositories/http/download/delete_images_db.dart';
 import 'package:path_provider/path_provider.dart';
-import 'interface/i_download_logo.dart';
 
-class DownloadImages implements IDownloadLogo {
+class DownloadImages {
   final _logger = Logger();
-  
-  @override
+
   Future<void> downloadGeneric<T extends FileImagemExtension>(
       String Function(String file) endpoint,
       List<T> files,

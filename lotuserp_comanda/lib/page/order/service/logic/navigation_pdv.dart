@@ -8,12 +8,14 @@ import 'package:lotuserp_comanda/page/order/service/interface/i_navigation_pdv.d
 import 'package:lotuserp_comanda/page/pdv/widgets/name/name_dialog.dart';
 import 'package:lotuserp_comanda/utils/methods/order/order_bool.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_update.dart';
+import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_bool.dart';
 
 import '../../../pdv/pages/pdv_mobile.dart';
 import '../../../pdv/pages/pdv_monitor.dart';
 
 class NavigationPdv implements INavigationPdv {
   final _pdvFeatures = PdvUpdate.instance;
+  final _pdvBool = PdvBool.instance;
   final _orderBool = OrderBool.instance;
 
   @override
@@ -23,7 +25,7 @@ class NavigationPdv implements INavigationPdv {
       return;
     }
 
-    if (SizeScreen.isMobile && _orderBool.isTableFree()) {
+    if (_doHasNoName()) {
       Get.dialog(barrierDismissible: false, const NameDialog());
       return;
     }
@@ -39,5 +41,11 @@ class NavigationPdv implements INavigationPdv {
   _navigation(Widget page) {
     _pdvFeatures.setGroupSelected(0);
     Get.to(() => page, transition: Transition.rightToLeft);
+  }
+
+  bool _doHasNoName() {
+    return SizeScreen.isMobile &&
+        _orderBool.isTableFree() &&
+        !_pdvBool.hasNameOnCommand();
   }
 }

@@ -116,9 +116,7 @@ class SendOrder {
         return;
       }
       QuantityBack.back(2);
-      Future<void>.delayed(const Duration(milliseconds: 100), () async {
-        await LogicUpdateTables().updateTables(context: context);
-      });
+      await LogicUpdateTables().updateTables(context: context);
     }
   }
 

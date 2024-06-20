@@ -3,11 +3,10 @@ import 'dart:convert';
 import 'package:isar/isar.dart';
 import 'package:logger/logger.dart';
 import 'package:lotuserp_comanda/shared/components/header.dart';
-import 'package:lotuserp_comanda/shared/repositories/isar_db/interface/i_transactions_single_isar_db.dart';
 import 'package:http/http.dart' as http;
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
 
-class GenericRepositorySingle implements ITransactionsSingleIsarDb {
+class GenericRepositorySingle {
   final _isarService = IsarService.instance;
   final _logger = Logger();
 
@@ -18,7 +17,6 @@ class GenericRepositorySingle implements ITransactionsSingleIsarDb {
 
   static GenericRepositorySingle get instance => _instance;
 
-  @override
   Future<void> insert<T>(T item, IsarCollection<T> collection,
       {bool notDelete = false}) async {
     final isar = await _isarService.db;
@@ -41,7 +39,6 @@ class GenericRepositorySingle implements ITransactionsSingleIsarDb {
     }
   }
 
-  @override
   Future<T?> get<T>(IsarCollection<T> collection) async {
     try {
       T? data = await collection.where().findFirst();
@@ -52,7 +49,6 @@ class GenericRepositorySingle implements ITransactionsSingleIsarDb {
     }
   }
 
-  @override
   Future<void> search<T>(
       String endpoint,
       Function(T) handleSuccess,

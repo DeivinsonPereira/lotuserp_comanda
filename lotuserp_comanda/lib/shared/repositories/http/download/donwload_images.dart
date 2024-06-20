@@ -27,11 +27,10 @@ class DownloadImages {
             .timeout(const Duration(seconds: 10));
 
         if (response.statusCode == 200) {
-          if (i == 0) {
-            await DeleteImagesDb.deleteExistingFiles('${dir.path}$folderPath');
-          }
-
           String pathName = '${dir.path}$folderPath${(files[i].file_imagem!)}';
+
+          // Verifica se o arquivo já existe e deleta
+          await DeleteImagesDb.deleteFile(pathName);
 
           await Directory('${dir.path}$folderPath').create(recursive: true);
           File file = File(pathName);

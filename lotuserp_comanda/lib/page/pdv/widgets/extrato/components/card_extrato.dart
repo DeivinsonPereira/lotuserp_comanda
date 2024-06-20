@@ -58,11 +58,14 @@ class CardExtrato extends StatelessWidget {
     }
 
     Widget _buildComplements() {
-      return Text(mesaSelected.item_complemento ?? '');
+      if (mesaSelected.item_complemento == null ||
+          mesaSelected.item_complemento == '') return const SizedBox.shrink();
+
+      return Text(mesaSelected.item_complemento!);
     }
 
     Widget _buildNameUser() {
-      return Text('Atendente: ${mesaSelected.usuario_nome}');
+      return Text(mesaSelected.usuario_nome ?? '');
     }
 
     return Card(

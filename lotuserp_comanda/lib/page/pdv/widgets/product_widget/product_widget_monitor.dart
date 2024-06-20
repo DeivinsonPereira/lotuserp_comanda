@@ -18,6 +18,7 @@ class ProductWidgetMonitor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _pdvGet = PdvGet.instance;
+    final _customImage = CustomImage.instance;
 
     // Constrói o nome do produto
     Widget _buildNameProduct(String nome) {
@@ -67,7 +68,7 @@ class ProductWidgetMonitor extends StatelessWidget {
     Widget _buildImageProduct(produto productSelected) {
       return Stack(
         children: [
-          CustomImage().getImageProduct(productSelected, width: 70, height: 70),
+          _customImage.getImageProduct(productSelected, width: 70, height: 70),
           Positioned(
               top: 0,
               right: 0,

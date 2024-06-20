@@ -18,6 +18,7 @@ class ConfigMonitor extends StatelessWidget {
     final _loadDataFeatures = LoadDataFeatures.instance;
     final double widthButton = Get.size.width * 0.3;
     final double heightButton = Get.size.height * 0.1;
+    final _customImage = CustomImage.instance;
 
     Widget _buildCheckbox(ChargeData data, int index) {
       return GestureDetector(
@@ -83,7 +84,7 @@ class ConfigMonitor extends StatelessWidget {
     }
 
     Widget _buildLogo() {
-      return CustomImage().getLogoPadrao(width: 150, height: 150);
+      return _customImage.getLogoPadrao(width: 150, height: 150);
     }
 
     Widget _buildChargeButton() {

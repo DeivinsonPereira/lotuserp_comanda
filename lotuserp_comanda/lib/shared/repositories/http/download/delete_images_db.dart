@@ -8,7 +8,7 @@ class DeleteImagesDb {
   final directory = Directory(folderPath);
   if (await directory.exists()) {
     final entities = directory.listSync();
-
+  
     for (final entity in entities) {
       if (entity is File) {
         await entity.delete();

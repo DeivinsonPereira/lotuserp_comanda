@@ -24,6 +24,7 @@ class HomeMonitor extends StatelessWidget {
     final double heightButtons = Get.size.height * 0.085;
     final _logicButtonsPassword = LogicButtonsPassword.instance;
     final _logicButtonsHomePage = LogicButtonsHomePage.instance;
+    final _customImage = CustomImage.instance;
 
     OpenEmpresaValida().openDialog(context);
 
@@ -35,7 +36,7 @@ class HomeMonitor extends StatelessWidget {
     }
 
     Widget _buildLogo() {
-      return CustomImage().getLogoPadrao(height: 150, width: widthButtons);
+      return _customImage.getLogoPadrao(height: 150, width: widthButtons);
     }
 
     Widget _buildLoginField() {

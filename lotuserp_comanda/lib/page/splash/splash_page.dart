@@ -10,6 +10,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _splashController = Dependencies.splashController();
+    final _customImage = CustomImage.instance;
 
     return Scaffold(
       body: Obx(() => DecoratedBox(
@@ -26,12 +27,11 @@ class SplashPage extends StatelessWidget {
                   duration: const Duration(seconds: 3),
                   curve: Curves.linearToEaseOut,
                   child: SizedBox(
-                      height: 500, child: CustomImage().getLogoBranca()),
+                      height: 500, child: _customImage.getLogoBranca()),
                 ),
               ),
             ),
           )),
     );
   }
-  
 }

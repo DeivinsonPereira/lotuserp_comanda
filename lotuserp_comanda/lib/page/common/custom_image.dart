@@ -12,6 +12,10 @@ class CustomImage {
   final _configController = Dependencies.configController();
   final _pdvController = Dependencies.pdvController();
 
+  CustomImage._privateConstructor();
+
+  static final CustomImage instance = CustomImage._privateConstructor();
+
   Widget getLogoPadrao({double? width, double? height}) {
     return _formatLogo(_configController.imagePathLogoPadrao.path_image,
         width: width, height: height);

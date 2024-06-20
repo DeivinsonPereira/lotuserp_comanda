@@ -26,6 +26,7 @@ class InformationButtonsWidget extends StatelessWidget {
     final _configController = Dependencies.configController();
     final _orderController = Dependencies.orderController();
     final _pdvRemove = PdvRemove.instance;
+    final _customImage = CustomImage.instance;
     Color _selectedColor = _configController.selectedColor.value.color;
 
     double _sizeText = 13;
@@ -39,7 +40,7 @@ class InformationButtonsWidget extends StatelessWidget {
             color: _selectedColor, borderRadius: BorderRadius.circular(10)),
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: CustomImage().getLogoBranca(),
+          child: _customImage.getLogoBranca(),
         ),
       );
     }

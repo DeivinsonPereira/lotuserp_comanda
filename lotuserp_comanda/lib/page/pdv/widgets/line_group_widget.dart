@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lotuserp_comanda/model/collection/produto_grupo.dart';
+import 'package:lotuserp_comanda/page/common/custom_image.dart';
 import '../../../utils/custom_colors.dart';
 import '../../../utils/dependencies.dart';
 import '../../../utils/methods/pdv/features/pdv_update.dart';
-import '../custom/get_images.dart';
 
 class LineGroup extends StatelessWidget {
   const LineGroup({super.key});
@@ -14,13 +15,13 @@ class LineGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     final _pdvController = Dependencies.pdvController();
     final _pdvFeatures = PdvUpdate.instance;
+    final _customImage = CustomImage.instance;
 
     // Contrói a imagem do grupo
-    Widget _buildImageGroup(int index) {
+    Widget _buildImageGroup(int index, produto_grupo groupSelected) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(100),
-        child: getImageGroup(
-            _pdvController.imagePathGroup[index].path_image ?? ''),
+        child: _customImage.getImageGroup(groupSelected, width: 70, height: 70),
       );
     }
 
@@ -51,7 +52,7 @@ class LineGroup extends StatelessWidget {
     }
 
     // Contrói o card do grupo
-    Widget _buildCardGroup(int index, dynamic selectedGroup) {
+    Widget _buildCardGroup(int index, produto_grupo selectedGroup) {
       return GestureDetector(
         onTap: () async {
           _pdvFeatures.updateIdGroupSelected(index);
@@ -62,7 +63,7 @@ class LineGroup extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildImageGroup(index),
+              _buildImageGroup(index, selectedGroup),
               _buildNameGroup(selectedGroup, index),
             ],
           ),

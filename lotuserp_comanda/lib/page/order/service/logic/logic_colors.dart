@@ -17,11 +17,11 @@ class LogicColors implements ILogicColorsOrder {
       case 1:
         return Colors.red;
       case 2:
-        return CustomColors.primaryColor;
-      case 3:
-        return const Color.fromARGB(255, 139, 139, 139);
-      case 4:
         return Colors.orange;
+      case 3:
+        return const Color.fromARGB(255, 6, 3, 216);
+      case 4:
+        return const Color.fromARGB(255, 1, 216, 169);
       case 5:
         return Colors.purple;
       default:

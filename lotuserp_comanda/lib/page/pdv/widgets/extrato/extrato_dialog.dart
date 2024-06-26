@@ -5,10 +5,12 @@ import 'package:lotuserp_comanda/model/mesa_extrato.dart';
 import 'package:lotuserp_comanda/page/common/custom_elevated_button.dart';
 import 'package:lotuserp_comanda/page/common/custom_header_popup.dart';
 import 'package:lotuserp_comanda/page/pdv/widgets/extrato/components/card_extrato.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/extrato/components/line_informations_mobile.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/extrato/components/line_informations_monitor.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/extrato/logic/logic_buttons_extrato.dart';
 import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
-import 'package:lotuserp_comanda/utils/format_numbers.dart';
 
 class ExtratoDialog extends StatelessWidget {
   const ExtratoDialog({super.key});
@@ -16,38 +18,13 @@ class ExtratoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _orderController = Dependencies.orderController();
+    final _logicButtonsExtrato = LogicButtonsExtrato.instance;
     final extratoLength = _orderController.mesaExtrato.length;
 
     Widget _buildHeader() {
       return CustomHeaderPopup(
           text:
               'Extrato da mesa: ${_orderController.tableSelected.value.id_comanda}');
-    }
-
-    Widget _buildItensQuantity() {
-      return Text(
-        'Qtde itens: $extratoLength',
-        style: CustomTextStyle.blackBoldText(20),
-      );
-    }
-
-    Widget _buildTotalValue() {
-      return Text(
-          'R\$ ${FormatNumbers.formatNumbertoString(_orderController.tableSelected.value.total_consumo)}',
-          style: CustomTextStyle.blackBoldText(20));
-    }
-
-    Widget _buildLineQuantityValue() {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildItensQuantity(),
-            _buildTotalValue(),
-          ],
-        ),
-      );
     }
 
     Widget _buildContent() {
@@ -59,20 +36,46 @@ class ExtratoDialog extends StatelessWidget {
           });
     }
 
+    Widget _buildLineInformationsMonitor() {
+      return const LineInformationsMonitor();
+    }
+
+    Widget _buildLineInformationsMobile() {
+      return const LineInformationsMobile();
+    }
+
     Widget _buildBackButton() {
+      return SizedBox(
+        height: 60,
+        child: CustomElevatedButton(
+          text: 'Voltar',
+          function: () {
+            _logicButtonsExtrato.backButton(context);
+          },
+          colorButton: CustomColors.informationBox,
+          style: CustomTextStyle.whiteBoldText(20),
+        ),
+      );
+    }
+
+    Widget _buildRequestBuildButton() {
+      return SizedBox(
+        height: 60,
+        child: CustomElevatedButton(
+          text: 'Solicitar Conta',
+          function: () => _logicButtonsExtrato.requestBillButton(),
+          colorButton: CustomColors.confirmButtonColor,
+          style: CustomTextStyle.blackBoldText(20),
+        ),
+      );
+    }
+
+    Widget _buildBackAndContinueButton() {
       return Row(
         children: [
+          Expanded(child: _buildBackButton()),
           Expanded(
-            child: SizedBox(
-                height: 60,
-                child: CustomElevatedButton(
-                    text: 'Voltar',
-                    function: () {
-                      Get.back();
-                      FocusScope.of(context).unfocus();
-                    },
-                    colorButton: CustomColors.informationBox,
-                    style: CustomTextStyle.whiteBoldText(20))),
+            child: _buildRequestBuildButton(),
           ),
         ],
       );
@@ -82,11 +85,13 @@ class ExtratoDialog extends StatelessWidget {
       return Column(
         children: [
           _buildHeader(),
-          _buildLineQuantityValue(),
           Expanded(
             child: _buildContent(),
           ),
-          _buildBackButton()
+          SizeScreen.isMobile
+              ? _buildLineInformationsMobile()
+              : _buildLineInformationsMonitor(),
+          _buildBackAndContinueButton()
         ],
       );
     }

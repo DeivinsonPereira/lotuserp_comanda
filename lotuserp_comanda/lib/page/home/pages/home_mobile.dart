@@ -36,7 +36,7 @@ class HomeMobile extends StatelessWidget {
     }
 
     Widget _buildLogo() {
-      return _customImage.getLogoPadrao(height: 100, width: 100);
+      return _customImage.getLogoPadrao();
     }
 
     Widget _buildLoginField() {
@@ -137,7 +137,7 @@ class HomeMobile extends StatelessWidget {
       return Column(
         children: [
           _buildTextTitle(),
-          _buildLogo(),
+          Expanded(child: _buildLogo()),
           _buildLoginField(),
           const SizedBox(height: 20),
           _buildPasswordField(),

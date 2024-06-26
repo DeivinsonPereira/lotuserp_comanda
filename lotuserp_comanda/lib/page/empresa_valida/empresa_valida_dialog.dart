@@ -12,8 +12,6 @@ import 'package:lotuserp_comanda/utils/custom_colors.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/format_txt.dart';
 import '../../utils/dependencies.dart';
-import '../../utils/methods/pdv/features/pdv_remove.dart';
-import '../../utils/quantity_back.dart';
 import '../logout/logout_page.dart';
 
 class EmpresaValidaDialog extends StatelessWidget {
@@ -22,7 +20,6 @@ class EmpresaValidaDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _configController = Dependencies.configController();
-    final _pdvRemove = PdvRemove.instance;
     double sizeTextButton = 20;
     double heightButton = 80;
 

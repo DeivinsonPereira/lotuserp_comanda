@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:lotuserp_comanda/core/size_screen.dart';
 import 'package:lotuserp_comanda/page/common/custom_cherry.dart';
 import 'package:lotuserp_comanda/page/order/service/interface/i_navigation_pdv.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/extrato/logic/logic_get_status_description.dart';
 import 'package:lotuserp_comanda/page/pdv/widgets/name/name_dialog.dart';
+import 'package:lotuserp_comanda/utils/dependencies.dart';
 import 'package:lotuserp_comanda/utils/methods/order/order_bool.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/features/pdv_update.dart';
 import 'package:lotuserp_comanda/utils/methods/pdv/get/pdv_bool.dart';
@@ -17,11 +19,15 @@ class NavigationPdv implements INavigationPdv {
   final _pdvFeatures = PdvUpdate.instance;
   final _pdvBool = PdvBool.instance;
   final _orderBool = OrderBool.instance;
+  final _orderController = Dependencies.orderController();
 
   @override
   Future<void> navigation({BuildContext? context}) async {
     if (_orderBool.isInvalidTable()) {
-      const CustomCherryError(message: 'Mesa Inválida.').show(Get.context!);
+      CustomCherryError(
+              message:
+                  'Mesa inválida em status de ${LogicGetStatusDescription.getStatusDescription(_orderController.tableSelected.value.status ?? 0)}')
+          .show(Get.context!);
       return;
     }
 

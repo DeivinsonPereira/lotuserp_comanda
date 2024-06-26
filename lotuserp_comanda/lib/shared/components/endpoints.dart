@@ -2,6 +2,7 @@ import 'package:lotuserp_comanda/utils/dependencies.dart';
 
 class Endpoints {
   static final _configController = Dependencies.configController();
+  static final _orderController = Dependencies.orderController();
 
   String ipSiagenet = 'http://siage.vistatecnologia.com.br/cgi-bin/siagenet/';
 
@@ -73,5 +74,9 @@ class Endpoints {
 
   String searchComandasExtrato(int tableId) {
     return '${ipServer}comandas_extrato?id_partner_cliente=$clientId&id_comanda=$tableId';
+  }
+
+  String sendRequestBill(String qtdePessoas) {
+    return '${ipServer}comandas_conta?id_partner_cliente=$clientId&id_comanda=${_orderController.tableSelected.value.id_comanda}&qtde_pessoas=$qtdePessoas'; 
   }
 }

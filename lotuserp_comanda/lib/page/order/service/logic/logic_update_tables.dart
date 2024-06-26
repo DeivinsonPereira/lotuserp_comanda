@@ -48,6 +48,6 @@ class LogicUpdateTables implements IUpdateTables {
 
   void _handleError(String message) {
     _logger.e('$messageError: $message');
-    CustomCherryError(message: '$messageError.').show(Get.context!);
+    CustomCherryError(message: '$message.').show(Get.context!);
   }
 }

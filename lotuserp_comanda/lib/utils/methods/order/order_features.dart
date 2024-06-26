@@ -106,4 +106,9 @@ class OrderFeatures {
     _orderController.commandNumberController.text = '';
     _orderController.update();
   }
+
+  void clearNumberPeopleController() {
+    _orderController.numberPeopleController.text = '1';
+    _orderController.update();
+  }
 }

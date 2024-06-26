@@ -42,13 +42,28 @@ const Mesa_listadaSchema = CollectionSchema(
       name: r'status',
       type: IsarType.long,
     ),
-    r'tipo': PropertySchema(
+    r'taxa_couvert': PropertySchema(
       id: 5,
+      name: r'taxa_couvert',
+      type: IsarType.double,
+    ),
+    r'taxa_servico': PropertySchema(
+      id: 6,
+      name: r'taxa_servico',
+      type: IsarType.double,
+    ),
+    r'tipo': PropertySchema(
+      id: 7,
       name: r'tipo',
       type: IsarType.long,
     ),
+    r'total_bruto': PropertySchema(
+      id: 8,
+      name: r'total_bruto',
+      type: IsarType.double,
+    ),
     r'total_consumo': PropertySchema(
-      id: 6,
+      id: 9,
       name: r'total_consumo',
       type: IsarType.double,
     )
@@ -105,8 +120,11 @@ void _mesa_listadaSerialize(
   writer.writeLong(offsets[2], object.id_partner_cliente);
   writer.writeString(offsets[3], object.identificador);
   writer.writeLong(offsets[4], object.status);
-  writer.writeLong(offsets[5], object.tipo);
-  writer.writeDouble(offsets[6], object.total_consumo);
+  writer.writeDouble(offsets[5], object.taxa_couvert);
+  writer.writeDouble(offsets[6], object.taxa_servico);
+  writer.writeLong(offsets[7], object.tipo);
+  writer.writeDouble(offsets[8], object.total_bruto);
+  writer.writeDouble(offsets[9], object.total_consumo);
 }
 
 mesa_listada _mesa_listadaDeserialize(
@@ -122,8 +140,11 @@ mesa_listada _mesa_listadaDeserialize(
     id_partner_cliente: reader.readLongOrNull(offsets[2]),
     identificador: reader.readStringOrNull(offsets[3]),
     status: reader.readLongOrNull(offsets[4]),
-    tipo: reader.readLongOrNull(offsets[5]),
-    total_consumo: reader.readDoubleOrNull(offsets[6]),
+    taxa_couvert: reader.readDoubleOrNull(offsets[5]),
+    taxa_servico: reader.readDoubleOrNull(offsets[6]),
+    tipo: reader.readLongOrNull(offsets[7]),
+    total_bruto: reader.readDoubleOrNull(offsets[8]),
+    total_consumo: reader.readDoubleOrNull(offsets[9]),
   );
   return object;
 }
@@ -146,8 +167,14 @@ P _mesa_listadaDeserializeProp<P>(
     case 4:
       return (reader.readLongOrNull(offset)) as P;
     case 5:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 6:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 7:
+      return (reader.readLongOrNull(offset)) as P;
+    case 8:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 9:
       return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -913,6 +940,174 @@ extension mesa_listadaQueryFilter
     });
   }
 
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_couvertIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'taxa_couvert',
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_couvertIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'taxa_couvert',
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_couvertEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'taxa_couvert',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_couvertGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'taxa_couvert',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_couvertLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'taxa_couvert',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_couvertBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'taxa_couvert',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_servicoIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'taxa_servico',
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_servicoIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'taxa_servico',
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_servicoEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'taxa_servico',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_servicoGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'taxa_servico',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_servicoLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'taxa_servico',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      taxa_servicoBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'taxa_servico',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
   QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition> tipoIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -980,6 +1175,90 @@ extension mesa_listadaQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      total_brutoIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'total_bruto',
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      total_brutoIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'total_bruto',
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      total_brutoEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'total_bruto',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      total_brutoGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'total_bruto',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      total_brutoLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'total_bruto',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterFilterCondition>
+      total_brutoBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'total_bruto',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -1141,6 +1420,32 @@ extension mesa_listadaQuerySortBy
     });
   }
 
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy> sortByTaxa_couvert() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taxa_couvert', Sort.asc);
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy>
+      sortByTaxa_couvertDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taxa_couvert', Sort.desc);
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy> sortByTaxa_servico() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taxa_servico', Sort.asc);
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy>
+      sortByTaxa_servicoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taxa_servico', Sort.desc);
+    });
+  }
+
   QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy> sortByTipo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tipo', Sort.asc);
@@ -1150,6 +1455,19 @@ extension mesa_listadaQuerySortBy
   QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy> sortByTipoDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tipo', Sort.desc);
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy> sortByTotal_bruto() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'total_bruto', Sort.asc);
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy>
+      sortByTotal_brutoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'total_bruto', Sort.desc);
     });
   }
 
@@ -1246,6 +1564,32 @@ extension mesa_listadaQuerySortThenBy
     });
   }
 
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy> thenByTaxa_couvert() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taxa_couvert', Sort.asc);
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy>
+      thenByTaxa_couvertDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taxa_couvert', Sort.desc);
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy> thenByTaxa_servico() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taxa_servico', Sort.asc);
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy>
+      thenByTaxa_servicoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'taxa_servico', Sort.desc);
+    });
+  }
+
   QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy> thenByTipo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tipo', Sort.asc);
@@ -1255,6 +1599,19 @@ extension mesa_listadaQuerySortThenBy
   QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy> thenByTipoDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tipo', Sort.desc);
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy> thenByTotal_bruto() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'total_bruto', Sort.asc);
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QAfterSortBy>
+      thenByTotal_brutoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'total_bruto', Sort.desc);
     });
   }
 
@@ -1310,9 +1667,27 @@ extension mesa_listadaQueryWhereDistinct
     });
   }
 
+  QueryBuilder<mesa_listada, mesa_listada, QDistinct> distinctByTaxa_couvert() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'taxa_couvert');
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QDistinct> distinctByTaxa_servico() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'taxa_servico');
+    });
+  }
+
   QueryBuilder<mesa_listada, mesa_listada, QDistinct> distinctByTipo() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'tipo');
+    });
+  }
+
+  QueryBuilder<mesa_listada, mesa_listada, QDistinct> distinctByTotal_bruto() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'total_bruto');
     });
   }
 
@@ -1365,9 +1740,27 @@ extension mesa_listadaQueryProperty
     });
   }
 
+  QueryBuilder<mesa_listada, double?, QQueryOperations> taxa_couvertProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'taxa_couvert');
+    });
+  }
+
+  QueryBuilder<mesa_listada, double?, QQueryOperations> taxa_servicoProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'taxa_servico');
+    });
+  }
+
   QueryBuilder<mesa_listada, int?, QQueryOperations> tipoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'tipo');
+    });
+  }
+
+  QueryBuilder<mesa_listada, double?, QQueryOperations> total_brutoProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'total_bruto');
     });
   }
 

@@ -26,7 +26,7 @@ class ListFilterTables {
       'index': 3
     },
     {
-      'mesas': 'Canceladas',
+      'mesas': 'Reservadas',
       'logica': () => LogicGetTablesByButton(_orderController).getTables(4, 3),
       'index': 4
     },

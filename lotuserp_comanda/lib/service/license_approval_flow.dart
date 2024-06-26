@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:lotuserp_comanda/shared/repositories/http/licence/client_id_repository.dart';
-import 'package:lotuserp_comanda/shared/repositories/http/licence/interface/i_get_licence.dart';
+import 'package:lotuserp_comanda/service/interface/i_get_licence.dart';
 import 'package:lotuserp_comanda/shared/repositories/http/licence/licence_repository.dart';
 import 'package:lotuserp_comanda/shared/repositories/http/licence/verify_validation_repository.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';

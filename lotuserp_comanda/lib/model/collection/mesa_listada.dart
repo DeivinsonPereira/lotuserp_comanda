@@ -14,6 +14,9 @@ class mesa_listada {
   String? identificador;
   int? status;
   String? abertura_hora;
+  double? total_bruto;
+  double? taxa_servico;
+  double? taxa_couvert;
   double? total_consumo;
 
   mesa_listada({
@@ -24,6 +27,9 @@ class mesa_listada {
     this.identificador,
     this.status,
     this.abertura_hora,
+    this.total_bruto,
+    this.taxa_servico,
+    this.taxa_couvert,
     this.total_consumo,
   });
 
@@ -36,6 +42,9 @@ class mesa_listada {
       'identificador': identificador,
       'status': status,
       'abertura_hora': abertura_hora,
+      'total_bruto': total_bruto,
+      'taxa_servico': taxa_servico,
+      'taxa_couvert': taxa_couvert,
       'total_consumo': total_consumo,
     };
   }
@@ -45,7 +54,7 @@ class mesa_listada {
       id_comanda: map['id_comanda'] as int,
       id_partner_cliente: map['id_partner_cliente'] != null
           ? map['id_partner_cliente'] as int
-          : 0,
+          : null,
       tipo: map['tipo'] != null ? map['tipo'] as int : null,
       descricao: map['descricao'] != null ? map['descricao'] as String : null,
       identificador:
@@ -53,6 +62,21 @@ class mesa_listada {
       status: map['status'] != null ? map['status'] as int : null,
       abertura_hora:
           map['abertura_hora'] != null ? map['abertura_hora'] as String : null,
+      total_bruto: map['total_bruto'] != null
+          ? map['total_bruto'] is int
+              ? (map['total_bruto'] as int).toDouble()
+              : map['total_bruto'] as double
+          : null,
+      taxa_servico: map['taxa_servico'] != null
+          ? map['taxa_servico'] is int
+              ? (map['taxa_servico'] as int).toDouble()
+              : map['taxa_servico'] as double
+          : null,
+      taxa_couvert: map['taxa_couvert'] != null
+          ? map['taxa_couvert'] is int
+              ? (map['taxa_couvert'] as int).toDouble()
+              : map['taxa_couvert'] as double
+          : null,
       total_consumo: map['total_consumo'] != null
           ? map['total_consumo'] is int
               ? (map['total_consumo'] as int).toDouble()

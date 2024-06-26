@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:isar/isar.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
-import 'package:lotuserp_comanda/model/collection/produto_grupo.dart';
 import 'package:lotuserp_comanda/shared/components/header.dart';
 import 'package:lotuserp_comanda/shared/repositories/isar_db/isar_service.dart';
 
@@ -32,15 +31,6 @@ class GenericRepositoryMultiple {
       {bool notDelete = false}) async {
     final isar = await _isarService.db;
     try {
-      isar.produto_grupos.where().findAll();
-
-      isar.produto_grupos
-          .filter()
-          .id_grupoEqualTo(1)
-          .and()
-          .grupo_descricaoStartsWith('imagem')
-          .findAll();
-
       if (notDelete == false) {
         int count = await collection.count();
         if (count > 0) {

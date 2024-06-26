@@ -6,10 +6,12 @@ import 'package:get/get.dart';
 
 import 'package:lotuserp_comanda/controller/order_controller.dart';
 import 'package:lotuserp_comanda/model/collection/mesa_listada.dart';
+import 'package:lotuserp_comanda/page/common/custom_cherry.dart';
 import 'package:lotuserp_comanda/page/order/enum/status_comandas.dart';
 import 'package:lotuserp_comanda/page/order/service/interface/i_navigation_pdv.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_colors.dart';
 import 'package:lotuserp_comanda/page/order/service/logic/logic_get_user_name.dart';
+import 'package:lotuserp_comanda/page/pdv/widgets/extrato/logic/logic_get_status_description.dart';
 import 'package:lotuserp_comanda/page/pdv/widgets/extrato/logic/open_dialog_extrato.dart';
 import 'package:lotuserp_comanda/utils/custom_text_style.dart';
 import 'package:lotuserp_comanda/utils/dependencies.dart';
@@ -94,10 +96,19 @@ class CardTableOrder extends StatelessWidget {
     Widget _buildContent(mesa_listada data) {
       return GestureDetector(
         onTap: () async {
-          _orderFeatures.setTableSelected(data);
-          _pdvFeatures.updateFilteredProdutos(0, _pdvController.allGroups[0]);
-          INavigationPdv navigationPdv = NavigationPdv();
-          await navigationPdv.navigation(context: context);
+          if (data.status == StatusComandas.LIVRE.index ||
+              data.status == StatusComandas.OCUPADA.index) {
+            _orderFeatures.setTableSelected(data);
+            _pdvFeatures.updateFilteredProdutos(0, _pdvController.allGroups[0]);
+            INavigationPdv navigationPdv = NavigationPdv();
+            await navigationPdv.navigation(context: context);
+            return;
+          }
+
+          CustomCherryError(
+                  message:
+                      'Mesa inválida em status de ${LogicGetStatusDescription.getStatusDescription(_orderController.tableSelected.value.status ?? 0)}')
+              .show(Get.context!);
         },
         onLongPress: () async {
           _orderFeatures.setTableSelected(data);
@@ -142,11 +153,7 @@ class CardTableOrder extends StatelessWidget {
                 crossAxisSpacing: 10),
             itemBuilder: (context, index) {
               var data = _.filteredListTables[index];
-              if (data.status == StatusComandas.LIVRE.index ||
-                  data.status == StatusComandas.OCUPADA.index) {
-                return _buildContent(data);
-              }
-              return null;
+              return _buildContent(data);
             },
           );
         },
